@@ -1,0 +1,57 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: familie-pdf
+  namespace: teamfamilie
+  labels:
+    team: teamfamilie
+
+spec:
+  image: {{ image }}
+  liveness:
+    path: /internal/status/isAlive
+    initialDelay: 30
+    failureThreshold: 10
+  readiness:
+    path: /internal/status/isAlive
+    initialDelay: 30
+    failureThreshold: 10
+  prometheus:
+    enabled: true
+    path: /internal/prometheus
+  replicas:
+    min: 2
+    max: 2
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      memory: 512Mi
+      cpu: 20m
+  ingresses: # Optional. List of ingress URLs that will route HTTP traffic to the application.
+    - https://familie-pdf.intern.dev.nav.no
+  secureLogs:
+    enabled: true
+  azure:
+    application:
+      enabled: true
+      claims:
+        groups:
+          - id: "928636f4-fd0d-4149-978e-a6fb68bb19de"  # 0000-GA-STDAPPS
+  tokenx:
+    enabled: true
+  kafka:
+    pool: nav-dev
+  accessPolicy:
+    inbound:
+      rules:
+        - application: familie-ef-mottak
+          namespace: teamfamilie
+          cluster: dev-gcp
+  env:
+    - name: SPRING_PROFILES_ACTIVE
+      value: dev
+  envFrom:
+    - secret: familie
+    - secret: familie-ef-pdf
+  leaderElection: true

@@ -1,0 +1,24 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /
+
+logging:
+  config: "classpath:logback-test.xml"
+
+no.nav.security.jwt:
+  issuer:
+    tokenx:
+      discoveryurl: http://localhost:8080/fake/.well-known/openid-configuration
+      accepted_audience: aud-localhost
+
+TOKEN_X_WELL_KNOWN_URL: http://localhost
+TOKEN_X_PRIVATE_JWK: '{
+    "kty" : "RSA",
+    "e" : "AQAB",
+    "use" : "sig",
+    "kid" : "mock-oauth2-server-key",
+    "n" : ""
+  }'
+
+NAIS_APP_NAME: familie-pdf
