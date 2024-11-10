@@ -8,5 +8,6 @@ class ApplicationLocal : ApplicationLocalConfig()
 
 fun main(args: Array<String>) {
     SpringApplicationBuilder(ApplicationLocal::class.java)
-        .profiles().run(*args)
+        .profiles("local")
+        .run(*args)
 }

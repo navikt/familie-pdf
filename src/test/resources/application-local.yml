@@ -6,12 +6,6 @@ server:
 logging:
   config: "classpath:logback-test.xml"
 
-no.nav.security.jwt:
-  issuer:
-    tokenx:
-      discoveryurl: http://localhost:8080/fake/.well-known/openid-configuration
-      accepted_audience: aud-localhost
-
 TOKEN_X_WELL_KNOWN_URL: http://localhost
 TOKEN_X_PRIVATE_JWK: '{
     "kty" : "RSA",
