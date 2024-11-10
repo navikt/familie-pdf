@@ -51,5 +51,4 @@ spec:
       value: dev
   envFrom:
     - secret: familie
-    - secret: familie-pdf
   leaderElection: true
