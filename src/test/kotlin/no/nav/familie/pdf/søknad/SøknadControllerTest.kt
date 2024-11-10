@@ -1,6 +1,5 @@
-package no.nav.familie.pdf.mottak.no.nav.familie.pdf.søknad
+package no.nav.familie.pdf.søknad
 
-import no.nav.familie.pdf.søknad.SøknadController
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 

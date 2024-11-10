@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.mottak
+package no.nav.familie.pdf
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration

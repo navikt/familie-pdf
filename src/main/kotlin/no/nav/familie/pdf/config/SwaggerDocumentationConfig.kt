@@ -15,7 +15,7 @@ class SwaggerDocumentationConfig {
     @Bean
     fun openApi(): OpenAPI =
         OpenAPI()
-            .info(Info().title("Familie ef mottak api"))
+            .info(Info().title("Familie pdf api"))
             .components(Components().addSecuritySchemes(bearer, bearerTokenSecurityScheme()))
             .addSecurityItem(SecurityRequirement().addList(bearer, listOf("read", "write")))
 
