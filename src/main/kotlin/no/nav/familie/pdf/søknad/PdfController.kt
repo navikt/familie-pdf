@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("api/soknad")
+@RequestMapping("api/pdf")
 @Unprotected
-class SøknadController {
-    @GetMapping("/overgangsstonad")
+class PdfController {
+    @GetMapping("/helsesjekk")
     fun lagPdfForOvergangsstønad(): String = "OK - overgangsstønad"
 }

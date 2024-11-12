@@ -3,8 +3,8 @@ package no.nav.familie.pdf.søknad
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class SøknadControllerTest {
-    private val søknadController = SøknadController()
+internal class PdfControllerTest {
+    private val søknadController = PdfController()
 
     @Test
     fun `skal returnere OK`() {
