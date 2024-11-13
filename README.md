@@ -1,3 +1,3 @@
 # familie-pdf
 
-Fellesapplikasjon for pdf-oppsummeringer av søknader for PO Familie 
+Fellesapplikasjon for pdf-oppsummeringer av søknader for PO Familier 
