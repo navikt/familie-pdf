@@ -110,6 +110,18 @@
             <version>${token-validation.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>no.nav.security</groupId>
+            <artifactId>token-validation-spring</artifactId>
+            <version>${token-validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>no.nav.security</groupId>
+            <artifactId>token-validation-spring-test</artifactId>
+            <version>${token-validation.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Itext & pdf-validering -->
         <dependency>
             <groupId>com.itextpdf</groupId>
@@ -156,17 +168,12 @@
             </exclusions>
         </dependency>
 
+
         <dependency>
-            <groupId>no.nav.security</groupId>
-            <artifactId>token-validation-spring</artifactId>
-            <version>${token-validation.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <dependency>
-            <groupId>no.nav.security</groupId>
-            <artifactId>token-validation-spring-test</artifactId>
-            <version>${token-validation.version}</version>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
     <profiles>
         <profile>
