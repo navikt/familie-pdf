@@ -27,6 +27,7 @@
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
         <itext.version>8.0.4</itext.version>
         <jackson.version>2.17.1</jackson.version>
+        <swagger.version>2.2.25</swagger.version>
         <validation-model-jakarta.version>1.26.1</validation-model-jakarta.version>
 
         <!-- Setter disse til token-support sine versjoner, versjoner(9.x) i spring er ikke kompatibel med oauth2-oidc-sdk -->
@@ -75,6 +76,12 @@
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>${swagger.version}</version>
         </dependency>
 
         <!-- Nav-internt  -->
