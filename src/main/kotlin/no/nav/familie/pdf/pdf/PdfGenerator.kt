@@ -242,7 +242,7 @@ class PdfGenerator {
         val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
-        add(navLogoBilde)
+        add(navLogoBilde())
         add(
             Paragraph(søknadstype).apply {
                 setMarginTop(-10f)
