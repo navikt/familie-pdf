@@ -11,7 +11,6 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagNullInnhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfGenerator
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -47,7 +46,7 @@ class PdfGeneratorTest {
         // Act
         val result = pdfGenerator.lagPdf(feltMap)
         // Assert
-        assertThat(result).isNotEmpty()
+        assertTrue(result.isNotEmpty())
     }
 
     @Test
@@ -57,7 +56,7 @@ class PdfGeneratorTest {
         // Act
         val result = pdfGenerator.lagPdf(feltMap)
         // Assert
-        assertThat(result).isNotEmpty()
+        assertTrue(result.isNotEmpty())
     }
 
     @Test
@@ -67,7 +66,7 @@ class PdfGeneratorTest {
         // Act
         val result = pdfGenerator.lagPdf(feltMap)
         // Assert
-        assertThat(result).isNotEmpty()
+        assertTrue(result.isNotEmpty())
     }
 
     @Test

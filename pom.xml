@@ -20,8 +20,9 @@
         <sha1/>
         <changelist>-SNAPSHOT</changelist>
         <kotlin.version>2.0.21</kotlin.version>
+        <jupiter.version>5.8.1</jupiter.version>
         <springdoc.version>2.6.0</springdoc.version>
-        <mockk.version>1.13.13</mockk.version>
+        <mockk.version>1.12.0</mockk.version>
         <felles.version>3.20240913110742_adb42f8</felles.version>
         <prosessering.version>2.20241011144712_deb1f2c</prosessering.version>
         <confluent.version>7.7.1</confluent.version>
@@ -98,7 +99,6 @@
 
 
         <!-- Nav-internt  -->
-
         <dependency>
             <groupId>no.nav.security</groupId>
             <artifactId>token-client-spring</artifactId>
@@ -128,7 +128,6 @@
             <artifactId>kernel</artifactId>
             <version>${itext.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>layout</artifactId>
@@ -145,7 +144,7 @@
             <version>${validation-model-jakarta.version}</version>
         </dependency>
 
-
+        <!-- Junit 5 & mockk-->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit5</artifactId>
@@ -153,21 +152,30 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${jupiter.version}</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.mockito</groupId>
-                    <artifactId>mockito-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.mockito</groupId>
-                    <artifactId>mockito-junit-jupiter</artifactId>
-                </exclusion>
-            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${jupiter.version}</version>
+            <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.mockk</groupId>
+            <artifactId>mockk</artifactId>
+            <version>${mockk.version}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

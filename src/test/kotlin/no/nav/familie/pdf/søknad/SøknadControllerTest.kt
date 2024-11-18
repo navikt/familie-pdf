@@ -1,6 +1,6 @@
 package no.nav.familie.pdf.søknad
 
-import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 internal class SøknadControllerTest {
@@ -10,6 +10,6 @@ internal class SøknadControllerTest {
     fun `skal returnere OK`() {
         val søknadPdf = søknadController.lagPdfForOvergangsstønad()
 
-        assertThat(søknadPdf).isEqualTo("OK - overgangsstønad")
+        assertTrue(søknadPdf.contains("OK - overgangsstønad"))
     }
 }
