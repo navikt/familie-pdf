@@ -21,19 +21,13 @@
         <changelist>-SNAPSHOT</changelist>
         <kotlin.version>2.0.21</kotlin.version>
         <jupiter.version>5.8.1</jupiter.version>
-        <springdoc.version>2.6.0</springdoc.version>
-        <mockk.version>1.12.0</mockk.version>
+        <mockk.version>1.13.13</mockk.version>
         <felles.version>3.20240913110742_adb42f8</felles.version>
-        <prosessering.version>2.20241011144712_deb1f2c</prosessering.version>
-        <confluent.version>7.7.1</confluent.version>
-        <brukernotifikasjon-skjemas.version>2.6.0</brukernotifikasjon-skjemas.version>
-        <kontrakter.version>3.0_20241009100044_c0fcd51</kontrakter.version>
         <token-validation.version>5.0.5</token-validation.version>
-        <spring-cloud.version>3.0.4</spring-cloud.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
         <itext.version>8.0.4</itext.version>
         <jackson.version>2.17.1</jackson.version>
-        <swagger.version>2.2.25</swagger.version>
+        <validation-model-jakarta.version>1.26.1</validation-model-jakarta.version>
 
         <!-- Setter disse til token-support sine versjoner, versjoner(9.x) i spring er ikke kompatibel med oauth2-oidc-sdk -->
         <nimbus-jose-jwt.version>8.20.2</nimbus-jose-jwt.version>
@@ -44,7 +38,6 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <!--suppress UnresolvedMavenProperty Ligger som secret i github-->
         <sonar.login>${SONAR_LOGIN}</sonar.login>
-        <validation-model-jakarta.version>1.26.1</validation-model-jakarta.version>
     </properties>
 
     <repositories>
@@ -73,30 +66,22 @@
             <artifactId>kotlin-reflect</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+
         <dependency>
             <groupId>no.nav.familie.felles</groupId>
             <artifactId>log</artifactId>
             <version>${felles.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-core</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-
 
         <!-- Nav-internt  -->
         <dependency>
@@ -109,7 +94,6 @@
             <artifactId>token-validation-core</artifactId>
             <version>${token-validation.version}</version>
         </dependency>
-
         <dependency>
             <groupId>no.nav.security</groupId>
             <artifactId>token-validation-spring</artifactId>
@@ -169,7 +153,6 @@
             <version>${jupiter.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.mockk</groupId>
             <artifactId>mockk</artifactId>
@@ -181,7 +164,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-
     </dependencies>
     <profiles>
         <profile>
