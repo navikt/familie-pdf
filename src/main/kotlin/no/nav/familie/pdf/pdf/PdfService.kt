@@ -1,21 +1,15 @@
 package no.nav.familie.pdf.pdf
 
 import com.itextpdf.io.source.ByteArrayOutputStream
-import no.nav.familie.pdf.pdf.JsonLeser.lesJson
-import no.nav.familie.pdf.pdf.PdfOppretterUtils.lagDokument
-import no.nav.familie.pdf.pdf.PdfOppretterUtils.lagPdfADocument
+import no.nav.familie.pdf.pdf.PdfUtils.lagDokument
+import no.nav.familie.pdf.pdf.PdfUtils.lagPdfADocument
 import no.nav.familie.pdf.pdf.PdfValidator.validerPdf
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.familie.pdf.pdf.domain.Standarder
 
-class PdfOppretterService {
-    fun lagTestPdfMedStandarder(): PdfMedStandarder {
-        val feltMap = lesJson()
-        return lagPdfMedStandarder(feltMap)
-    }
-
-    fun lagPdfMedStandarder(feltMap: Map<String, Any>): PdfMedStandarder {
-        val pdf = lagPdf(feltMap)
+class PdfService {
+    fun opprettPdfMedStandarder(feltMap: Map<String, Any>): PdfMedStandarder {
+        val pdf = opprettPdf(feltMap)
         val pdfMedStandarder =
             PdfMedStandarder(
                 pdf,
@@ -38,7 +32,7 @@ class PdfOppretterService {
         return pdfMedStandarder
     }
 
-    fun lagPdf(feltMap: Map<String, Any>): ByteArray {
+    fun opprettPdf(feltMap: Map<String, Any>): ByteArray {
         feltMap.values.forEach { value ->
             requireNotNull(value) { "feltMap sitt label eller verdiliste er tom." }
         }

@@ -3,6 +3,11 @@ package no.nav.familie.pdf.pdf
 import com.itextpdf.kernel.xmp.XMPMeta
 import com.itextpdf.kernel.xmp.XMPMetaFactory
 
+/**
+ * `XmpMeta`-objektet gir en hjelpefunksjon for å lage XMP-metadata for et PDF-dokument.
+ *
+ * Denne metadataen inkluderer informasjon som tittel, skaper, beskrivelse og samsvar med PDF/UA-standarder.
+ */
 object XmpMeta {
     fun lagXmpMeta(forfatterOgSkaper: String): XMPMeta {
         val xmpMeta =

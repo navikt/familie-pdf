@@ -30,17 +30,17 @@ import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.pdf.PdfElementerUtils.lagOverskriftH1
-import no.nav.familie.pdf.pdf.PdfElementerUtils.lagOverskriftH2
-import no.nav.familie.pdf.pdf.PdfElementerUtils.lagOverskriftH3
-import no.nav.familie.pdf.pdf.PdfElementerUtils.lagTekstElement
-import no.nav.familie.pdf.pdf.PdfElementerUtils.lagVerdiElement
-import no.nav.familie.pdf.pdf.PdfElementerUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellOppretterUtils.lagListeMedAlleBarn
-import no.nav.familie.pdf.pdf.TabellOppretterUtils.lagTabell
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
+import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
+import no.nav.familie.pdf.pdf.TabellUtils.lagListeMedAlleBarn
+import no.nav.familie.pdf.pdf.TabellUtils.lagTabell
 import no.nav.familie.pdf.pdf.XmpMeta.lagXmpMeta
 
-object PdfOppretterUtils {
+object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
         val pdfWriter =
             PdfWriter(

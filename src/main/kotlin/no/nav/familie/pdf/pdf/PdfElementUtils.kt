@@ -7,7 +7,7 @@ import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
 
-object PdfElementerUtils {
+object PdfElementUtils {
     fun navLogoBilde(): Image =
         Image(ImageDataFactory.create(javaClass.getResource("/logo/NAV_logo_digital_Red.png"))).apply {
             setWidth(75f)

@@ -9,7 +9,7 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
 
-object TabellOppretterUtils {
+object TabellUtils {
     fun lagTabell(
         tabellData: List<*>,
         caption: String,
