@@ -2,7 +2,7 @@ package no.nav.familie.pdf.pdf.domain
 
 data class PdfMedStandarder(
     val pdf: ByteArray,
-    val standarder: Standarder,
+    val standarder: Map<PdfStandard, Standard>,
 )
 
 data class Standard(
@@ -10,18 +10,20 @@ data class Standard(
     val feiletRegel: String?,
 )
 
-data class Standarder(
-    val ua1: Standard,
-    val ua2: Standard,
-    val `1a`: Standard,
-    val `1b`: Standard,
-    val `2a`: Standard,
-    val `2b`: Standard,
-    val `2u`: Standard,
-    val `3a`: Standard,
-    val `3b`: Standard,
-    val `3u`: Standard,
-    val `4`: Standard,
-    val `4f`: Standard,
-    val `4e`: Standard,
-)
+enum class PdfStandard(
+    val standard: String,
+) {
+    UA1("ua1"),
+    UA2("ua2"),
+    ONE_A("1a"),
+    ONE_B("1b"),
+    TWO_A("2a"),
+    TWO_B("2b"),
+    TWO_U("2u"),
+    THREE_A("3a"),
+    THREE_B("3b"),
+    THREE_U("3u"),
+    FOUR("4"),
+    FOUR_F("4f"),
+    FOUR_E("4e"),
+}
