@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.pdf.utils
+package no.nav.familie.pdf.pdf
 
 import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.DeviceRgb

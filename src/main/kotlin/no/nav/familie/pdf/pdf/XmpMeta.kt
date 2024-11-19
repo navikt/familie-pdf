@@ -1,9 +1,9 @@
-package no.nav.familie.pdf.pdf.utils
+package no.nav.familie.pdf.pdf
 
 import com.itextpdf.kernel.xmp.XMPMeta
 import com.itextpdf.kernel.xmp.XMPMetaFactory
 
-object XmpMetaUtils {
+object XmpMeta {
     fun lagXmpMeta(forfatterOgSkaper: String): XMPMeta {
         val xmpMeta =
             XMPMetaFactory.create().apply {

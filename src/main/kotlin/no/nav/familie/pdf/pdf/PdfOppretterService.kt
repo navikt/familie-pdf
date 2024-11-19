@@ -30,21 +30,23 @@ import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
+import no.nav.familie.pdf.pdf.JsonLeser.lesJson
+import no.nav.familie.pdf.pdf.PdfElementerUtils.lagOverskriftH1
+import no.nav.familie.pdf.pdf.PdfElementerUtils.lagOverskriftH2
+import no.nav.familie.pdf.pdf.PdfElementerUtils.lagOverskriftH3
+import no.nav.familie.pdf.pdf.PdfElementerUtils.lagTekstElement
+import no.nav.familie.pdf.pdf.PdfElementerUtils.lagVerdiElement
+import no.nav.familie.pdf.pdf.PdfElementerUtils.navLogoBilde
+import no.nav.familie.pdf.pdf.PdfValidator.validerPdf
+import no.nav.familie.pdf.pdf.TabellOppretterUtils.lagListeMedAlleBarn
+import no.nav.familie.pdf.pdf.TabellOppretterUtils.lagTabell
+import no.nav.familie.pdf.pdf.XmpMeta.lagXmpMeta
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.familie.pdf.pdf.domain.Standarder
-import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagOverskriftH1
-import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagOverskriftH2
-import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagOverskriftH3
-import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagTekstElement
-import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagVerdiElement
-import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.utils.TabellUtils.lagListeMedAlleBarn
-import no.nav.familie.pdf.pdf.utils.TabellUtils.lagTabell
-import no.nav.familie.pdf.pdf.utils.XmpMetaUtils.lagXmpMeta
 
 class PdfOppretterService {
     fun lagRessursPdfMedStandarder(): PdfMedStandarder {
-        val feltMap = lesJSON()
+        val feltMap = lesJson()
         return lagPdfMedStandarder(feltMap)
     }
 

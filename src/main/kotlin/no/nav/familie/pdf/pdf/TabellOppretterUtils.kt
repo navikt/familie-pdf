@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.pdf.utils
+package no.nav.familie.pdf.pdf
 
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
@@ -9,7 +9,7 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
 
-object TabellUtils {
+object TabellOppretterUtils {
     fun lagTabell(
         tabellData: List<*>,
         caption: String,
