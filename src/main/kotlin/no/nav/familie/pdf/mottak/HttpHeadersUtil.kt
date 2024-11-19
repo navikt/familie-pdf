@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.util
+package no.nav.familie.pdf.mottak
 
 import org.springframework.http.HttpHeaders
 

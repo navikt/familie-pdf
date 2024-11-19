@@ -1,7 +1,6 @@
 package no.nav.familie.pdf.mottak
 
 import no.nav.familie.http.client.AbstractRestClient
-import no.nav.familie.pdf.util.medContentTypeJsonUTF8
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service

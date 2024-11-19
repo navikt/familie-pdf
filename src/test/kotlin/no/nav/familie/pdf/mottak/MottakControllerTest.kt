@@ -5,9 +5,9 @@ import io.mockk.mockk
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class PdfControllerTest {
+internal class MottakControllerTest {
     private val mottakClient: MottakClient = mockk()
-    private val søknadController = PdfController(mottakClient)
+    private val søknadController = MottakController(mottakClient)
 
     @Test
     fun `skal returnere OK`() {

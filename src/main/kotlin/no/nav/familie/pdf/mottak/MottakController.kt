@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("api/pdf")
 @Unprotected
-class PdfController(
+class MottakController(
     val mottakClient: MottakClient,
 ) {
     @GetMapping("/helsesjekk")
