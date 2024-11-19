@@ -9,7 +9,7 @@ import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.familie.pdf.pdf.domain.Standarder
 
 class PdfOppretterService {
-    fun lagRessursPdfMedStandarder(): PdfMedStandarder {
+    fun lagTestPdfMedStandarder(): PdfMedStandarder {
         val feltMap = lesJson()
         return lagPdfMedStandarder(feltMap)
     }

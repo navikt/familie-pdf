@@ -15,12 +15,6 @@ object PdfElementerUtils {
             accessibilityProperties.alternateDescription = "NAV logo"
         }
 
-    fun lagOverskriftH1(tekst: String): Paragraph = lagOverskrift(tekst, 24f, StandardRoles.H1)
-
-    fun lagOverskriftH2(tekst: String): Paragraph = lagOverskrift(tekst, 20f, StandardRoles.H2)
-
-    fun lagOverskriftH3(tekst: String): Paragraph = lagOverskrift(tekst, 16f, StandardRoles.H3)
-
     fun lagVerdiElement(element: Map<*, *>): Paragraph =
         Paragraph().apply {
             (element["label"] as? String).takeIf { it?.isNotEmpty() == true }?.let { add(Text(it).apply { setBold() }) }
@@ -41,6 +35,12 @@ object PdfElementerUtils {
             setFontSize(12f)
             accessibilityProperties.role = StandardRoles.P
         }
+
+    fun lagOverskriftH1(tekst: String): Paragraph = lagOverskrift(tekst, 24f, StandardRoles.H1)
+
+    fun lagOverskriftH2(tekst: String): Paragraph = lagOverskrift(tekst, 20f, StandardRoles.H2)
+
+    fun lagOverskriftH3(tekst: String): Paragraph = lagOverskrift(tekst, 16f, StandardRoles.H3)
 
     private fun lagOverskrift(
         tekst: String,

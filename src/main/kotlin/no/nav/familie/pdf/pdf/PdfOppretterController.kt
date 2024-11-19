@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("api")
 class PdfOppretterController {
-    val pdfOppretterService = PdfOppretterService()
+    private val pdfOppretterService = PdfOppretterService()
 
     @PostMapping("/lag-pdf")
     fun lagPdf(
@@ -26,5 +26,5 @@ class PdfOppretterController {
 
     @CrossOrigin(origins = ["http://localhost:5173"])
     @GetMapping("lag-pdf-med-standarder")
-    fun hentPdfFraResourceMedStandarder(): PdfMedStandarder = pdfOppretterService.lagRessursPdfMedStandarder()
+    fun hentPdfFraResourceMedStandarder(): PdfMedStandarder = pdfOppretterService.lagTestPdfMedStandarder()
 }

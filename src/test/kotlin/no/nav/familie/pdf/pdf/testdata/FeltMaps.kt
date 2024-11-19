@@ -1,6 +1,5 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils
 
-
 fun lagMedTomVerdiliste(): Map<String, Any> = mapOf("label" to "Søknad om overgangsstønad", "verdiliste" to emptyList<Any>())
 
 fun lagMedVerdiliste(): Map<String, Any> =
