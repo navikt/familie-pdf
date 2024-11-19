@@ -40,7 +40,7 @@ import no.nav.familie.pdf.pdf.elementer.PdfElementer.navLogoBilde
 import no.nav.familie.pdf.pdf.elementer.lagListeMedAlleBarn
 import no.nav.familie.pdf.pdf.elementer.lagTabell
 
-class PdfGenerator {
+class PdfOppretterService {
     fun lagPdf(feltMap: Map<String, Any>): ByteArray {
         feltMap.values.forEach { value ->
             requireNotNull(value) { "feltMap sitt label eller verdiliste er tom." }
