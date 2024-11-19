@@ -10,7 +10,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagNullInnhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
-import no.nav.familie.pdf.pdf.PdfGenerator
+import no.nav.familie.pdf.pdf.PdfOppretterService
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -20,8 +20,8 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.io.ByteArrayInputStream
 import java.util.stream.Stream
 
-class PdfGeneratorTest {
-    private val pdfGenerator = PdfGenerator()
+class PdfOppretterServiceTest {
+    private val pdfOppretterService = PdfOppretterService()
 
     companion object {
         @JvmStatic
@@ -44,7 +44,7 @@ class PdfGeneratorTest {
         // Arrange
         val feltMap = lagMedTomVerdiliste()
         // Act
-        val result = pdfGenerator.lagPdf(feltMap)
+        val result = pdfOppretterService.lagPdf(feltMap)
         // Assert
         assertTrue(result.isNotEmpty())
     }
@@ -54,7 +54,7 @@ class PdfGeneratorTest {
         // Arrange
         val feltMap = lagMedVerdiliste()
         // Act
-        val result = pdfGenerator.lagPdf(feltMap)
+        val result = pdfOppretterService.lagPdf(feltMap)
         // Assert
         assertTrue(result.isNotEmpty())
     }
@@ -64,7 +64,7 @@ class PdfGeneratorTest {
         // Arrange
         val feltMap = lagMedForskjelligLabelIVerdiliste()
         // Act
-        val result = pdfGenerator.lagPdf(feltMap)
+        val result = pdfOppretterService.lagPdf(feltMap)
         // Assert
         assertTrue(result.isNotEmpty())
     }
@@ -75,7 +75,7 @@ class PdfGeneratorTest {
         val feltMap = lagNullInnhold()
         // Act & Assert
         assertThrows(IllegalArgumentException::class.java) {
-            pdfGenerator.lagPdf(feltMap as Map<String, Any>)
+            pdfOppretterService.lagPdf(feltMap as Map<String, Any>)
         }
     }
 
@@ -85,7 +85,7 @@ class PdfGeneratorTest {
         val feltMap = lagMedVerdiliste()
 
         // Act
-        val result = pdfGenerator.lagPdf(feltMap)
+        val result = pdfOppretterService.lagPdf(feltMap)
         val pdfReader = PdfReader(ByteArrayInputStream(result))
         val pdfWriter = PdfWriter(ByteArrayOutputStream())
         val pdfDoc = PdfADocument(pdfReader, pdfWriter)
@@ -101,7 +101,7 @@ class PdfGeneratorTest {
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
     fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: Map<String, Any>) {
         // Act
-        val result = pdfGenerator.lagPdf(feltMap)
+        val result = pdfOppretterService.lagPdf(feltMap)
         val pdfReader = PdfReader(ByteArrayInputStream(result))
         val pdfWriter = PdfWriter(ByteArrayOutputStream())
         val pdfDoc = PdfADocument(pdfReader, pdfWriter)
@@ -118,7 +118,7 @@ class PdfGeneratorTest {
         forventetSide: Int,
     ) {
         // Act
-        val result = pdfGenerator.lagPdf(feltMap)
+        val result = pdfOppretterService.lagPdf(feltMap)
         val pdfReader = PdfReader(ByteArrayInputStream(result))
         val pdfWriter = PdfWriter(ByteArrayOutputStream())
         val pdfDoc = PdfADocument(pdfReader, pdfWriter)
