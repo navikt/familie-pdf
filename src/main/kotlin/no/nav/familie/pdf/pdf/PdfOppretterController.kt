@@ -16,25 +16,15 @@ class PdfOppretterController {
     @PostMapping("/lag-pdf")
     fun lagPdf(
         @RequestBody søknad: Map<String, Any>,
-    ): ByteArray {
-        val generertPdf = pdfOppretterService.lagPdf(søknad)
-        return generertPdf
-    }
+    ): ByteArray = pdfOppretterService.lagPdf(søknad)
 
     @CrossOrigin(origins = ["http://localhost:5173"])
     @PostMapping("generate-pdf")
     fun lagPdfMedValidering(
         @RequestBody søknad: Map<String, Any>,
-    ): PdfMedStandarder {
-        val pdf = pdfOppretterService.lagPdf(søknad)
-        return lagPdfMedStandarder(pdf)
-    }
+    ): PdfMedStandarder = pdfOppretterService.lagPdfMedStandarder(søknad)
 
     @CrossOrigin(origins = ["http://localhost:5173"])
     @GetMapping("lag-pdf-med-standarder")
-    fun hentPdfFraResourceMedStandarder(): PdfMedStandarder {
-        val søknad = lesJSON()
-        val pdf = pdfOppretterService.lagPdf(søknad)
-        return lagPdfMedStandarder(pdf)
-    }
+    fun hentPdfFraResourceMedStandarder(): PdfMedStandarder = pdfOppretterService.lagRessursPdfMedStandarder()
 }
