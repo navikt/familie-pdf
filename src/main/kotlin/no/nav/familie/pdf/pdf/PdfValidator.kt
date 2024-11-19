@@ -1,12 +1,34 @@
 package no.nav.familie.pdf.pdf
 
-import no.nav.familie.pdf.pdf.types.Standard
+import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
+import no.nav.familie.pdf.pdf.domain.Standard
+import no.nav.familie.pdf.pdf.domain.Standarder
 import org.verapdf.gf.foundry.VeraGreenfieldFoundryProvider
 import org.verapdf.pdfa.Foundries
 import org.verapdf.pdfa.flavours.PDFAFlavour
 import java.io.ByteArrayInputStream
 
-fun validerPdf(
+fun lagPdfMedStandarder(pdf: ByteArray): PdfMedStandarder =
+    PdfMedStandarder(
+        pdf,
+        Standarder(
+            ua1 = validerPdf(pdf, "ua1"),
+            ua2 = validerPdf(pdf, "ua2"),
+            `1a` = validerPdf(pdf, "1a"),
+            `1b` = validerPdf(pdf, "1b"),
+            `2a` = validerPdf(pdf, "2a"),
+            `2b` = validerPdf(pdf, "2b"),
+            `2u` = validerPdf(pdf, "2u"),
+            `3a` = validerPdf(pdf, "3a"),
+            `3b` = validerPdf(pdf, "3b"),
+            `3u` = validerPdf(pdf, "3u"),
+            `4` = validerPdf(pdf, "4"),
+            `4f` = validerPdf(pdf, "4f"),
+            `4e` = validerPdf(pdf, "4e"),
+        ),
+    )
+
+private fun validerPdf(
     pdf: ByteArray,
     standardType: String,
 ): Standard {

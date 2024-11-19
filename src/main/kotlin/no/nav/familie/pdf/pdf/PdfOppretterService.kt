@@ -17,7 +17,6 @@ import com.itextpdf.kernel.pdf.action.PdfAction
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine
 import com.itextpdf.kernel.pdf.filespec.PdfFileSpec.createEmbeddedFileSpec
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
-import com.itextpdf.kernel.xmp.XMPMetaFactory
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.AreaBreak
 import com.itextpdf.layout.element.Div
@@ -31,14 +30,15 @@ import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.pdf.elementer.PdfElementer.lagOverskriftH1
-import no.nav.familie.pdf.pdf.elementer.PdfElementer.lagOverskriftH2
-import no.nav.familie.pdf.pdf.elementer.PdfElementer.lagOverskriftH3
-import no.nav.familie.pdf.pdf.elementer.PdfElementer.lagTekstElement
-import no.nav.familie.pdf.pdf.elementer.PdfElementer.lagVerdiElement
-import no.nav.familie.pdf.pdf.elementer.PdfElementer.navLogoBilde
-import no.nav.familie.pdf.pdf.elementer.lagListeMedAlleBarn
-import no.nav.familie.pdf.pdf.elementer.lagTabell
+import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagOverskriftH1
+import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagOverskriftH2
+import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagOverskriftH3
+import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagTekstElement
+import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.lagVerdiElement
+import no.nav.familie.pdf.pdf.utils.PdfElementerUtils.navLogoBilde
+import no.nav.familie.pdf.pdf.utils.TabellUtils.lagListeMedAlleBarn
+import no.nav.familie.pdf.pdf.utils.TabellUtils.lagTabell
+import no.nav.familie.pdf.pdf.utils.XmpMetaUtils.lagXmpMeta
 
 class PdfOppretterService {
     fun lagPdf(feltMap: Map<String, Any>): ByteArray {
@@ -89,7 +89,7 @@ class PdfOppretterService {
             keywords = "Tittel"
             creator = "Tittel"
         }
-        val xmpMeta = xmpMeta(forfatterOgSkaper)
+        val xmpMeta = lagXmpMeta(forfatterOgSkaper)
         pdfADokument.setXmpMetadata(xmpMeta)
 
         return pdfADokument
@@ -266,34 +266,6 @@ class PdfOppretterService {
             val bunntekst = Paragraph().add("Side $sidetall av ${pdfADokument.numberOfPages}")
             showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
         }
-    }
-
-    private fun xmpMeta(forfatterOgSkaper: String): com.itextpdf.kernel.xmp.XMPMeta {
-        val xmpMeta =
-            XMPMetaFactory.create().apply {
-                setProperty(
-                    "http://purl.org/dc/elements/1.1/",
-                    "dc:title",
-                    "Accessible PDF/UA Document",
-                )
-                setProperty("http://purl.org/dc/elements/1.1/", "dc:creator", forfatterOgSkaper)
-                setProperty(
-                    "http://purl.org/dc/elements/1.1/",
-                    "dc:description",
-                    "This PDF complies with PDF/UA",
-                )
-                setProperty(
-                    "http://www.aiim.org/pdfua/ns/id/",
-                    "pdfuaid:part",
-                    "2",
-                ) // "2" for UA-2 and "1" for UA-1
-                setProperty(
-                    "http://www.aiim.org/pdfua/ns/id/",
-                    "pdfuaid:rev",
-                    "2024",
-                ) // TODO dynamic for creation date of the pdf
-            }
-        return xmpMeta
     }
 
     data class InnholdsfortegnelseOppføringer(

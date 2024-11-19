@@ -1,7 +1,6 @@
 package no.nav.familie.pdf.pdf
 
-import no.nav.familie.pdf.pdf.types.PdfMedStandarder
-import no.nav.familie.pdf.pdf.types.lagPdfMedStandarder
+import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,11 +11,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("api")
 class PdfOppretterController {
+    val pdfOppretterService = PdfOppretterService()
+
     @PostMapping("/lag-pdf")
     fun lagPdf(
         @RequestBody søknad: Map<String, Any>,
     ): ByteArray {
-        val generertPdf = PdfOppretterService().lagPdf(søknad)
+        val generertPdf = pdfOppretterService.lagPdf(søknad)
         return generertPdf
     }
 
@@ -25,10 +26,7 @@ class PdfOppretterController {
     fun lagPdfMedValidering(
         @RequestBody søknad: Map<String, Any>,
     ): PdfMedStandarder {
-        val pdf =
-            PdfOppretterService()
-                .lagPdf(søknad)
-
+        val pdf = pdfOppretterService.lagPdf(søknad)
         return lagPdfMedStandarder(pdf)
     }
 
@@ -36,9 +34,7 @@ class PdfOppretterController {
     @GetMapping("lag-pdf-med-standarder")
     fun hentPdfFraResourceMedStandarder(): PdfMedStandarder {
         val søknad = lesJSON()
-        val pdf =
-            PdfOppretterService()
-                .lagPdf(søknad)
+        val pdf = pdfOppretterService.lagPdf(søknad)
         return lagPdfMedStandarder(pdf)
     }
 }

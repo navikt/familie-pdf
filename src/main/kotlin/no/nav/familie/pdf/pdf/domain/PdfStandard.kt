@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.pdf.types
+package no.nav.familie.pdf.pdf.domain
 
 data class Standard(
     val samsvarer: Boolean,
