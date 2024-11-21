@@ -1,6 +1,5 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 
-import no.nav.familie.pdf.pdf.JsonLeser.lesJson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
