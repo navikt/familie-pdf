@@ -31,7 +31,10 @@ class PdfService {
     }
 
     private fun createStandarder(pdf: ByteArray): Map<PdfStandard, Standard> {
-        val standarder = PdfStandard.values().associateWith { validerPdf(pdf, it.standard) }
+        val standarder =
+            PdfStandard.values().associateWith {
+                validerPdf(pdf, it.standard) // Use the `standard` string property here
+            }
         return standarder
     }
 }

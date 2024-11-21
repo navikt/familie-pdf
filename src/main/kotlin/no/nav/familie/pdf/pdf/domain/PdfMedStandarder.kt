@@ -1,5 +1,7 @@
 package no.nav.familie.pdf.pdf.domain
 
+import com.fasterxml.jackson.annotation.JsonValue
+
 data class PdfMedStandarder(
     val pdf: ByteArray,
     val standarder: Map<PdfStandard, Standard>,
@@ -11,6 +13,7 @@ data class Standard(
 )
 
 enum class PdfStandard(
+    @get:JsonValue
     val standard: String,
 ) {
     UA1("ua1"),
