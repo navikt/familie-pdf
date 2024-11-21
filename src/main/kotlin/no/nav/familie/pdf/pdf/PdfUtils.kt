@@ -170,7 +170,7 @@ object PdfUtils {
                     setDestination(navigeringDestinasjon)
                 },
             )
-            when (element["type"].toString()) {
+            when (element["visningsVariant"].toString()) {
                 "Tabell Barn" -> {
                     val listeMedAlleBarn = lagListeMedAlleBarn(element["verdiliste"] as List<*>)
                     listeMedAlleBarn.forEachIndexed { index, barn ->
