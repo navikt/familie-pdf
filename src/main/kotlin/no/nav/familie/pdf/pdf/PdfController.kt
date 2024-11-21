@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController
 @Unprotected
 @RequestMapping("api/pdf")
 class PdfController {
-    private val pdfOppretterService = PdfService()
+    private val pdfService = PdfService()
 
     @PostMapping("/opprett-pdf")
     fun opprettPdf(
         @RequestBody søknad: Map<String, Any>,
-    ): ByteArray = pdfOppretterService.opprettPdf(søknad)
+    ): ByteArray = pdfService.opprettPdf(søknad)
 }

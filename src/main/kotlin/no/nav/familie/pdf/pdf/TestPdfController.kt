@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("api/test-pdf")
 class TestPdfController {
     private val testPdfService = TestPdfService()
-    private val pdfService = PdfService()
 
     @CrossOrigin(origins = ["http://localhost:5173"])
     @GetMapping("/pdf-med-standarder")
@@ -24,5 +23,5 @@ class TestPdfController {
     @PostMapping("/pdf-med-standarder")
     fun opprettPdfMedValidering(
         @RequestBody søknad: Map<String, Any>,
-    ): PdfMedStandarder = pdfService.opprettPdfMedStandarder(søknad)
+    ): PdfMedStandarder = testPdfService.opprettPdfMedStandarder(søknad)
 }
