@@ -49,7 +49,13 @@ object UtilsMetaData {
                     "pdfuaid:part",
                     "1",
                 )
+                // Sett revisjonsåret for samsvarsstandarden til det nåværende året
+                setProperty("http://www.aiim.org/pdfua/ns/id/", "pdfuaid:rev", getCurrentYear())
             }
         return xmpMeta
+    }
+
+    private fun getCurrentYear(): String {
+        return java.time.Year.now().toString()
     }
 }
