@@ -18,6 +18,17 @@ updates:
     registries:
       - familie-felles
     groups:
+      minor-and-patch-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      major-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
       all-dependencies:
         patterns:
           - "*"
