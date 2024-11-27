@@ -1,6 +1,6 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 
-import no.nav.familie.pdf.pdf.JsonLeser.lesJson
+import no.nav.familie.pdf.pdf.JsonLeser.lesSøknadJson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -8,7 +8,7 @@ class JsonLeserTest {
     @Test
     fun `tester readJSON for søknadjson gir forventede verdier`() {
         // Act
-        val resultat = lesJson()
+        val resultat = lesSøknadJson()
         // Assert
         assertEquals("Søknad om overgangsstønad (NAV 15-00.01)", resultat["label"])
         val verdiliste = resultat["verdiliste"] as List<Map<String, Any>>
