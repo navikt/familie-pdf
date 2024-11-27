@@ -14,15 +14,15 @@ import com.itextpdf.pdfa.PdfADocument
  */
 object UtilsMetaData {
     fun leggtilMetaData(pdfADokument: PdfADocument, feltMap: Map<String, Any>) {
-        val skaperAvPDF = "navikt/familie-pdf"
+        val skaperAvPdf = "navikt/familie-pdf"
         val tittel = feltMap["label"].toString()
 
         pdfADokument.documentInfo.apply {
             this.title = tittel
-            this.creator = skaperAvPDF
+            this.creator = skaperAvPdf
         }
 
-        val xmpMeta = lagXmpMeta(skaperAvPDF, tittel)
+        val xmpMeta = lagXmpMeta(skaperAvPdf, tittel)
         pdfADokument.setXmpMetadata(xmpMeta)
 
         pdfADokument.catalog.apply {
