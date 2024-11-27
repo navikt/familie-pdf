@@ -3,7 +3,6 @@ package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 import no.nav.familie.pdf.pdf.JsonLeser
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.PdfValidator
-import no.nav.familie.pdf.pdf.TestPdfService
 import no.nav.familie.pdf.pdf.domain.PdfStandard
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
@@ -19,8 +18,7 @@ class PdfValidatorTest {
     @BeforeAll
     fun setup() {
         val feltMap = JsonLeser.lesSøknadJson()
-        val pdfMedStandarder = TestPdfService(pdfService).opprettPdfMedStandarder(feltMap)
-        pdfBytes = pdfMedStandarder.pdf
+        pdfBytes = pdfService.opprettPdf(feltMap)
     }
 
     @ParameterizedTest
