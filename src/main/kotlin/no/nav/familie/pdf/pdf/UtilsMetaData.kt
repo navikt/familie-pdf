@@ -8,10 +8,9 @@ import com.itextpdf.kernel.xmp.XMPMetaFactory
 import com.itextpdf.pdfa.PdfADocument
 
 /**
- * `UtilsMetaData` er en hjelpekklasse for å legge til metadata i et PDF-dokument.
- * Vi setter metadataene på to ulike måter for å dekke forskjellige behov:
- * 1. `documentInfo`: Grunnleggende metadata (tittel, skaper) som brukes av PDF-lesere for visning i dokumentegenskaper.
- * 2. `setXmpMetadata`: Avansert, maskinlesbar XMP-metadata for standarder som PDF/UA
+ * Metadata settes på to måter for ulike behov:
+ * 1. `documentInfo`: Grunnleggende metadata for visning i PDF-lesere.
+ * 2. `setXmpMetadata`: Maskinlesbar metadata for standarder som PDF/UA.
  */
 object UtilsMetaData {
     fun leggtilMetaData(pdfADokument: PdfADocument, feltMap: Map<String, Any>) {
