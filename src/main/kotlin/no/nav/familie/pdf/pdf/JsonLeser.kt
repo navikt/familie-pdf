@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import java.io.FileNotFoundException
+import java.io.IOException
 
 object JsonLeser {
     private val objectMapper: ObjectMapper =
@@ -12,14 +13,17 @@ object JsonLeser {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .registerModule(JavaTimeModule())
 
-    fun lesJson(): Map<String, Any> {
-        val inndataStreng =
-            object {}
-                .javaClass
-                .getResourceAsStream("/søknad.json")
-                ?.bufferedReader()
-                ?.readText()
+    fun lesSøknadJson(): Map<String, Any> {
+        val jsonInputStream =
+            this::class.java.getResourceAsStream("/søknad.json")
                 ?: throw FileNotFoundException("Kan ikke lese søknad.json")
-        return objectMapper.readValue(inndataStreng, Map::class.java) as Map<String, Any>
+
+        return try {
+            jsonInputStream.bufferedReader().use { reader ->
+                objectMapper.readValue(reader, Map::class.java) as Map<String, Any>
+            }
+        } catch (e: IOException) {
+            throw RuntimeException("Feil ved lesing av JSON-fil", e)
+        }
     }
 }

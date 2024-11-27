@@ -1,15 +1,15 @@
 package no.nav.familie.pdf.pdf
 
-import no.nav.familie.pdf.pdf.JsonLeser.lesJson
+import no.nav.familie.pdf.pdf.JsonLeser.lesSøknadJson
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.familie.pdf.pdf.domain.PdfStandard
 import no.nav.familie.pdf.pdf.domain.Standard
 
-class TestPdfService {
-    private val pdfService = PdfService()
-
+class TestPdfService(
+    private val pdfService: PdfService,
+) {
     fun opprettTestPdfMedStandarder(): PdfMedStandarder {
-        val feltMap = lesJson()
+        val feltMap = lesSøknadJson()
         return opprettPdfMedStandarder(feltMap)
     }
 
