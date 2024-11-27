@@ -8,9 +8,10 @@ import com.itextpdf.kernel.xmp.XMPMetaFactory
 import com.itextpdf.pdfa.PdfADocument
 
 /**
- * `XmpMeta`-objektet gir en hjelpefunksjon for å lage XMP-metadata for et PDF-dokument.
- *
- * Denne metadataen inkluderer informasjon som tittel, skaper, beskrivelse og samsvar med PDF/UA-standarder.
+ * `UtilsMetaData` er en hjelpekklasse for å legge til metadata i et PDF-dokument.
+ * Vi setter metadataene på to ulike måter for å dekke forskjellige behov:
+ * 1. `documentInfo`: Grunnleggende metadata (tittel, skaper) som brukes av PDF-lesere for visning i dokumentegenskaper.
+ * 2. `setXmpMetadata`: Avansert, maskinlesbar XMP-metadata for standarder som PDF/UA
  */
 object UtilsMetaData {
     fun leggtilMetaData(pdfADokument: PdfADocument, feltMap: Map<String, Any>) {
