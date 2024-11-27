@@ -20,7 +20,8 @@ object JsonLeser {
 
         return try {
             jsonInputStream.bufferedReader().use { reader ->
-                objectMapper.readValue(reader, Map::class.java) as Map<String, Any>
+                val result = objectMapper.readValue(reader, Map::class.java)
+                result as? Map<String, Any> ?: throw ClassCastException("Unexpected JSON format")
             }
         } catch (e: IOException) {
             throw RuntimeException("Feil ved lesing av JSON-fil", e)
