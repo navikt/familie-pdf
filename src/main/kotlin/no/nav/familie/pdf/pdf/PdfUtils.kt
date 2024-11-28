@@ -6,11 +6,9 @@ import com.itextpdf.io.source.ByteArrayOutputStream
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfAConformanceLevel
-import com.itextpdf.kernel.pdf.PdfName
 import com.itextpdf.kernel.pdf.PdfOutputIntent
 import com.itextpdf.kernel.pdf.PdfString
 import com.itextpdf.kernel.pdf.PdfVersion
-import com.itextpdf.kernel.pdf.PdfViewerPreferences
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.WriterProperties
 import com.itextpdf.kernel.pdf.action.PdfAction
@@ -38,7 +36,6 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.TabellUtils.lagListeMedAlleBarn
 import no.nav.familie.pdf.pdf.TabellUtils.lagTabell
-import no.nav.familie.pdf.pdf.XmpMeta.lagXmpMeta
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -55,10 +52,6 @@ object PdfUtils {
                 PdfOutputIntent("Custom", "", null, "sRGB IEC61966-2.1", inputStream),
             )
         pdfADokument.setTagged()
-        pdfADokument.catalog.apply {
-            put(PdfName.Lang, PdfString("no")) // TODO dynamisk?
-            viewerPreferences = PdfViewerPreferences().setDisplayDocTitle(true)
-        }
         pdfADokument.addAssociatedFile(
             "TestFile",
             createEmbeddedFileSpec(
@@ -69,17 +62,6 @@ object PdfUtils {
                 null,
             ),
         )
-        val forfatterOgSkaper = "ForfatterOgSkaper"
-        // TODO dynamisk
-        pdfADokument.documentInfo.apply {
-            title = "Tittel"
-            author = forfatterOgSkaper
-            subject = "Tittel"
-            keywords = "Tittel"
-            creator = "Tittel"
-        }
-        val xmpMeta = lagXmpMeta(forfatterOgSkaper)
-        pdfADokument.setXmpMetadata(xmpMeta)
 
         return pdfADokument
     }
@@ -90,6 +72,8 @@ object PdfUtils {
     ) {
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
         val sideantallInnholdsfortegnelse = kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse)
+
+        UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
         Document(pdfADokument).apply {
             setFont(pdfSkrift())

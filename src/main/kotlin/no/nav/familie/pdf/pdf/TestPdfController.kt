@@ -22,6 +22,7 @@ class TestPdfController {
 
     @CrossOrigin(origins = ["http://localhost:5173"])
     @PostMapping("/pdf-med-standarder")
+    @CrossOrigin(origins = ["http://localhost:5173"])
     fun opprettPdfMedValidering(
         @RequestBody søknad: Map<String, Any>,
     ): PdfMedStandarder = testPdfService.opprettPdfMedStandarder(søknad)
