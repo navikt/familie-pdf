@@ -20,8 +20,8 @@ class TestPdfController {
     @GetMapping("/pdf-med-standarder")
     fun hentPdfFraResourceMedStandarder(): PdfMedStandarder = testPdfService.opprettTestPdfMedStandarder()
 
-    @PostMapping("/pdf-med-standarder")
     @CrossOrigin(origins = ["http://localhost:5173"])
+    @PostMapping("/pdf-med-standarder")
     fun opprettPdfMedValidering(
         @RequestBody søknad: Map<String, Any>,
     ): PdfMedStandarder = testPdfService.opprettPdfMedStandarder(søknad)
