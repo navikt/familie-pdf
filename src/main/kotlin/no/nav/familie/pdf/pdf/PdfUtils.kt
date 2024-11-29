@@ -36,6 +36,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.TabellUtils.lagListeMedAlleBarn
 import no.nav.familie.pdf.pdf.TabellUtils.lagTabell
+import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -155,14 +156,14 @@ object PdfUtils {
                 },
             )
             when (element["visningsVariant"].toString()) {
-                "tabell_barn" -> {
+                VisningsVariant.TABELL_BARN.toString() -> {
                     val listeMedAlleBarn = lagListeMedAlleBarn(element["verdiliste"] as List<*>)
                     listeMedAlleBarn.forEachIndexed { index, barn ->
                         val barneIndeksTekst = "Barn " + (index + 1).toString()
                         add(lagTabell(barn, barneIndeksTekst))
                     }
                 }
-                "vedlegg" -> {
+                VisningsVariant.VEDLEGG.toString() -> {
                     håndterVedlegg(element["verdiliste"] as List<*>, this)
                 }
                 else -> {
