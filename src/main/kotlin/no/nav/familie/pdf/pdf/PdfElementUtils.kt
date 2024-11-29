@@ -18,12 +18,12 @@ object PdfElementUtils {
     fun lagVerdiElement(element: Map<*, *>): Paragraph =
         Paragraph().apply {
             (element["label"] as? String).takeIf { it?.isNotEmpty() == true }?.let { add(Text(it).apply { setBold() }) }
-            add(Text("\n"))
-            add(Text(element["verdi"].toString()))
             (element["alternativer"] as? String)?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
-                add(Text(it))
+                add(Text(it).setItalic())
             }
+            add(Text("\n"))
+            add(Text(element["verdi"].toString()))
             setFontSize(12f)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
