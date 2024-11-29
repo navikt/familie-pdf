@@ -155,7 +155,7 @@ object PdfUtils {
                 },
             )
             when (element["visningsVariant"].toString()) {
-                "tabell" -> {
+                "tabell_barn" -> {
                     val listeMedAlleBarn = lagListeMedAlleBarn(element["verdiliste"] as List<*>)
                     listeMedAlleBarn.forEachIndexed { index, barn ->
                         val barneIndeksTekst = "Barn " + (index + 1).toString()
