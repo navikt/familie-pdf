@@ -155,18 +155,16 @@ object PdfUtils {
                 },
             )
             when (element["visningsVariant"].toString()) {
-                "Tabell Barn" -> {
+                "tabell" -> {
                     val listeMedAlleBarn = lagListeMedAlleBarn(element["verdiliste"] as List<*>)
                     listeMedAlleBarn.forEachIndexed { index, barn ->
                         val barneIndeksTekst = "Barn " + (index + 1).toString()
                         add(lagTabell(barn, barneIndeksTekst))
                     }
                 }
-
-                "Vedlegg" -> {
+                "vedlegg" -> {
                     håndterVedlegg(element["verdiliste"] as List<*>, this)
                 }
-
                 else -> {
                     håndterRekursivVerdiliste(element["verdiliste"] as List<*>, this)
                 }
