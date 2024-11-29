@@ -20,7 +20,7 @@ object PdfElementUtils {
             (element["label"] as? String).takeIf { it?.isNotEmpty() == true }?.let { add(Text(it).apply { setBold() }) }
             (element["alternativer"] as? String)?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
-                add(Text(it).setItalic())
+                add(Text(it).setItalic().setFontSize(10f))
             }
             add(Text("\n"))
             add(Text(element["verdi"].toString()))
