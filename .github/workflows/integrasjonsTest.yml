@@ -20,19 +20,51 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: 'maven'
+
       - name: Bygg (dependabot)
         if: github.actor == 'dependabot[bot]'
         env:
           GITHUB_USERNAME: x-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --no-transfer-progress verify  --settings .m2/maven-settings.xml --file pom.xml
+
       - name: Opprett JaCoCo report
-        run: mvn jacoco:report --no-transfer-progress --settings .m2/maven-settings.xml --file pom.xml
+        run: |
+          mvn -B package --file pom.xml
+
       - name: Last opp testdekning rapport
         uses: actions/upload-artifact@v3
         with:
           name: jacoco-report
-          path: target/site/jacoco
+          path: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+
+      - name: Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.2
+        with:
+          paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+          min-coverage-overall: 80
+          min-coverage-changed-files: 80
+          title: Code Coverage
+
+      - name: Save Coverage To Environment Variable
+        run: |
+          echo "TOTAL_COVERAGE=${{ steps.jacoco.outputs.coverage-overall }}" >> $GITHUB_ENV
+          echo "CHANGED_FILES_COVERAGE=${{ steps.jacoco.outputs.coverage-changed-files }}" >> $GITHUB_ENV
+
+      - name: Print & Check Coverage Info
+        run: |
+          import os
+            import sys
+            print("Total Coverage: " + str(os.environ["TOTAL_COVERAGE"]))
+            print("Changed Files Coverage: " + str(os.environ["CHANGED_FILES_COVERAGE"]))
+            if float(os.environ["TOTAL_COVERAGE"]) < 80 or float(os.environ["CHANGED_FILES_COVERAGE"]) < 80:
+              print("Insufficient Coverage!")
+              sys.exit(-1) # Cause Status Check Failure due to noncompliant coverage
+            sys.exit(0)
+        shell: python
+
       - name: Bygg og SonarCloud
         if: github.actor != 'dependabot[bot]'
         env:
