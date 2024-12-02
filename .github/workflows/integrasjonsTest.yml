@@ -28,6 +28,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --no-transfer-progress verify  --settings .m2/maven-settings.xml --file pom.xml
 
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
       - name: Opprett JaCoCo report
         run: |
           mvn -B package --file pom.xml
@@ -42,7 +50,7 @@ jobs:
         id: jacoco
         uses: madrapps/jacoco-report@v1.2
         with:
-          paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
+          paths: target/site/jacoco/jacoco.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 80
           min-coverage-changed-files: 80
