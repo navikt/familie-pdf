@@ -26,13 +26,13 @@ jobs:
           GITHUB_USERNAME: x-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn --no-transfer-progress verify  --settings .m2/maven-settings.xml --file pom.xml
-      - name: Lag Kover rapport
-        run: mvn kover:kover --no-transfer-progress --settings .m2/maven-settings.xml --file pom.xml
-      - name: Upload Code Coverage Report
+      - name: Opprett JaCoCo report
+        run: mvn jacoco:report --no-transfer-progress --settings .m2/maven-settings.xml --file pom.xml
+      - name: Last opp testdekning rapport
         uses: actions/upload-artifact@v3
         with:
-          name: kover-report
-          path: target/site/kover
+          name: jacoco-report
+          path: target/site/jacoco
       - name: Bygg og SonarCloud
         if: github.actor != 'dependabot[bot]'
         env:
