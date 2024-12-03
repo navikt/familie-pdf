@@ -17,12 +17,12 @@ object PdfElementUtils {
 
     fun lagVerdiElement(element: Map<*, *>): Paragraph =
         Paragraph().apply {
-            (element["label"] as? String).takeIf { it?.isNotEmpty() == true }?.let { add(Text(it).apply { setBold() }) }
+            (element["label"] as? String).takeIf { it?.isNotEmpty() == true }?.let { add(Text(it).apply { simulateBold() }) }
             (element["alternativer"] as? String)?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
-                        setItalic()
+                        simulateItalic()
                         setFontSize(10f)
                     },
                 )
@@ -55,7 +55,7 @@ object PdfElementUtils {
         Paragraph(tekst).apply {
             setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
-            setBold()
+            simulateBold()
             accessibilityProperties.role = rolle
         }
 }
