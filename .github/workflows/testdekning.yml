@@ -2,6 +2,8 @@ name: Testdekning JaCoCo og Sonar
 
 on:
   workflow_dispatch:
+  pull_request:
+
 
 jobs:
   integrasjonstester:
