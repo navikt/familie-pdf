@@ -51,10 +51,6 @@ spec:
     outbound:
       rules:
         - application: familie-ef-mottak
-      external:
-        - host: familie-integrasjoner.prod-fss-pub.nais.io
-        - host: kafka-schema-registry.nais.adeo.no
-        - host: teamfamilie-unleash-api.nav.cloud.nais.io
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: prod
