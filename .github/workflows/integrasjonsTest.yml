@@ -37,7 +37,3 @@ jobs:
           SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
         run: mvn --no-transfer-progress verify --settings .m2/maven-settings.xml --file pom.xml
         #run: mvn --no-transfer-progress verify sonar:sonar --settings .m2/maven-settings.xml --file pom.xml
-
-  testdekning:
-    needs: build
-    uses: ./.github/workflows/testdekning.yml
