@@ -63,7 +63,7 @@ updates:
           - "io.mockk:mockk"
         update-types:
           - "major"
-      # Catch-all for all other dependencies, handled as one PR per dependency
+      # Fang opp alle andre avhengigheter, håndtert som én PR per avhengighet
       per-major-dependency:
         patterns:
           - "*"
