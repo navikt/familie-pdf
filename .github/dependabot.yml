@@ -14,27 +14,76 @@ updates:
       interval: weekly
       day: "sunday"
       time: "04:00"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 12
     registries:
       - familie-felles
     groups:
-      minor-and-patch-dependencies:
-        patterns:
-          - "*"
+      patch-dependencies:
+        update-types:
+          - "patch"
+      minor-dependencies:
         update-types:
           - "minor"
-          - "patch"
-      major-dependencies:
+      kotlin-dependencies:
+        patterns:
+          - "org.jetbrains.kotlin:*"
+        update-types:
+          - "major"
+      spring-boot-dependencies:
+        patterns:
+          - "org.springframework.boot:*"
+        update-types:
+          - "major"
+      springdoc-dependencies:
+        patterns:
+          - "org.springdoc:*"
+        update-types:
+          - "major"
+      jackson-dependencies:
+        patterns:
+          - "com.fasterxml.jackson.module:*"
+          - "com.fasterxml.jackson.datatype:*"
+        update-types:
+          - "major"
+      nav-internal-dependencies:
+        patterns:
+          - "no.nav.familie.felles:*"
+          - "no.nav.security:*"
+        update-types:
+          - "major"
+      itext-dependencies:
+        patterns:
+          - "com.itextpdf:*"
+        update-types:
+          - "major"
+      junit-and-testing-dependencies:
+        patterns:
+          - "org.junit.jupiter:*"
+          - "org.jetbrains.kotlin:kotlin-test-junit5"
+          - "io.mockk:mockk"
+        update-types:
+          - "major"
+      # Fang opp alle andre avhengigheter, håndtert som én PR per avhengighet
+      per-major-dependency:
         patterns:
           - "*"
         update-types:
           - "major"
-      all-dependencies:
-        patterns:
-          - "*"
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
       day: "sunday"
       time: "04:00"
+    open-pull-requests-limit: 10
+    groups:
+      patch-dependencies:
+        update-types:
+          - "patch"
+      minor-dependencies:
+        update-types:
+          - "minor"
+      major-dependencies:
+        update-types:
+          - "major"
