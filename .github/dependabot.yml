@@ -18,23 +18,34 @@ updates:
     registries:
       - familie-felles
     groups:
-      minor-and-patch-dependencies:
-        patterns:
-          - "*"
+      patch-dependencies:
+        update-types:
+          - "patch"
+      minor-dependencies:
         update-types:
           - "minor"
-          - "patch"
-      major-dependencies:
+      per-major-dependency:
         patterns:
           - "*"
         update-types:
           - "major"
-      all-dependencies:
-        patterns:
-          - "*"
+        group-name-separator: "-"
+
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
       interval: weekly
       day: "sunday"
       time: "04:00"
+    open-pull-requests-limit: 10
+    groups:
+      patch-dependencies:
+        update-types:
+          - "patch"
+      minor-dependencies:
+        update-types:
+          - "minor"
+      major-dependencies:
+        update-types:
+          - "major"
+
