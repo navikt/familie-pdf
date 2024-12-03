@@ -69,7 +69,6 @@ updates:
           - "*"
         update-types:
           - "major"
-        group-name-separator: "-"
 
   - package-ecosystem: github-actions
     directory: "/"
