@@ -5,7 +5,8 @@ import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.source.ByteArrayOutputStream
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
-import com.itextpdf.kernel.pdf.PdfAConformanceLevel
+import com.itextpdf.kernel.pdf.PdfAConformance
+
 import com.itextpdf.kernel.pdf.PdfOutputIntent
 import com.itextpdf.kernel.pdf.PdfString
 import com.itextpdf.kernel.pdf.PdfVersion
@@ -49,7 +50,7 @@ object PdfUtils {
         val pdfADokument =
             PdfADocument(
                 pdfWriter,
-                PdfAConformanceLevel.PDF_A_4,
+                PdfAConformance.PDF_A_4,
                 PdfOutputIntent("Custom", "", null, "sRGB IEC61966-2.1", inputStream),
             )
         pdfADokument.setTagged()
