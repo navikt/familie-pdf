@@ -26,7 +26,7 @@
         <felles.version>3.20240913110742_adb42f8</felles.version>
         <token-validation.version>5.0.5</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
-        <itext.version>8.0.4</itext.version>
+        <itext.version>9.0.0</itext.version>
         <jackson.version>2.17.1</jackson.version>
         <swagger.version>2.2.25</swagger.version>
         <validation-model-jakarta.version>1.26.1</validation-model-jakarta.version>
