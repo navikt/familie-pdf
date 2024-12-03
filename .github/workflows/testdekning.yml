@@ -21,12 +21,12 @@ jobs:
           GITHUB_USERNAME: x-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          mvn verify -B --no-transfer-progress --settings .m2/maven-settings.xml --file pom.xml -Dgroups=integration -Dsurefire.rerunFailingTestsCount=2 -Pjacoco
-      - name: Last opp Jacoco IT rapport
+          mvn verify --no-transfer-progress --settings .m2/maven-settings.xml --file pom.xml -Dsurefire.rerunFailingTestsCount=2 -Pjacoco
+      - name: Last opp JaCoCo rapport
         uses: actions/upload-artifact@v4
         with:
           name: jacoco
-          path: target/jacoco/jacoco.xml
+          path: target/site/jacoco
           retention-days: 1
           overwrite: true
 
@@ -43,16 +43,11 @@ jobs:
           java-version: 21
           distribution: 'temurin'
           cache: 'maven'
-      - name: Last ned Jacoco rapport
+      - name: Last ned JaCoCo rapport
         uses: actions/download-artifact@v4
         with:
           name: jacoco
-          path: jacoco
-      - name: Last ned Jacoco rapport
-        uses: actions/download-artifact@v4
-        with:
-          name: jacoco
-          path: jacoco
+          path: target/site/jacoco
       - name: Cache Sonar packages
         uses: actions/cache@v4
         with:
