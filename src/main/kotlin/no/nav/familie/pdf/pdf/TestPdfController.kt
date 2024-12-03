@@ -1,8 +1,9 @@
 package no.nav.familie.pdf.pdf
 
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
-import no.nav.security.token.support.core.api.Unprotected
+import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.web.bind.annotation.CrossOrigin
+import no.nav.familie.sikkerhet.EksternBrukerUtils
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -10,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@Unprotected
 @RequestMapping("api/test-pdf")
+@ProtectedWithClaims(
+    issuer = EksternBrukerUtils.ISSUER_TOKENX,
+    claimMap = ["acr=Level4"],
+)
 class TestPdfController {
     private val pdfService = PdfService()
     private val testPdfService = TestPdfService(pdfService)
