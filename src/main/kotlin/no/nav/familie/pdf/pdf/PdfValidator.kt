@@ -106,8 +106,6 @@ object PdfValidator {
                 // value of "pdfaid:conformance" as A. A Level
                 // B conforming file shall specify the value
                 // of "pdfaid:conformance" as B.
-                "clause=8.8 testNumber=2",
-                // Dette er en konfliktende regel grunnet klikkbare lenker i innholdsfortegnelsen
             )
         return feiledeRegler.replace(Regex("[,{}]"), "").split("RuleId ").drop(1).filter { feiletRegel ->
             !konflikterendeRegler.any { feiletRegel.contains(it) }
