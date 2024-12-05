@@ -13,7 +13,7 @@ git clone git@github.com:navikt/familie-pdf.git
 
 3. Velg `File` i IntelliJ, deretter `Project Structure...`. Under `Project` velg `SDK 21` f.eks.`coretto-21` (22 fungerer også, men 21 er Long Term Support (LTS) og anbefalt), last ned hvis du ikke har det. Velg `Language level` og velg 21. `Apply` og så `OK`
 
-4. Velg `App.kt` og trykk på `^R` for å kjøre backenden (port 8080)
+4. Velg `App.kt` og trykk på `^R` for å kjøre backenden (port 8084)
 
 Et godt tips er å kjøre maven kommandoen for å rense og installere dependenciene på nytt.
 
@@ -45,5 +45,6 @@ Logg inn på en vilkårlig bruker [her](https://familie.ekstern.dev.nav.no/famil
 ## VeraPDF validator
 Vi bruker vera-pdf software til å se om pdf-ene vi lager er validert. Dessuten får vi en bedre beskrivelse hvilke feil og mangler vi har i våre pdf-er.
 [Du kan laste det ned her](https://verapdf.org/home/) Velg `PDF/A Validation` og last ned dette. Du starter programmet med å kjøre `verapdf-gui` som er inne i `verapdf`-mappen etter installasjon. Deretter laster du opp pdf-en du vil validere og `execute`. Deretter kan du se feilene ved å trykke på `View HTML`.
+Vi har også endepunkt og tester for validering av standardene under `TestPdfController` og `PdfValidatorTest`.
 
 
