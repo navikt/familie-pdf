@@ -33,6 +33,42 @@ fun lagMedForskjelligLabelIVerdiliste(): Map<String, Any> =
 
 fun lagNullInnhold(): Map<String, Any?> = mapOf("label" to null, "verdiliste" to null)
 
+fun lagMedTomAdresse(): Map<String, Any> =
+    mapOf(
+        "label" to "Søknad om overgangsstønad",
+        "verdiliste" to
+            listOf(
+                mapOf(
+                    "label" to "Søker",
+                    "verdiliste" to listOf(mapOf("label" to "Adresse", "verdi" to "")),
+                ),
+            ),
+    )
+
+fun lagAdresseMedBareLinjeskift(): Map<String, Any> =
+    mapOf(
+        "label" to "Søknad om overgangsstønad",
+        "verdiliste" to
+            listOf(
+                mapOf(
+                    "label" to "Søker",
+                    "verdiliste" to listOf(mapOf("label" to "Adresse", "verdi" to "\n\n\n\n")),
+                ),
+            ),
+    )
+
+fun lagAdresseMedFlereLinjeskift(): Map<String, Any> =
+    mapOf(
+        "label" to "Søknad om overgangsstønad",
+        "verdiliste" to
+            listOf(
+                mapOf(
+                    "label" to "Søker",
+                    "verdiliste" to listOf(mapOf("label" to "Adresse", "verdi" to "Adresse 12\n\n\n\n0999 Oslo")),
+                ),
+            ),
+    )
+
 fun lagToSiderInnholdsfortegnelse(): Map<String, Any> =
     mapOf(
         "label" to "Søknad om overgangsstønad (NAV 15-00.01)",
