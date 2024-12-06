@@ -9,7 +9,7 @@ data class PdfMedStandarder(
 
 data class Standard(
     val samsvarer: Boolean,
-    val feiletRegel: String?,
+    val feiletRegel: String,
 )
 
 enum class PdfStandard(
