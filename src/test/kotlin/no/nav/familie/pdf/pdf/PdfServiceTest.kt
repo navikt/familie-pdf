@@ -5,7 +5,7 @@ import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareNylinjer
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
@@ -44,7 +44,7 @@ class PdfServiceTest {
         @JvmStatic
         fun tomAdresse(): Stream<Map<String, Any>> =
             Stream.of(
-                lagAdresseMedBareNylinjer(),
+                lagAdresseMedBareLinjeskift(),
                 lagMedTomAdresse(),
             )
     }

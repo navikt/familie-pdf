@@ -45,7 +45,7 @@ fun lagMedTomAdresse(): Map<String, Any> =
             ),
     )
 
-fun lagAdresseMedBareNylinjer(): Map<String, Any> =
+fun lagAdresseMedBareLinjeskift(): Map<String, Any> =
     mapOf(
         "label" to "Søknad om overgangsstønad",
         "verdiliste" to
