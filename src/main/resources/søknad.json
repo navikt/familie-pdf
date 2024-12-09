@@ -98,7 +98,7 @@
     },
     {
       "label": "Barna dine",
-      "visningsVariant": "Tabell Barn",
+      "visningsVariant": "TABELL_BARN",
       "verdiliste": [
         {
           "label": "Navn",
@@ -315,7 +315,7 @@
     },
     {
       "label": "Vedlegg",
-      "visningsVariant": "Vedlegg",
+      "visningsVariant": "VEDLEGG",
       "verdiliste": [
         {
           "label": "Vedlegg",

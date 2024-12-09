@@ -17,22 +17,40 @@ object PdfElementUtils {
 
     fun lagVerdiElement(element: Map<*, *>): Paragraph =
         Paragraph().apply {
-            (element["label"] as? String).takeIf { it?.isNotEmpty() == true }?.let { add(Text(it).apply { setBold() }) }
+            (element["label"] as? String)
+                .takeIf { it?.isNotEmpty() == true }
+                ?.let { add(Text(it).apply { simulateBold() }) }
             (element["alternativer"] as? String)?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
-                        setItalic()
+                        simulateItalic()
                         setFontSize(10f)
                     },
                 )
             }
             add(Text("\n"))
-            add(Text(element["verdi"].toString()))
+            if (element["label"] == "Adresse") {
+                add(sjekkDobbelLinjeskift(element["verdi"].toString()))
+            } else {
+                add(element["verdi"].toString())
+            }
             setFontSize(12f)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
         }
+
+    fun sjekkDobbelLinjeskift(tekst: String): String {
+        val bareLinjeskiftRegex = Regex("^\\n+$")
+        val dobbelLinjeskiftRegex = Regex("\\n{2,}")
+        val rensetVerdi =
+            if (tekst.isEmpty() || tekst.matches(bareLinjeskiftRegex)) {
+                "Ingen registrert adresse"
+            } else {
+                tekst.replace(dobbelLinjeskiftRegex, "\n")
+            }
+        return rensetVerdi
+    }
 
     fun lagTekstElement(tekst: String): Paragraph =
         Paragraph().apply {
@@ -55,7 +73,7 @@ object PdfElementUtils {
         Paragraph(tekst).apply {
             setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
-            setBold()
+            simulateBold()
             accessibilityProperties.role = rolle
         }
 }

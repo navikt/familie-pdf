@@ -13,7 +13,10 @@ import com.itextpdf.pdfa.PdfADocument
  * 2. `setXmpMetadata`: Maskinlesbar metadata for standarder som PDF/UA.
  */
 object UtilsMetaData {
-    fun leggtilMetaData(pdfADokument: PdfADocument, feltMap: Map<String, Any>) {
+    fun leggtilMetaData(
+        pdfADokument: PdfADocument,
+        feltMap: Map<String, Any>,
+    ) {
         val skaperAvPdf = "navikt/familie-pdf"
         val tittel = feltMap["label"].toString()
 
@@ -23,26 +26,29 @@ object UtilsMetaData {
         }
 
         val xmpMeta = lagXmpMeta(skaperAvPdf, tittel)
-        pdfADokument.setXmpMetadata(xmpMeta)
+        pdfADokument.xmpMetadata = xmpMeta
 
         pdfADokument.catalog.apply {
             put(PdfName.Lang, PdfString("no-NB")) // TODO: Gjør dynamisk
             viewerPreferences = PdfViewerPreferences().setDisplayDocTitle(true)
         }
     }
+
     private fun lagXmpMeta(
         skaperAvPDF: String,
         tittel: String,
     ): XMPMeta {
         val xmpMeta =
             XMPMetaFactory.create().apply {
-                setProperty(
+                setLocalizedText(
                     "http://purl.org/dc/elements/1.1/",
                     "dc:title",
+                    null,
+                    "x-default",
                     tittel,
                 )
                 setProperty("http://purl.org/dc/elements/1.1/", "dc:creator", skaperAvPDF)
-                //Angir delnummeret for PDF/UA-samsvar (2 for UA-2, 1 for UA-1)
+                // Angir delnummeret for PDF/UA-samsvar (2 for UA-2, 1 for UA-1)
                 setProperty(
                     "http://www.aiim.org/pdfua/ns/id/",
                     "pdfuaid:part",
@@ -54,7 +60,8 @@ object UtilsMetaData {
         return xmpMeta
     }
 
-    private fun getCurrentYear(): String {
-        return java.time.Year.now().toString()
-    }
+    private fun getCurrentYear(): String =
+        java.time.Year
+            .now()
+            .toString()
 }

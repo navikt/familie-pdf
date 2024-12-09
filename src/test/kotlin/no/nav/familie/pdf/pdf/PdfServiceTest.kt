@@ -5,7 +5,10 @@ import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagNullInnhold
@@ -36,6 +39,13 @@ class PdfServiceTest {
             Stream.of(
                 lagMedVerdiliste(),
                 lagToSiderInnholdsfortegnelse(),
+            )
+
+        @JvmStatic
+        fun tomAdresse(): Stream<Map<String, Any>> =
+            Stream.of(
+                lagAdresseMedBareLinjeskift(),
+                lagMedTomAdresse(),
             )
     }
 
@@ -85,10 +95,7 @@ class PdfServiceTest {
         val feltMap = lagMedVerdiliste()
 
         // Act
-        val result = pdfOppretterService.opprettPdf(feltMap)
-        val pdfReader = PdfReader(ByteArrayInputStream(result))
-        val pdfWriter = PdfWriter(ByteArrayOutputStream())
-        val pdfDoc = PdfADocument(pdfReader, pdfWriter)
+        val pdfDoc = opprettPdf(feltMap)
 
         // Assert
         for (pageNumber in 1..pdfDoc.numberOfPages) {
@@ -101,10 +108,7 @@ class PdfServiceTest {
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
     fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: Map<String, Any>) {
         // Act
-        val result = pdfOppretterService.opprettPdf(feltMap)
-        val pdfReader = PdfReader(ByteArrayInputStream(result))
-        val pdfWriter = PdfWriter(ByteArrayOutputStream())
-        val pdfDoc = PdfADocument(pdfReader, pdfWriter)
+        val pdfDoc = opprettPdf(feltMap)
         val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
@@ -118,10 +122,7 @@ class PdfServiceTest {
         forventetSide: Int,
     ) {
         // Act
-        val result = pdfOppretterService.opprettPdf(feltMap)
-        val pdfReader = PdfReader(ByteArrayInputStream(result))
-        val pdfWriter = PdfWriter(ByteArrayOutputStream())
-        val pdfDoc = PdfADocument(pdfReader, pdfWriter)
+        val pdfDoc = opprettPdf(feltMap)
         val firstPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
@@ -134,5 +135,35 @@ class PdfServiceTest {
             val actualPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
             assertTrue(actualPageText.contains(label))
         }
+    }
+
+    @ParameterizedTest
+    @MethodSource("tomAdresse")
+    fun `Pdf med innhold i Adresse blir renset for tom og flere linjeskift`(feltMap: Map<String, Any>) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val andreSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+        // Assert
+        assertTrue(andreSideTekst.contains("Ingen registrert adresse"))
+    }
+
+    @Test
+    fun `Pdf med en adresse og flere linjeskift blir redusert til ett linjeskift`() {
+        // Arrange
+        val feltMap = lagAdresseMedFlereLinjeskift()
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val andreSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+        // Assert
+        // Tror ekstra mellomrommet etter 12 er fordi pdf genereringen legger til en ekstra linje. Debuget og ser aldri hvor den blir lagt til.
+        assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
+    }
+
+    private fun opprettPdf(feltMap: Map<String, Any>): PdfADocument {
+        val result = pdfOppretterService.opprettPdf(feltMap)
+        val pdfReader = PdfReader(ByteArrayInputStream(result))
+        val pdfWriter = PdfWriter(ByteArrayOutputStream())
+        val pdfDoc = PdfADocument(pdfReader, pdfWriter)
+        return pdfDoc
     }
 }

@@ -27,7 +27,7 @@ object TabellUtils {
                     Paragraph(caption).apply {
                         setFontColor(DeviceRgb(0, 52, 125))
                         setFontSize(14f)
-                        setBold()
+                        simulateBold()
                     },
                 )
             }
@@ -86,7 +86,7 @@ object TabellUtils {
                 },
             ).apply {
                 setBorder(Border.NO_BORDER)
-                if (erUthevet) setBold()
+                if (erUthevet) simulateBold()
                 if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
                 accessibilityProperties.role = StandardRoles.TD
             }
@@ -100,7 +100,7 @@ object TabellUtils {
                 Paragraph(tekst).apply {
                     setFontColor(DeviceRgb(0, 86, 180))
                     setFontSize(14f)
-                    setBold()
+                    simulateBold()
                 },
             ).apply {
                 setBorder(Border.NO_BORDER)

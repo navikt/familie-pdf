@@ -5,7 +5,7 @@ import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.source.ByteArrayOutputStream
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
-import com.itextpdf.kernel.pdf.PdfAConformanceLevel
+import com.itextpdf.kernel.pdf.PdfAConformance
 import com.itextpdf.kernel.pdf.PdfOutputIntent
 import com.itextpdf.kernel.pdf.PdfString
 import com.itextpdf.kernel.pdf.PdfVersion
@@ -36,6 +36,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.TabellUtils.lagListeMedAlleBarn
 import no.nav.familie.pdf.pdf.TabellUtils.lagTabell
+import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -48,7 +49,7 @@ object PdfUtils {
         val pdfADokument =
             PdfADocument(
                 pdfWriter,
-                PdfAConformanceLevel.PDF_A_4,
+                PdfAConformance.PDF_A_4,
                 PdfOutputIntent("Custom", "", null, "sRGB IEC61966-2.1", inputStream),
             )
         pdfADokument.setTagged()
@@ -155,18 +156,16 @@ object PdfUtils {
                 },
             )
             when (element["visningsVariant"].toString()) {
-                "Tabell Barn" -> {
+                VisningsVariant.TABELL_BARN.toString() -> {
                     val listeMedAlleBarn = lagListeMedAlleBarn(element["verdiliste"] as List<*>)
                     listeMedAlleBarn.forEachIndexed { index, barn ->
                         val barneIndeksTekst = "Barn " + (index + 1).toString()
                         add(lagTabell(barn, barneIndeksTekst))
                     }
                 }
-
-                "Vedlegg" -> {
+                VisningsVariant.VEDLEGG.toString() -> {
                     håndterVedlegg(element["verdiliste"] as List<*>, this)
                 }
-
                 else -> {
                     håndterRekursivVerdiliste(element["verdiliste"] as List<*>, this)
                 }
