@@ -153,6 +153,7 @@ object PdfUtils {
             add(
                 lagOverskriftH2(element["label"].toString()).apply {
                     setDestination(navigeringDestinasjon)
+                    isKeepWithNext = true
                 },
             )
             when (element["visningsVariant"].toString()) {
