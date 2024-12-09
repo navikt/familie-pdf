@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jacoco
-          path: target/jacoco/IT/jacoco.xml
+          path: target/jacoco/jacoco.xml
           retention-days: 1
           overwrite: true
 
@@ -48,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: jacoco
-          path: target/jacoco/IT
+          path: target/jacoco
       - name: Cache Sonar packages
         uses: actions/cache@v4
         with:
@@ -62,4 +62,4 @@ jobs:
           SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
           SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
         run: |
-          mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths="jacoco/IT/jacoco.xml"
+          mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths="jacoco/jacoco.xml"
