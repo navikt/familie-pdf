@@ -149,7 +149,6 @@ object PdfUtils {
         navigeringDestinasjon: String,
     ): Div =
         Div().apply {
-            isKeepTogether = true
             add(
                 lagOverskriftH2(element["label"].toString()).apply {
                     setDestination(navigeringDestinasjon)
@@ -196,10 +195,14 @@ object PdfUtils {
             val verdilisteBarn = element["verdiliste"] as? List<*>
             val marginVenstre = 15f * rekursjonsDybde
             if (verdilisteBarn != null && verdilisteBarn.isNotEmpty()) {
-                seksjon.add(lagOverskriftH3(element["label"].toString()).apply { setMarginLeft(marginVenstre) })
+                seksjon.add(lagOverskriftH3(element["label"].toString()).apply { setMarginLeft(marginVenstre)
+                isKeepTogether = true
+                })
                 håndterRekursivVerdiliste(verdilisteBarn, seksjon, rekursjonsDybde + 1)
             } else if (element["verdi"] != null) {
-                seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+                seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre)
+                isKeepTogether = true
+                })
             }
         }
     }
