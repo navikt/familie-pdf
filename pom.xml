@@ -36,10 +36,11 @@
 
         <!--suppress UnresolvedMavenProperty  Ligger som secret i github-->
         <sonar.projectKey>${SONAR_PROJECTKEY}</sonar.projectKey>
-        <sonar.organization>navit</sonar.organization>
+        <sonar.organization>navikt</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <!--suppress UnresolvedMavenProperty Ligger som secret i github-->
-        <sonar.login>${SONAR_LOGIN}</sonar.login>
+
+        <!--suppress UnresolvedMavenProperty -->
+        <sonar.token>${SONAR_TOKEN}</sonar.token>
     </properties>
 
     <repositories>
@@ -206,15 +207,10 @@
             <version>${mockk.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
     </dependencies>
     <profiles>
         <profile>
-            <id>coverage</id>
+            <id>jacoco</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
@@ -223,6 +219,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.12</version>
                         <executions>
                             <execution>
                                 <id>prepare-agent</id>
@@ -237,6 +234,11 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <excludes>
+                                <exclude>no/nav/familie/pdf/config/**</exclude>
+                            </excludes>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
