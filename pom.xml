@@ -38,8 +38,9 @@
         <sonar.projectKey>${SONAR_PROJECTKEY}</sonar.projectKey>
         <sonar.organization>navikt</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <!--suppress UnresolvedMavenProperty Ligger som secret i github-->
-        <sonar.login>${SONAR_LOGIN}</sonar.login>
+
+        <!--suppress UnresolvedMavenProperty -->
+        <sonar.token>${SONAR_TOKEN}</sonar.token>
     </properties>
 
     <repositories>

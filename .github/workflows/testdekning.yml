@@ -59,7 +59,6 @@ jobs:
         env:
           GITHUB_USERNAME: x-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_PROJECTKEY: ${{ secrets.SONAR_PROJECTKEY }}
-          SONAR_LOGIN: ${{ secrets.SONAR_LOGIN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths="jacoco/jacoco.xml"
