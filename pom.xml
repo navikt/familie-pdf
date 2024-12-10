@@ -209,7 +209,7 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>coverage</id>
+            <id>jacoco</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
