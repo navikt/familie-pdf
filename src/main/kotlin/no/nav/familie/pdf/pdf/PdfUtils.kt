@@ -3,6 +3,7 @@ package no.nav.familie.pdf.pdf
 import com.itextpdf.io.font.FontProgramFactory
 import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.source.ByteArrayOutputStream
+import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfAConformance
@@ -170,7 +171,7 @@ object PdfUtils {
                     håndterRekursivVerdiliste(element["verdiliste"] as List<*>, this)
                 }
             }
-            add(LineSeparator(SolidLine()))
+            add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
 
     private fun håndterVedlegg(
