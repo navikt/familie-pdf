@@ -6,7 +6,6 @@ import no.nav.familie.pdf.pdf.PdfValidator
 import no.nav.familie.pdf.pdf.domain.PdfStandard
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
@@ -32,12 +31,5 @@ class PdfValidatorTest {
         // Assert
         // Spesial-tilfelle fordi regel 8.8-2 ikke er oppfylt ved klikkbar lenke i innholdsfortegnelsen
         assertTrue(result.feiletRegel.contains("[specification=ISO 14289-2:2024 clause=8.8 testNumber=2]=12") || result.samsvarer, "Pdf-en samsvarer ikke med standarden $standard med feilen ${result.feiletRegel}")
-    }
-
-    @Test
-    fun `validerPdf skal validere for PDFA-standarder`() {
-        val result = PdfValidator.validerPdf()
-        // Assert
-        assertTrue(result.equals("efef"))
     }
 }

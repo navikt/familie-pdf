@@ -21,8 +21,6 @@ object PdfValidator {
         }
     }
 
-    fun validerPdf(): String = "efef"
-
     private fun filtrerRegler(feiledeRegler: String): List<String> {
         // Noen regler er i konflikt med hverandre.
         // F.eks. 6.7.11-3 forventer en A-erklæring for PDF/A-1A, og en B-erklæring for PDF/A-1B
