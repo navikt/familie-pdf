@@ -20,6 +20,7 @@ object TabellUtils {
                 setMarginBottom(10f)
                 setMarginLeft(15f)
                 accessibilityProperties.role = StandardRoles.TABLE
+                isKeepTogether = true
             }
         val captionDiv =
             Div().apply {
