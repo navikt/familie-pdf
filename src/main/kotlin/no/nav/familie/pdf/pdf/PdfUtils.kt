@@ -157,35 +157,41 @@ object PdfUtils {
             )
             val verdiliste = element["verdiliste"] as List<*>
 
-            when (element["visningsVariant"].toString()) {
-                VisningsVariant.TABELL_BARN.toString() -> {
-                    val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, "Navn")
-                    listeMedAlleBarn.forEachIndexed { index, barn ->
-                        val barneIndeksTekst = "Barn " + (index + 1).toString()
-                        add(lagTabell(barn, barneIndeksTekst))
-                    }
-                }
-                VisningsVariant.VEDLEGG.toString() -> {
-                    håndterVedlegg(verdiliste, this)
-                }
-                VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                    val verdilisteUtenArbeidsforhold = verdiliste.filterIndexed { index, _ -> index != 1  }
-                    håndterRekursivVerdiliste(verdilisteUtenArbeidsforhold, this)
-                    //Henter ut verdilisten til andre element, fordi dette er arbeidsforholdende vi ønsker å ha tabell på
-                    val arbeidsforholdVerdiliste = (verdiliste.getOrNull(1) as? Map<*, *>)?.get("verdiliste") as? List<*> ?: emptyList<Any>()
-                    val listeMedAlleArbeidsforhold = lagListeMedAlleElementer(arbeidsforholdVerdiliste, "Navn på arbeidssted")
-                    listeMedAlleArbeidsforhold.forEachIndexed { index, arbeidsforhold ->
-                        val arbeidsforholdTekst = "Arbeidsforhold " + (index + 1).toString()
-                        add(lagTabell(arbeidsforhold, arbeidsforholdTekst))
-                    }
-                }
-
-                else -> {
-                    håndterRekursivVerdiliste(verdiliste, this)
-                }
+            if ("visningsVariant" in element) {
+                håndterVisningsvariant(element["visningsVariant"].toString(), verdiliste, this)
+            } else {
+                håndterRekursivVerdiliste(verdiliste, this)
             }
             add(LineSeparator(SolidLine()))
         }
+
+    private fun håndterVisningsvariant(
+        visningsVariant: String,
+        verdiliste: List<*>,
+        seksjon: Div,
+    ) {
+        when (visningsVariant) {
+            VisningsVariant.TABELL_BARN.toString() -> {
+                val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, "Navn")
+                listeMedAlleBarn.forEachIndexed { index, barn ->
+                    val barneIndeksTekst = "Barn " + (index + 1).toString()
+                    seksjon.add(lagTabell(barn, barneIndeksTekst))
+                }
+            }
+
+            VisningsVariant.VEDLEGG.toString() -> {
+                håndterVedlegg(verdiliste, seksjon)
+            }
+
+            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
+                val listeMedAlleArbeidsforhold = lagListeMedAlleElementer(verdiliste, "Navn på arbeidssted")
+                listeMedAlleArbeidsforhold.forEachIndexed { index, arbeidsforhold ->
+                    val arbeidsforholdIndexTekst = "Arbeidsforhold " + (index + 1).toString()
+                    seksjon.add(lagTabell(arbeidsforhold, arbeidsforholdIndexTekst))
+                }
+            }
+        }
+    }
 
     private fun håndterVedlegg(
         verdiListe: List<*>,
@@ -209,7 +215,14 @@ object PdfUtils {
         verdiliste.filterIsInstance<Map<*, *>>().forEach { element ->
             val verdilisteBarn = element["verdiliste"] as? List<*>
             val marginVenstre = 15f * rekursjonsDybde
-            if (verdilisteBarn != null && verdilisteBarn.isNotEmpty()) {
+
+            if ("visningsVariant" in element) {
+                håndterVisningsvariant(
+                    element["visningsVariant"].toString(),
+                    verdilisteBarn ?: emptyList<Any>(),
+                    seksjon,
+                )
+            } else if (verdilisteBarn != null && verdilisteBarn.isNotEmpty()) {
                 seksjon.add(lagOverskriftH3(element["label"].toString()).apply { setMarginLeft(marginVenstre) })
                 håndterRekursivVerdiliste(verdilisteBarn, seksjon, rekursjonsDybde + 1)
             } else if (element["verdi"] != null) {

@@ -39,10 +39,13 @@ object TabellUtils {
         return tabell
     }
 
-    fun lagListeMedAlleElementer(elementer: List<*>, strengManSkalSplitteTabellPå: String): List<List<*>> {
+    fun lagListeMedAlleElementer(
+        elementer: List<*>,
+        strengManSkalSplitteTabellPå: String,
+    ): List<List<*>> {
         val listeMedAlleElementer = mutableListOf<List<*>>()
         var nåværendeElement = mutableListOf<Map<*, *>>()
-        elementer.filterIsInstance<Map<*,*>>().forEachIndexed { index, item ->
+        elementer.filterIsInstance<Map<*, *>>().forEachIndexed { index, item ->
             if (item["label"].toString() == strengManSkalSplitteTabellPå && index != 0) {
                 listeMedAlleElementer.add(nåværendeElement)
                 nåværendeElement = mutableListOf()
