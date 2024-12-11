@@ -34,7 +34,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellUtils.lagListeMedAlleBarn
+import no.nav.familie.pdf.pdf.TabellUtils.lagListeMedAlleElementer
 import no.nav.familie.pdf.pdf.TabellUtils.lagTabell
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
@@ -155,19 +155,33 @@ object PdfUtils {
                     setDestination(navigeringDestinasjon)
                 },
             )
+            val verdiliste = element["verdiliste"] as List<*>
+
             when (element["visningsVariant"].toString()) {
                 VisningsVariant.TABELL_BARN.toString() -> {
-                    val listeMedAlleBarn = lagListeMedAlleBarn(element["verdiliste"] as List<*>)
+                    val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, "Navn")
                     listeMedAlleBarn.forEachIndexed { index, barn ->
                         val barneIndeksTekst = "Barn " + (index + 1).toString()
                         add(lagTabell(barn, barneIndeksTekst))
                     }
                 }
                 VisningsVariant.VEDLEGG.toString() -> {
-                    håndterVedlegg(element["verdiliste"] as List<*>, this)
+                    håndterVedlegg(verdiliste, this)
                 }
+                VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
+                    val verdilisteUtenArbeidsforhold = verdiliste.filterIndexed { index, _ -> index != 1  }
+                    håndterRekursivVerdiliste(verdilisteUtenArbeidsforhold, this)
+                    //Henter ut verdilisten til andre element, fordi dette er arbeidsforholdende vi ønsker å ha tabell på
+                    val arbeidsforholdVerdiliste = (verdiliste.getOrNull(1) as? Map<*, *>)?.get("verdiliste") as? List<*> ?: emptyList<Any>()
+                    val listeMedAlleArbeidsforhold = lagListeMedAlleElementer(arbeidsforholdVerdiliste, "Navn på arbeidssted")
+                    listeMedAlleArbeidsforhold.forEachIndexed { index, arbeidsforhold ->
+                        val arbeidsforholdTekst = "Arbeidsforhold " + (index + 1).toString()
+                        add(lagTabell(arbeidsforhold, arbeidsforholdTekst))
+                    }
+                }
+
                 else -> {
-                    håndterRekursivVerdiliste(element["verdiliste"] as List<*>, this)
+                    håndterRekursivVerdiliste(verdiliste, this)
                 }
             }
             add(LineSeparator(SolidLine()))
