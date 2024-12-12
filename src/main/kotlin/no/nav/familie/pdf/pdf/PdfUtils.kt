@@ -3,6 +3,7 @@ package no.nav.familie.pdf.pdf
 import com.itextpdf.io.font.FontProgramFactory
 import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.source.ByteArrayOutputStream
+import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfAConformance
@@ -148,7 +149,6 @@ object PdfUtils {
         navigeringDestinasjon: String,
     ): Div =
         Div().apply {
-            isKeepTogether = true
             add(
                 lagOverskriftH2(element["label"].toString()).apply {
                     setDestination(navigeringDestinasjon)
@@ -161,7 +161,7 @@ object PdfUtils {
             } else {
                 håndterRekursivVerdiliste(verdiliste, this)
             }
-            add(LineSeparator(SolidLine()))
+            add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
 
     private fun håndterVisningsvariant(
@@ -206,18 +206,20 @@ object PdfUtils {
         verdiliste.filterIsInstance<Map<*, *>>().forEach { element ->
             val verdilisteBarn = element["verdiliste"] as? List<*>
             val marginVenstre = 15f * rekursjonsDybde
-
-            if ("visningsVariant" in element) {
-                håndterVisningsvariant(
-                    element["visningsVariant"].toString(),
-                    verdilisteBarn ?: emptyList<Any>(),
-                    seksjon,
-                )
-            } else if (verdilisteBarn != null && verdilisteBarn.isNotEmpty()) {
-                seksjon.add(lagOverskriftH3(element["label"].toString()).apply { setMarginLeft(marginVenstre) })
-                håndterRekursivVerdiliste(verdilisteBarn, seksjon, rekursjonsDybde + 1)
-            } else if (element["verdi"] != null) {
-                seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+            Div().apply {
+                isKeepTogether = true
+                if ("visningsVariant" in element) {
+                    håndterVisningsvariant(
+                        element["visningsVariant"].toString(),
+                        verdilisteBarn ?: emptyList<Any>(),
+                        seksjon,
+                    )
+                } else if (verdilisteBarn != null && verdilisteBarn.isNotEmpty()) {
+                    seksjon.add(lagOverskriftH3(element["label"].toString()).apply { setMarginLeft(marginVenstre) })
+                    håndterRekursivVerdiliste(verdilisteBarn, seksjon, rekursjonsDybde + 1)
+                } else if (element["verdi"] != null) {
+                    seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+                }
             }
         }
     }
