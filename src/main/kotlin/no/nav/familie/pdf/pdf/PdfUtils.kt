@@ -34,8 +34,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellUtils.lagListeMedAlleElementer
-import no.nav.familie.pdf.pdf.TabellUtils.lagTabell
+import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
@@ -172,23 +171,15 @@ object PdfUtils {
     ) {
         when (visningsVariant) {
             VisningsVariant.TABELL_BARN.toString() -> {
-                val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, "Navn")
-                listeMedAlleBarn.forEachIndexed { index, barn ->
-                    val barneIndeksTekst = "Barn " + (index + 1).toString()
-                    seksjon.add(lagTabell(barn, barneIndeksTekst))
-                }
+                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
+            }
+
+            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
+                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
             }
 
             VisningsVariant.VEDLEGG.toString() -> {
                 håndterVedlegg(verdiliste, seksjon)
-            }
-
-            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                val listeMedAlleArbeidsforhold = lagListeMedAlleElementer(verdiliste, "Navn på arbeidssted")
-                listeMedAlleArbeidsforhold.forEachIndexed { index, arbeidsforhold ->
-                    val arbeidsforholdIndexTekst = "Arbeidsforhold " + (index + 1).toString()
-                    seksjon.add(lagTabell(arbeidsforhold, arbeidsforholdIndexTekst))
-                }
             }
         }
     }

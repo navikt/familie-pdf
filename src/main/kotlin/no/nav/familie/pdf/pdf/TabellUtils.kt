@@ -39,7 +39,7 @@ object TabellUtils {
         return tabell
     }
 
-    fun lagListeMedAlleElementer(
+    private fun lagListeMedAlleElementer(
         elementer: List<*>,
         strengManSkalSplitteTabellPå: String,
     ): List<List<*>> {
@@ -109,4 +109,17 @@ object TabellUtils {
                 if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
                 accessibilityProperties.role = StandardRoles.TH
             }
+
+    fun håndterTabellBasertPåVisningsvariant(
+        verdiliste: List<*>,
+        strengManSkalSplitteTabellPå: String,
+        prefiks: String,
+        seksjon: Div,
+    ) {
+        val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, strengManSkalSplitteTabellPå)
+        listeMedAlleBarn.forEachIndexed { index, barn ->
+            val barneIndeksTekst = "$prefiks ${index + 1}"
+            seksjon.add(lagTabell(barn, barneIndeksTekst))
+        }
+    }
 }
