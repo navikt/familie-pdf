@@ -39,19 +39,21 @@ object TabellUtils {
         return tabell
     }
 
-    fun lagListeMedAlleBarn(barneData: List<*>): List<List<*>> {
-        val listeMedAlleBarn = mutableListOf<List<*>>()
-        var nåværendeBarn =
-            mutableListOf<Map<*, *>>() // Dette er ett av x barn, hvor attributtene til barnet er lagret som en liste
-        barneData.filterIsInstance<Map<*, *>>().forEachIndexed { index, item ->
-            if (item["label"].toString() == "Navn" && index != 0) {
-                listeMedAlleBarn.add(nåværendeBarn)
-                nåværendeBarn = mutableListOf()
+    private fun lagListeMedAlleElementer(
+        elementer: List<*>,
+        strengManSkalSplitteTabellPå: String,
+    ): List<List<*>> {
+        val listeMedAlleElementer = mutableListOf<List<*>>()
+        var nåværendeElement = mutableListOf<Map<*, *>>()
+        elementer.filterIsInstance<Map<*, *>>().forEachIndexed { index, item ->
+            if (item["label"].toString() == strengManSkalSplitteTabellPå && index != 0) {
+                listeMedAlleElementer.add(nåværendeElement)
+                nåværendeElement = mutableListOf()
             }
-            nåværendeBarn.add(item)
+            nåværendeElement.add(item)
         }
-        listeMedAlleBarn.add(nåværendeBarn)
-        return listeMedAlleBarn
+        listeMedAlleElementer.add(nåværendeElement)
+        return listeMedAlleElementer
     }
 
     private fun lagTabellRekursivt(
@@ -107,4 +109,17 @@ object TabellUtils {
                 if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
                 accessibilityProperties.role = StandardRoles.TH
             }
+
+    fun håndterTabellBasertPåVisningsvariant(
+        verdiliste: List<*>,
+        strengManSkalSplitteTabellPå: String,
+        prefiks: String,
+        seksjon: Div,
+    ) {
+        val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, strengManSkalSplitteTabellPå)
+        listeMedAlleBarn.forEachIndexed { index, barn ->
+            val barneIndeksTekst = "$prefiks ${index + 1}"
+            seksjon.add(lagTabell(barn, barneIndeksTekst))
+        }
+    }
 }

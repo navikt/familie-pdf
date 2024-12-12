@@ -7,6 +7,7 @@ import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
@@ -46,6 +47,12 @@ class PdfServiceTest {
             Stream.of(
                 lagAdresseMedBareLinjeskift(),
                 lagMedTomAdresse(),
+            )
+
+        @JvmStatic
+        fun flereArbeidsforhold(): Stream<Map<String, Any>> =
+            Stream.of(
+                lagMedFlereArbeidsforhold(),
             )
     }
 
@@ -113,6 +120,18 @@ class PdfServiceTest {
 
         // Assert
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+    }
+
+    @ParameterizedTest
+    @MethodSource("flereArbeidsforhold")
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: Map<String, Any>) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        assertTrue(tekstIPdf.contains("Arbeidsforhold 1"))
+        assertTrue(tekstIPdf.contains("Arbeidsforhold 2"))
     }
 
     @ParameterizedTest

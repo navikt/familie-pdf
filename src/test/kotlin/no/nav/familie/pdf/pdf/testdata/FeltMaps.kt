@@ -82,3 +82,21 @@ private fun lagGjentattInnhold(antallGanger: Int): List<Map<String, Any>> =
             "verdiliste" to emptyList<Any>(),
         )
     }
+
+fun lagMedFlereArbeidsforhold(): Map<String, Any> =
+    mapOf(
+        "label" to "Arbeid, utdanning og andre aktiviteter",
+        "verdiliste" to
+            listOf(
+                mapOf("label" to "Hvordan er situasjonen din?", "verdi" to "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)"),
+                mapOf(
+                    "label" to "Om arbeidsforholdet ditt",
+                    "visningsVariant" to "TABELL_ARBEIDSFORHOLD",
+                    "verdiliste" to
+                        listOf(
+                            mapOf("label" to "Navn på arbeidssted", "verdi" to "Norge.as"),
+                            mapOf("label" to "Navn på arbeidssted", "verdi" to "Sverige.as"),
+                        ),
+                ),
+            ),
+    )
