@@ -181,6 +181,8 @@ object PdfUtils {
             VisningsVariant.VEDLEGG.toString() -> {
                 håndterVedlegg(verdiliste, seksjon)
             }
+            else ->
+                lagTekstElement(visningsVariant)
         }
     }
 
