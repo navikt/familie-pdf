@@ -36,7 +36,6 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
-import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -169,16 +168,14 @@ object PdfUtils {
         verdiliste: List<*>,
         seksjon: Div,
     ) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL_BARN.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
+        when {
+            visningsVariant.contains("TABELLER_2_KOLONNER") -> {
+                val strengSomSkalSjekkesPå = visningsVariant.split(", ")[1]
+                val tabellTittel = visningsVariant.split(", ")[2]
+                håndterTabellBasertPåVisningsvariant(verdiliste, strengSomSkalSjekkesPå, tabellTittel, seksjon)
             }
 
-            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
-            }
-
-            VisningsVariant.VEDLEGG.toString() -> {
+            visningsVariant == "VEDLEGG" -> {
                 håndterVedlegg(verdiliste, seksjon)
             }
             else ->
