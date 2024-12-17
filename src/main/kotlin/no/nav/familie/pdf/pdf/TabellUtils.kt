@@ -60,13 +60,15 @@ object TabellUtils {
         tabellData: List<*>,
         tabell: Table,
     ) {
-        tabellData.filterIsInstance<Map<*, *>>().forEach { item ->
+        tabellData.filterIsInstance<Map<*, *>>().forEachIndexed { index, item ->
             val label = item["label"].toString()
             val value = item["verdi"]?.toString() ?: ""
+            val backgroundColor = if (index % 2 == 0) DeviceRgb(211, 211, 211) else DeviceRgb(255, 255, 255)
+
             when {
                 item["verdi"] != null -> {
-                    tabell.addCell(lagTabellInformasjonscelle(label, erUthevet = true))
-                    tabell.addCell(lagTabellInformasjonscelle(value.ifEmpty { " " }, false))
+                    tabell.addCell(lagTabellInformasjonscelle(label + " " + index, erUthevet = true).apply { setBackgroundColor(backgroundColor) })
+                    tabell.addCell(lagTabellInformasjonscelle(value.ifEmpty { " " } + " " + index, false).apply { setBackgroundColor(backgroundColor) })
                 }
 
                 item["verdiliste"] != null -> {
