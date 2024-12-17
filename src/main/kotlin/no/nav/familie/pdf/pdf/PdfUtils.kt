@@ -37,7 +37,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.domain.VerdilisteItem
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
@@ -147,7 +147,7 @@ object PdfUtils {
     }
 
     private fun lagSeksjon(
-        element: VerdilisteItem,
+        element: VerdilisteElement,
         navigeringDestinasjon: String,
     ): Div =
         Div().apply {
@@ -168,7 +168,7 @@ object PdfUtils {
 
     private fun håndterVisningsvariant(
         visningsVariant: String,
-        verdiliste: List<VerdilisteItem>,
+        verdiliste: List<VerdilisteElement>,
         seksjon: Div,
     ) {
         when (visningsVariant) {
@@ -187,7 +187,7 @@ object PdfUtils {
     }
 
     private fun håndterVedlegg(
-        verdiListe: List<VerdilisteItem>,
+        verdiListe: List<VerdilisteElement>,
         seksjon: Div,
     ) {
         verdiListe.forEach { vedlegg ->
@@ -201,7 +201,7 @@ object PdfUtils {
     }
 
     private fun håndterRekursivVerdiliste(
-        verdiliste: List<VerdilisteItem>,
+        verdiliste: List<VerdilisteElement>,
         seksjon: Div,
         rekursjonsDybde: Int = 1,
     ) {

@@ -8,11 +8,11 @@ import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
-import no.nav.familie.pdf.pdf.domain.VerdilisteItem
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object TabellUtils {
     fun lagTabell(
-        tabellData: List<VerdilisteItem>,
+        tabellData: List<VerdilisteElement>,
         caption: String,
     ): Table {
         val tabell =
@@ -41,11 +41,11 @@ object TabellUtils {
     }
 
     private fun lagListeMedAlleElementer(
-        elementer: List<VerdilisteItem>,
+        elementer: List<VerdilisteElement>,
         strengManSkalSplitteTabellPå: String,
-    ): List<List<VerdilisteItem>> {
-        val listeMedAlleElementer = mutableListOf<List<VerdilisteItem>>()
-        var nåværendeElement = mutableListOf<VerdilisteItem>()
+    ): List<List<VerdilisteElement>> {
+        val listeMedAlleElementer = mutableListOf<List<VerdilisteElement>>()
+        var nåværendeElement = mutableListOf<VerdilisteElement>()
         elementer.forEachIndexed { index, item ->
             if (item.label == strengManSkalSplitteTabellPå && index != 0) {
                 listeMedAlleElementer.add(nåværendeElement)
@@ -58,7 +58,7 @@ object TabellUtils {
     }
 
     private fun lagTabellRekursivt(
-        tabellData: List<VerdilisteItem>,
+        tabellData: List<VerdilisteElement>,
         tabell: Table,
     ) {
         tabellData.forEach { item ->
@@ -112,7 +112,7 @@ object TabellUtils {
             }
 
     fun håndterTabellBasertPåVisningsvariant(
-        verdiliste: List<VerdilisteItem>,
+        verdiliste: List<VerdilisteElement>,
         strengManSkalSplitteTabellPå: String,
         prefiks: String,
         seksjon: Div,

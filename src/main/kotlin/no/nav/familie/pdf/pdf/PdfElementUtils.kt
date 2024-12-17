@@ -6,7 +6,7 @@ import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
-import no.nav.familie.pdf.pdf.domain.VerdilisteItem
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object PdfElementUtils {
     fun navLogoBilde(): Image =
@@ -16,7 +16,7 @@ object PdfElementUtils {
             accessibilityProperties.alternateDescription = "NAV logo"
         }
 
-    fun lagVerdiElement(element: VerdilisteItem): Paragraph =
+    fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
             (element.label)
                 .takeIf { it?.isNotEmpty() == true }

@@ -1,7 +1,7 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils
 
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.domain.VerdilisteItem
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 private val søknadsTittel = "Søknad om overgangsstønad (NAV 15-00.01)"
@@ -10,15 +10,15 @@ fun lagMedTomVerdiliste(): FeltMap = FeltMap(søknadsTittel, emptyList())
 
 fun lagMedVerdiliste(): FeltMap =
     FeltMap(
-        label = "Søknad om overgangsstønad",
+        label = søknadsTittel,
         verdiliste =
             listOf(
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Innsendingsdetaljer",
                     verdiliste =
                         listOf(
-                            VerdilisteItem(label = "Navn", verdi = "Kåre"),
-                            VerdilisteItem(label = "Født", verdi = "Ja"),
+                            VerdilisteElement(label = "Navn", verdi = "Kåre"),
+                            VerdilisteElement(label = "Født", verdi = "Ja"),
                         ),
                 ),
             ),
@@ -26,18 +26,18 @@ fun lagMedVerdiliste(): FeltMap =
 
 fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
     FeltMap(
-        label = "Søknad om overgangsstønad",
+        label = søknadsTittel,
         verdiliste =
             listOf(
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Barna dine",
                     verdiliste = emptyList(),
                 ),
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Innsendingsdetaljer",
                     verdiliste =
                         listOf(
-                            VerdilisteItem(label = "Navn", verdi = "Bjarne"),
+                            VerdilisteElement(label = "Navn", verdi = "Bjarne"),
                         ),
                 ),
             ),
@@ -45,14 +45,14 @@ fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
 
 fun lagMedTomAdresse(): FeltMap =
     FeltMap(
-        label = "Søknad om overgangsstønad",
+        label = søknadsTittel,
         verdiliste =
             listOf(
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Søker",
                     verdiliste =
                         listOf(
-                            VerdilisteItem(label = "Adresse", verdi = ""),
+                            VerdilisteElement(label = "Adresse", verdi = ""),
                         ),
                 ),
             ),
@@ -60,14 +60,14 @@ fun lagMedTomAdresse(): FeltMap =
 
 fun lagAdresseMedBareLinjeskift(): FeltMap =
     FeltMap(
-        label = "Søknad om overgangsstønad",
+        label = søknadsTittel,
         verdiliste =
             listOf(
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Søker",
                     verdiliste =
                         listOf(
-                            VerdilisteItem(label = "Adresse", verdi = "\n\n\n\n"),
+                            VerdilisteElement(label = "Adresse", verdi = "\n\n\n\n"),
                         ),
                 ),
             ),
@@ -75,14 +75,14 @@ fun lagAdresseMedBareLinjeskift(): FeltMap =
 
 fun lagAdresseMedFlereLinjeskift(): FeltMap =
     FeltMap(
-        label = "Søknad om overgangsstønad",
+        label = søknadsTittel,
         verdiliste =
             listOf(
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Søker",
                     verdiliste =
                         listOf(
-                            VerdilisteItem(label = "Adresse", verdi = "Adresse 12\n\n\n\n0999 Oslo"),
+                            VerdilisteElement(label = "Adresse", verdi = "Adresse 12\n\n\n\n0999 Oslo"),
                         ),
                 ),
             ),
@@ -90,9 +90,9 @@ fun lagAdresseMedFlereLinjeskift(): FeltMap =
 
 fun lagToSiderInnholdsfortegnelse(): FeltMap = FeltMap(søknadsTittel, lagGjentattInnhold(48))
 
-private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteItem> =
+private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteElement> =
     List(antallGanger) { indeks ->
-        VerdilisteItem(
+        VerdilisteElement(
             label = "Innsendingsdetaljer${if (indeks > 0) indeks + 1 else ""}",
             verdiliste = emptyList(),
         )
@@ -103,17 +103,17 @@ fun lagMedFlereArbeidsforhold(): FeltMap =
         label = "Arbeid, utdanning og andre aktiviteter",
         verdiliste =
             listOf(
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Hvordan er situasjonen din?",
                     verdi = "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)",
                 ),
-                VerdilisteItem(
+                VerdilisteElement(
                     label = "Om arbeidsforholdet ditt",
                     visningsVariant = VisningsVariant.TABELL_ARBEIDSFORHOLD.toString(),
                     verdiliste =
                         listOf(
-                            VerdilisteItem(label = "Navn på arbeidssted", verdi = "Norge.as"),
-                            VerdilisteItem(label = "Navn på arbeidssted", verdi = "Sverige.as"),
+                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Norge.as"),
+                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Sverige.as"),
                         ),
                 ),
             ),
