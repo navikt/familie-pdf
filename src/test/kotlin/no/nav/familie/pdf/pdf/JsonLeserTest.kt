@@ -10,11 +10,11 @@ class JsonLeserTest {
         // Act
         val resultat = lesSøknadJson()
         // Assert
-        assertEquals("Søknad om overgangsstønad (NAV 15-00.01)", resultat["label"])
-        val verdiliste = resultat["verdiliste"] as List<Map<String, Any>>
-        assertEquals("Innsendingsdetaljer", verdiliste[0]["label"])
-        val innsendingsdetaljer = verdiliste[0]["verdiliste"] as List<Map<String, Any>>
-        assertEquals("Dato mottatt", innsendingsdetaljer[0]["label"])
-        assertEquals("09.10.2024 09:59:35", innsendingsdetaljer[0]["verdi"])
+        assertEquals("Søknad om overgangsstønad (NAV 15-00.01)", resultat.label)
+        val verdiliste = resultat.verdiliste
+        assertEquals("Innsendingsdetaljer", verdiliste[0].label)
+        val innsendingsdetaljer = verdiliste[0].verdiliste
+        assertEquals("Dato mottatt", innsendingsdetaljer?.get(0)?.label)
+        assertEquals("09.10.2024 09:59:35", innsendingsdetaljer?.get(0)?.verdi)
     }
 }

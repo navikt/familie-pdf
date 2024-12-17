@@ -36,6 +36,8 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
+import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.domain.VerdilisteItem
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
@@ -69,7 +71,7 @@ object PdfUtils {
 
     fun lagDokument(
         pdfADokument: PdfADocument,
-        feltMap: Map<String, Any>,
+        feltMap: FeltMap,
     ) {
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
         val sideantallInnholdsfortegnelse = kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse)
@@ -84,7 +86,7 @@ object PdfUtils {
                 pdfADokument,
                 sideantallInnholdsfortegnelse,
             )
-            leggTilForsideMedInnholdsfortegnelse(feltMap["label"].toString(), innholdsfortegnelse)
+            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
             leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
             leggTilSidevisning(pdfADokument)
             close()
@@ -92,7 +94,7 @@ object PdfUtils {
     }
 
     private fun kalkulerSideantallInnholdsfortegnelse(
-        feltMap: Map<String, Any>,
+        feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
         sideAntallInnholdsfortegnelse: Int = 0,
     ): Int {
@@ -106,7 +108,7 @@ object PdfUtils {
                 sideAntallInnholdsfortegnelse,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
-            leggTilForsideMedInnholdsfortegnelse(feltMap["label"].toString(), innholdsfortegnelse)
+            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
             val sideAntallEtterInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             close()
             innholdsfortegnelse.clear()
@@ -125,18 +127,18 @@ object PdfUtils {
     }
 
     private fun Document.leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
-        feltMap: Map<String, Any>,
+        feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
         pdfADokument: PdfADocument,
         sideAntallInnholdsfortegnelse: Int = 0,
     ) {
-        (feltMap["verdiliste"] as? List<*>)?.filterIsInstance<Map<*, *>>()?.forEach { element ->
-            (element["verdiliste"] as? List<*>)?.let {
-                val navigeringDestinasjon = element["label"].toString()
+        feltMap.verdiliste.forEach { element ->
+            element.verdiliste.let {
+                val navigeringDestinasjon = element.label
                 add(lagSeksjon(element, navigeringDestinasjon))
                 innholdsfortegnelse.add(
                     InnholdsfortegnelseOppføringer(
-                        element["label"].toString(),
+                        element.label,
                         pdfADokument.numberOfPages + sideAntallInnholdsfortegnelse,
                     ),
                 )
@@ -145,28 +147,28 @@ object PdfUtils {
     }
 
     private fun lagSeksjon(
-        element: Map<*, *>,
+        element: VerdilisteItem,
         navigeringDestinasjon: String,
     ): Div =
         Div().apply {
             add(
-                lagOverskriftH2(element["label"].toString()).apply {
+                lagOverskriftH2(element.label).apply {
                     setDestination(navigeringDestinasjon)
                 },
             )
-            val verdiliste = element["verdiliste"] as List<*>
-
-            if ("visningsVariant" in element) {
-                håndterVisningsvariant(element["visningsVariant"].toString(), verdiliste, this)
-            } else {
-                håndterRekursivVerdiliste(verdiliste, this)
+            if (element.verdiliste != null) {
+                if (element.visningsVariant != null) {
+                    håndterVisningsvariant(element.visningsVariant, element.verdiliste, this)
+                } else {
+                    håndterRekursivVerdiliste(element.verdiliste, this)
+                }
             }
             add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
 
     private fun håndterVisningsvariant(
         visningsVariant: String,
-        verdiliste: List<*>,
+        verdiliste: List<VerdilisteItem>,
         seksjon: Div,
     ) {
         when (visningsVariant) {
@@ -185,11 +187,11 @@ object PdfUtils {
     }
 
     private fun håndterVedlegg(
-        verdiListe: List<*>,
+        verdiListe: List<VerdilisteItem>,
         seksjon: Div,
     ) {
-        verdiListe.filterIsInstance<Map<*, *>>().forEach { vedlegg ->
-            val vedleggInnhold = vedlegg["verdi"]
+        verdiListe.forEach { vedlegg ->
+            val vedleggInnhold = vedlegg.verdi
             if (vedleggInnhold == "") {
                 seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
             } else {
@@ -199,25 +201,25 @@ object PdfUtils {
     }
 
     private fun håndterRekursivVerdiliste(
-        verdiliste: List<*>,
+        verdiliste: List<VerdilisteItem>,
         seksjon: Div,
         rekursjonsDybde: Int = 1,
     ) {
-        verdiliste.filterIsInstance<Map<*, *>>().forEach { element ->
-            val verdilisteBarn = element["verdiliste"] as? List<*>
+        verdiliste.forEach { element ->
+            val verdilisteBarn = element.verdiliste
             val marginVenstre = 15f * rekursjonsDybde
             Div().apply {
                 isKeepTogether = true
-                if ("visningsVariant" in element) {
+                if (element.visningsVariant != null) {
                     håndterVisningsvariant(
-                        element["visningsVariant"].toString(),
-                        verdilisteBarn ?: emptyList<Any>(),
+                        element.visningsVariant,
+                        verdilisteBarn ?: emptyList(),
                         seksjon,
                     )
                 } else if (verdilisteBarn != null && verdilisteBarn.isNotEmpty()) {
-                    seksjon.add(lagOverskriftH3(element["label"].toString()).apply { setMarginLeft(marginVenstre) })
+                    seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
                     håndterRekursivVerdiliste(verdilisteBarn, seksjon, rekursjonsDybde + 1)
-                } else if (element["verdi"] != null) {
+                } else if (element.verdi != null) {
                     seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
                 }
             }

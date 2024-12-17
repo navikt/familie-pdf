@@ -1,6 +1,7 @@
 package no.nav.familie.pdf.pdf
 
 import no.nav.familie.pdf.pdf.JsonLeser.lesSøknadJson
+import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.familie.pdf.pdf.domain.PdfStandard
 import no.nav.familie.pdf.pdf.domain.Standard
@@ -13,7 +14,7 @@ class TestPdfService(
         return opprettPdfMedStandarder(feltMap)
     }
 
-    fun opprettPdfMedStandarder(feltMap: Map<String, Any>): PdfMedStandarder {
+    fun opprettPdfMedStandarder(feltMap: FeltMap): PdfMedStandarder {
         val pdf = pdfService.opprettPdf(feltMap)
         val pdfMedStandarder =
             PdfMedStandarder(

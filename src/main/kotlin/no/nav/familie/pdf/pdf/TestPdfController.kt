@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.pdf
 
+import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.security.token.support.core.api.Unprotected
 import org.springframework.context.annotation.Profile
@@ -25,6 +26,6 @@ class TestPdfController {
     @CrossOrigin(origins = ["http://localhost:5173"])
     @PostMapping("/pdf-med-standarder")
     fun opprettPdfMedValidering(
-        @RequestBody søknad: Map<String, Any>,
+        @RequestBody søknad: FeltMap,
     ): PdfMedStandarder = testPdfService.opprettPdfMedStandarder(søknad)
 }

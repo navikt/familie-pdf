@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.pdf
 
+import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,6 +17,6 @@ class PdfController {
 
     @PostMapping("/opprett-pdf")
     fun opprettPdf(
-        @RequestBody søknad: Map<String, Any>,
+        @RequestBody søknad: FeltMap,
     ): ByteArray = pdfService.opprettPdf(søknad)
 }

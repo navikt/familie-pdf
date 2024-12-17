@@ -6,6 +6,7 @@ import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
+import no.nav.familie.pdf.pdf.domain.VerdilisteItem
 
 object PdfElementUtils {
     fun navLogoBilde(): Image =
@@ -15,12 +16,12 @@ object PdfElementUtils {
             accessibilityProperties.alternateDescription = "NAV logo"
         }
 
-    fun lagVerdiElement(element: Map<*, *>): Paragraph =
+    fun lagVerdiElement(element: VerdilisteItem): Paragraph =
         Paragraph().apply {
-            (element["label"] as? String)
+            (element.label)
                 .takeIf { it?.isNotEmpty() == true }
                 ?.let { add(Text(it).apply { simulateBold() }) }
-            (element["alternativer"] as? String)?.takeIf { it.isNotEmpty() }?.let {
+            element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
@@ -30,10 +31,10 @@ object PdfElementUtils {
                 )
             }
             add(Text("\n"))
-            if (element["label"] == "Adresse") {
-                add(sjekkDobbelLinjeskift(element["verdi"].toString()))
+            if (element.label == "Adresse" && element.verdi != null) {
+                add(sjekkDobbelLinjeskift(element.verdi))
             } else {
-                add(element["verdi"].toString())
+                add(element.verdi)
             }
             setFontSize(12f)
             isKeepTogether = true
