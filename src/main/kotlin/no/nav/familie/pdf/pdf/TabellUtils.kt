@@ -11,10 +11,20 @@ import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object TabellUtils {
-    fun lagTabell(
-        tabellData: List<VerdilisteElement>,
-        caption: String,
+    fun visningsVariantTabeller(
+        verdiliste: List<VerdilisteElement>,
+        seksjon: Div,
+    ) {
+        verdiliste.forEach { barn ->
+            barn.verdiliste?.let { seksjon.add(lagTabell(barn)) }
+        }
+    }
+
+    private fun lagTabell(
+        tabellData: VerdilisteElement,
     ): Table {
+        requireNotNull(tabellData.verdiliste) { "VerdilisteElement må ha en verdiliste for å kunne lage en tabell" }
+
         val tabell =
             Table(UnitValue.createPercentArray(floatArrayOf(50f, 50f))).apply {
                 useAllAvailableWidth()
@@ -22,10 +32,11 @@ object TabellUtils {
                 setMarginLeft(15f)
                 accessibilityProperties.role = StandardRoles.TABLE
             }
+
         val captionDiv =
             Div().apply {
                 add(
-                    Paragraph(caption).apply {
+                    Paragraph(tabellData.label).apply {
                         setFontColor(DeviceRgb(0, 52, 125))
                         setFontSize(14f)
                         simulateBold()
@@ -33,46 +44,40 @@ object TabellUtils {
                 )
             }
         tabell.caption = captionDiv
-
         tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
         tabell.addCell(lagTabellOverskriftscelle("Svar", false))
-        lagTabellRekursivt(tabellData, tabell)
+        tabell.lagTabellRekursivt(tabellData.verdiliste)
         return tabell
     }
 
-    private fun lagListeMedAlleElementer(
-        elementer: List<VerdilisteElement>,
-        strengManSkalSplitteTabellPå: String,
-    ): List<List<VerdilisteElement>> {
-        val listeMedAlleElementer = mutableListOf<List<VerdilisteElement>>()
-        var nåværendeElement = mutableListOf<VerdilisteElement>()
-        elementer.forEachIndexed { index, item ->
-            if (item.label == strengManSkalSplitteTabellPå && index != 0) {
-                listeMedAlleElementer.add(nåværendeElement)
-                nåværendeElement = mutableListOf()
-            }
-            nåværendeElement.add(item)
+    private fun lagTabellOverskriftscelle(
+        tekst: String,
+        erVenstreKolonne: Boolean = true,
+    ): Cell =
+        Cell().apply {
+            add(
+                Paragraph(tekst).apply {
+                    setFontColor(DeviceRgb(0, 86, 180))
+                    setFontSize(14f)
+                    simulateBold()
+                },
+            )
+            setBorder(Border.NO_BORDER)
+            if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+            accessibilityProperties.role = StandardRoles.TH
         }
-        listeMedAlleElementer.add(nåværendeElement)
-        return listeMedAlleElementer
-    }
 
-    private fun lagTabellRekursivt(
+    private fun Table.lagTabellRekursivt(
         tabellData: List<VerdilisteElement>,
-        tabell: Table,
     ) {
-        tabellData.forEach { item ->
-            val label = item.label
-            val value = item.verdi ?: ""
+        tabellData.forEach { element ->
+            val verdi = element.verdi ?: ""
             when {
-                item.verdi != null -> {
-                    tabell.addCell(lagTabellInformasjonscelle(label, erUthevet = true))
-                    tabell.addCell(lagTabellInformasjonscelle(value.ifEmpty { " " }, false))
+                element.verdi != null -> {
+                    this.addCell(lagTabellInformasjonscelle(element.label, erUthevet = true))
+                    this.addCell(lagTabellInformasjonscelle(verdi.ifEmpty { " " }, erVenstreKolonne = false))
                 }
-
-                item.verdiliste != null -> {
-                    lagTabellRekursivt(item.verdiliste, tabell)
-                }
+                element.verdiliste != null -> lagTabellRekursivt(element.verdiliste)
             }
         }
     }
@@ -82,45 +87,11 @@ object TabellUtils {
         erVenstreKolonne: Boolean = true,
         erUthevet: Boolean = false,
     ): Cell =
-        Cell()
-            .add(
-                Paragraph(tekst).apply {
-                    setFontSize(12f)
-                },
-            ).apply {
-                setBorder(Border.NO_BORDER)
-                if (erUthevet) simulateBold()
-                if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-                accessibilityProperties.role = StandardRoles.TD
-            }
-
-    private fun lagTabellOverskriftscelle(
-        tekst: String,
-        erVenstreKolonne: Boolean = true,
-    ): Cell =
-        Cell()
-            .add(
-                Paragraph(tekst).apply {
-                    setFontColor(DeviceRgb(0, 86, 180))
-                    setFontSize(14f)
-                    simulateBold()
-                },
-            ).apply {
-                setBorder(Border.NO_BORDER)
-                if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-                accessibilityProperties.role = StandardRoles.TH
-            }
-
-    fun håndterTabellBasertPåVisningsvariant(
-        verdiliste: List<VerdilisteElement>,
-        strengManSkalSplitteTabellPå: String,
-        prefiks: String,
-        seksjon: Div,
-    ) {
-        val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, strengManSkalSplitteTabellPå)
-        listeMedAlleBarn.forEachIndexed { index, barn ->
-            val barneIndeksTekst = "$prefiks ${index + 1}"
-            seksjon.add(lagTabell(barn, barneIndeksTekst))
+        Cell().apply {
+            add(Paragraph(tekst).setFontSize(12f))
+            setBorder(Border.NO_BORDER)
+            if (erUthevet) simulateBold()
+            if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+            accessibilityProperties.role = StandardRoles.TD
         }
-    }
 }
