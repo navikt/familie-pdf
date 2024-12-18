@@ -1,101 +1,119 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils
 
-fun lagMedTomVerdiliste(): Map<String, Any> = mapOf("label" to "Søknad om overgangsstønad", "verdiliste" to emptyList<Any>())
+import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
-fun lagMedVerdiliste(): Map<String, Any> =
-    mapOf(
-        "label" to "Søknad om overgangsstønad",
-        "verdiliste" to
+private val søknadsTittel = "Søknad om overgangsstønad (NAV 15-00.01)"
+
+fun lagMedTomVerdiliste(): FeltMap = FeltMap(søknadsTittel, emptyList())
+
+fun lagMedVerdiliste(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
             listOf(
-                mapOf(
-                    "label" to "Innsendingsdetaljer",
-                    "verdiliste" to
+                VerdilisteElement(
+                    label = "Innsendingsdetaljer",
+                    verdiliste =
                         listOf(
-                            mapOf("label" to "Navn", "verdi" to "Kåre"),
-                            mapOf("label" to "Født", "verdi" to "Ja"),
+                            VerdilisteElement(label = "Navn", verdi = "Kåre"),
+                            VerdilisteElement(label = "Født", verdi = "Ja"),
                         ),
                 ),
             ),
     )
 
-fun lagMedForskjelligLabelIVerdiliste(): Map<String, Any> =
-    mapOf(
-        "label" to "Søknad om overgangsstønad",
-        "verdiliste" to
+fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
             listOf(
-                mapOf("label" to "Barna dine", "verdiliste" to emptyList<Any>()),
-                mapOf(
-                    "label" to "Innsendingsdetaljer",
-                    "verdiliste" to listOf(mapOf("label" to "Navn", "verdi" to "Bjarne")),
+                VerdilisteElement(
+                    label = "Barna dine",
+                    verdiliste = emptyList(),
+                ),
+                VerdilisteElement(
+                    label = "Innsendingsdetaljer",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(label = "Navn", verdi = "Bjarne"),
+                        ),
                 ),
             ),
     )
 
-fun lagNullInnhold(): Map<String, Any?> = mapOf("label" to null, "verdiliste" to null)
-
-fun lagMedTomAdresse(): Map<String, Any> =
-    mapOf(
-        "label" to "Søknad om overgangsstønad",
-        "verdiliste" to
+fun lagMedTomAdresse(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
             listOf(
-                mapOf(
-                    "label" to "Søker",
-                    "verdiliste" to listOf(mapOf("label" to "Adresse", "verdi" to "")),
+                VerdilisteElement(
+                    label = "Søker",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(label = "Adresse", verdi = ""),
+                        ),
                 ),
             ),
     )
 
-fun lagAdresseMedBareLinjeskift(): Map<String, Any> =
-    mapOf(
-        "label" to "Søknad om overgangsstønad",
-        "verdiliste" to
+fun lagAdresseMedBareLinjeskift(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
             listOf(
-                mapOf(
-                    "label" to "Søker",
-                    "verdiliste" to listOf(mapOf("label" to "Adresse", "verdi" to "\n\n\n\n")),
+                VerdilisteElement(
+                    label = "Søker",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(label = "Adresse", verdi = "\n\n\n\n"),
+                        ),
                 ),
             ),
     )
 
-fun lagAdresseMedFlereLinjeskift(): Map<String, Any> =
-    mapOf(
-        "label" to "Søknad om overgangsstønad",
-        "verdiliste" to
+fun lagAdresseMedFlereLinjeskift(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
             listOf(
-                mapOf(
-                    "label" to "Søker",
-                    "verdiliste" to listOf(mapOf("label" to "Adresse", "verdi" to "Adresse 12\n\n\n\n0999 Oslo")),
+                VerdilisteElement(
+                    label = "Søker",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(label = "Adresse", verdi = "Adresse 12\n\n\n\n0999 Oslo"),
+                        ),
                 ),
             ),
     )
 
-fun lagToSiderInnholdsfortegnelse(): Map<String, Any> =
-    mapOf(
-        "label" to "Søknad om overgangsstønad (NAV 15-00.01)",
-        "verdiliste" to lagGjentattInnhold(48),
-    )
+fun lagToSiderInnholdsfortegnelse(): FeltMap = FeltMap(søknadsTittel, lagGjentattInnhold(48))
 
-private fun lagGjentattInnhold(antallGanger: Int): List<Map<String, Any>> =
+private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteElement> =
     List(antallGanger) { indeks ->
-        mapOf(
-            "label" to "Innsendingsdetaljer${if (indeks > 0) indeks + 1 else ""}",
-            "verdiliste" to emptyList<Any>(),
+        VerdilisteElement(
+            label = "Innsendingsdetaljer${if (indeks > 0) indeks + 1 else ""}",
+            verdiliste = emptyList(),
         )
     }
 
-fun lagMedFlereArbeidsforhold(): Map<String, Any> =
-    mapOf(
-        "label" to "Arbeid, utdanning og andre aktiviteter",
-        "verdiliste" to
+fun lagMedFlereArbeidsforhold(): FeltMap =
+    FeltMap(
+        label = "Arbeid, utdanning og andre aktiviteter",
+        verdiliste =
             listOf(
-                mapOf("label" to "Hvordan er situasjonen din?", "verdi" to "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)"),
-                mapOf(
-                    "label" to "Om arbeidsforholdet ditt",
-                    "visningsVariant" to "TABELL_ARBEIDSFORHOLD",
-                    "verdiliste" to
+                VerdilisteElement(
+                    label = "Hvordan er situasjonen din?",
+                    verdi = "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)",
+                ),
+                VerdilisteElement(
+                    label = "Om arbeidsforholdet ditt",
+                    visningsVariant = VisningsVariant.TABELL_ARBEIDSFORHOLD.toString(),
+                    verdiliste =
                         listOf(
-                            mapOf("label" to "Navn på arbeidssted", "verdi" to "Norge.as"),
-                            mapOf("label" to "Navn på arbeidssted", "verdi" to "Sverige.as"),
+                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Norge.as"),
+                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Sverige.as"),
                         ),
                 ),
             ),

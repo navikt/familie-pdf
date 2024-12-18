@@ -12,10 +12,9 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVe
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagNullInnhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
-import org.junit.jupiter.api.Assertions.assertThrows
+import no.nav.familie.pdf.pdf.domain.FeltMap
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -36,21 +35,21 @@ class PdfServiceTest {
             )
 
         @JvmStatic
-        fun innholdsfortegnelseMedEnOgToSider(): Stream<Map<String, Any>> =
+        fun innholdsfortegnelseMedEnOgToSider(): Stream<FeltMap> =
             Stream.of(
                 lagMedVerdiliste(),
                 lagToSiderInnholdsfortegnelse(),
             )
 
         @JvmStatic
-        fun tomAdresse(): Stream<Map<String, Any>> =
+        fun tomAdresse(): Stream<FeltMap> =
             Stream.of(
                 lagAdresseMedBareLinjeskift(),
                 lagMedTomAdresse(),
             )
 
         @JvmStatic
-        fun flereArbeidsforhold(): Stream<Map<String, Any>> =
+        fun flereArbeidsforhold(): Stream<FeltMap> =
             Stream.of(
                 lagMedFlereArbeidsforhold(),
             )
@@ -87,16 +86,6 @@ class PdfServiceTest {
     }
 
     @Test
-    fun `Pdf kaster exception hvis label eller verdiliste er null`() {
-        // Arrange
-        val feltMap = lagNullInnhold()
-        // Act & Assert
-        assertThrows(IllegalArgumentException::class.java) {
-            pdfOppretterService.opprettPdf(feltMap as Map<String, Any>)
-        }
-    }
-
-    @Test
     fun `Pdf har riktig sideantall for nåværende side`() {
         // Arrange
         val feltMap = lagMedVerdiliste()
@@ -113,7 +102,7 @@ class PdfServiceTest {
 
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
-    fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: Map<String, Any>) {
+    fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: FeltMap) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
@@ -124,7 +113,7 @@ class PdfServiceTest {
 
     @ParameterizedTest
     @MethodSource("flereArbeidsforhold")
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: Map<String, Any>) {
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: FeltMap) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
@@ -137,7 +126,7 @@ class PdfServiceTest {
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSiderOgForventetSide")
     fun `Pdf har riktig sideantall i innholdsfortegnelsen`(
-        feltMap: Map<String, Any>,
+        feltMap: FeltMap,
         forventetSide: Int,
     ) {
         // Act
@@ -158,7 +147,7 @@ class PdfServiceTest {
 
     @ParameterizedTest
     @MethodSource("tomAdresse")
-    fun `Pdf med innhold i Adresse blir renset for tom og flere linjeskift`(feltMap: Map<String, Any>) {
+    fun `Pdf med innhold i Adresse blir renset for tom og flere linjeskift`(feltMap: FeltMap) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val andreSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
@@ -178,7 +167,7 @@ class PdfServiceTest {
         assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
     }
 
-    private fun opprettPdf(feltMap: Map<String, Any>): PdfADocument {
+    private fun opprettPdf(feltMap: FeltMap): PdfADocument {
         val result = pdfOppretterService.opprettPdf(feltMap)
         val pdfReader = PdfReader(ByteArrayInputStream(result))
         val pdfWriter = PdfWriter(ByteArrayOutputStream())

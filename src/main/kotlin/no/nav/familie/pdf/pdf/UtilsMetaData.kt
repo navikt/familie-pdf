@@ -6,6 +6,7 @@ import com.itextpdf.kernel.pdf.PdfViewerPreferences
 import com.itextpdf.kernel.xmp.XMPMeta
 import com.itextpdf.kernel.xmp.XMPMetaFactory
 import com.itextpdf.pdfa.PdfADocument
+import no.nav.familie.pdf.pdf.domain.FeltMap
 
 /**
  * Metadata settes på to måter for ulike behov:
@@ -15,10 +16,10 @@ import com.itextpdf.pdfa.PdfADocument
 object UtilsMetaData {
     fun leggtilMetaData(
         pdfADokument: PdfADocument,
-        feltMap: Map<String, Any>,
+        feltMap: FeltMap,
     ) {
         val skaperAvPdf = "navikt/familie-pdf"
-        val tittel = feltMap["label"].toString()
+        val tittel = feltMap.label
 
         pdfADokument.documentInfo.apply {
             this.title = tittel

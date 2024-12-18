@@ -8,10 +8,11 @@ import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object TabellUtils {
     fun lagTabell(
-        tabellData: List<*>,
+        tabellData: List<VerdilisteElement>,
         caption: String,
     ): Table {
         val tabell =
@@ -40,13 +41,13 @@ object TabellUtils {
     }
 
     private fun lagListeMedAlleElementer(
-        elementer: List<*>,
+        elementer: List<VerdilisteElement>,
         strengManSkalSplitteTabellPå: String,
-    ): List<List<*>> {
-        val listeMedAlleElementer = mutableListOf<List<*>>()
-        var nåværendeElement = mutableListOf<Map<*, *>>()
-        elementer.filterIsInstance<Map<*, *>>().forEachIndexed { index, item ->
-            if (item["label"].toString() == strengManSkalSplitteTabellPå && index != 0) {
+    ): List<List<VerdilisteElement>> {
+        val listeMedAlleElementer = mutableListOf<List<VerdilisteElement>>()
+        var nåværendeElement = mutableListOf<VerdilisteElement>()
+        elementer.forEachIndexed { index, item ->
+            if (item.label == strengManSkalSplitteTabellPå && index != 0) {
                 listeMedAlleElementer.add(nåværendeElement)
                 nåværendeElement = mutableListOf()
             }
@@ -57,20 +58,20 @@ object TabellUtils {
     }
 
     private fun lagTabellRekursivt(
-        tabellData: List<*>,
+        tabellData: List<VerdilisteElement>,
         tabell: Table,
     ) {
-        tabellData.filterIsInstance<Map<*, *>>().forEach { item ->
-            val label = item["label"].toString()
-            val value = item["verdi"]?.toString() ?: ""
+        tabellData.forEach { item ->
+            val label = item.label
+            val value = item.verdi ?: ""
             when {
-                item["verdi"] != null -> {
+                item.verdi != null -> {
                     tabell.addCell(lagTabellInformasjonscelle(label, erUthevet = true))
                     tabell.addCell(lagTabellInformasjonscelle(value.ifEmpty { " " }, false))
                 }
 
-                item["verdiliste"] != null -> {
-                    lagTabellRekursivt(item["verdiliste"] as List<*>, tabell)
+                item.verdiliste != null -> {
+                    lagTabellRekursivt(item.verdiliste, tabell)
                 }
             }
         }
@@ -111,7 +112,7 @@ object TabellUtils {
             }
 
     fun håndterTabellBasertPåVisningsvariant(
-        verdiliste: List<*>,
+        verdiliste: List<VerdilisteElement>,
         strengManSkalSplitteTabellPå: String,
         prefiks: String,
         seksjon: Div,
