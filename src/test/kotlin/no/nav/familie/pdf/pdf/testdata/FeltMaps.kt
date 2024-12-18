@@ -116,7 +116,7 @@ fun lagMedFlereArbeidsforhold(): FeltMap =
                 ),
                 VerdilisteElement(
                     label = "Om arbeidsforholdet ditt",
-                    visningsVariant = VisningsVariant.TABELL_ARBEIDSFORHOLD.toString(),
+                    visningsVariant = VisningsVariant.TABELL.toString(),
                     verdiliste =
                         listOf(
                             VerdilisteElement(label = "Navn på arbeidssted", verdi = "Norge.as"),
@@ -133,7 +133,7 @@ fun lagMedBarneTabell(): FeltMap =
             listOf(
                 VerdilisteElement(
                     label = "Barna dine",
-                    visningsVariant = VisningsVariant.TABELL_BARN.toString(),
+                    visningsVariant = VisningsVariant.TABELL.toString(),
                     verdiliste =
                         listOf(
                             VerdilisteElement(

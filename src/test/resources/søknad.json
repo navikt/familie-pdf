@@ -98,7 +98,7 @@
     },
     {
       "label": "Barna dine",
-      "visningsVariant": "TABELL_BARN",
+      "visningsVariant": "TABELL",
       "verdiliste": [
         {
           "label": "Barn 1",
@@ -269,18 +269,41 @@
         },
         {
           "label": "Om arbeidsforholdet ditt",
+          "visningsVariant": "TABELL",
           "verdiliste": [
             {
-              "label": "Navn på arbeidssted",
-              "verdi": "ewd"
+              "label": "Arbeidsforhold 1",
+              "verdiliste": [
+                {
+                  "label": "Navn på arbeidssted",
+                  "verdi": "Nav"
+                },
+                {
+                  "label": "Hvor mye jobber du?",
+                  "verdi": "100"
+                },
+                {
+                  "label": "Hva slags ansettelsesforhold har du?",
+                  "verdi": "Fast stilling"
+                }
+              ]
             },
             {
-              "label": "Hvor mye jobber du?",
-              "verdi": "100"
-            },
-            {
-              "label": "Hva slags ansettelsesforhold har du?",
-              "verdi": "Fast stilling"
+              "label": "Arbeidsforhold 2",
+              "verdiliste": [
+                {
+                  "label": "Navn på arbeidssted",
+                  "verdi": "Bekk"
+                },
+                {
+                  "label": "Hvor mye jobber du?",
+                  "verdi": "100"
+                },
+                {
+                  "label": "Hva slags ansettelsesforhold har du?",
+                  "verdi": "Fast stilling"
+                }
+              ]
             }
           ]
         }
