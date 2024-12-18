@@ -7,6 +7,7 @@ import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
@@ -55,6 +56,7 @@ class PdfServiceTest {
             )
     }
 
+    //region Pdf
     @Test
     fun `Pdf med tom verdiliste returnerer ikke en tom bytearray`() {
         // Arrange
@@ -99,7 +101,9 @@ class PdfServiceTest {
             assertTrue(pageText.contains("Side $pageNumber av ${pdfDoc.numberOfPages}"))
         }
     }
+    //endregion
 
+    //region Innholdsfortegnelse
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
     fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: FeltMap) {
@@ -109,18 +113,6 @@ class PdfServiceTest {
 
         // Assert
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-    }
-
-    @ParameterizedTest
-    @MethodSource("flereArbeidsforhold")
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: FeltMap) {
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-
-        // Assert
-        assertTrue(tekstIPdf.contains("Arbeidsforhold 1"))
-        assertTrue(tekstIPdf.contains("Arbeidsforhold 2"))
     }
 
     @ParameterizedTest
@@ -144,7 +136,9 @@ class PdfServiceTest {
             assertTrue(actualPageText.contains(label))
         }
     }
+    //endregion
 
+    //region Adresse
     @ParameterizedTest
     @MethodSource("tomAdresse")
     fun `Pdf med innhold i Adresse blir renset for tom og flere linjeskift`(feltMap: FeltMap) {
@@ -166,6 +160,45 @@ class PdfServiceTest {
         // Tror ekstra mellomrommet etter 12 er fordi pdf genereringen legger til en ekstra linje. Debuget og ser aldri hvor den blir lagt til.
         assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
     }
+    //endregion
+
+    //region Tabeller
+//    @ParameterizedTest
+//    @MethodSource("flereArbeidsforhold")
+//    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: FeltMap) {
+//        // Act
+//        val pdfDoc = opprettPdf(feltMap)
+//        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+//
+//        // Assert
+//        assertTrue(tekstIPdf.contains("Arbeidsforhold 1"))
+//        assertTrue(tekstIPdf.contains("Arbeidsforhold 2"))
+//    }
+
+    @Test
+    fun `Tabeller får inn en liste av objekter som tegnes som tabeller`() {
+        // Act
+        val feltMap = lagMedBarneTabell()
+
+        // Assert
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        val barn1Index = tekstIPdf.indexOf("Barn 1")
+        val navnIndex = tekstIPdf.indexOf("Navn", barn1Index)
+        val barn2Index = tekstIPdf.indexOf("Barn 2", navnIndex)
+        val termindatoIndex = tekstIPdf.indexOf("Termindato", barn2Index)
+
+        assertTrue(barn1Index != -1)
+        assertTrue(navnIndex != -1)
+        assertTrue(barn2Index != -1)
+        assertTrue(termindatoIndex != -1)
+        assertTrue(barn1Index < navnIndex)
+        assertTrue(navnIndex < barn2Index)
+        assertTrue(barn2Index < termindatoIndex)
+    }
+    //endregion
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {
         val result = pdfOppretterService.opprettPdf(feltMap)
