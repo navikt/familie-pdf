@@ -48,12 +48,6 @@ class PdfServiceTest {
                 lagAdresseMedBareLinjeskift(),
                 lagMedTomAdresse(),
             )
-
-        @JvmStatic
-        fun flereArbeidsforhold(): Stream<FeltMap> =
-            Stream.of(
-                lagMedFlereArbeidsforhold(),
-            )
     }
 
     //region Pdf
@@ -163,17 +157,29 @@ class PdfServiceTest {
     //endregion
 
     //region Tabeller
-//    @ParameterizedTest
-//    @MethodSource("flereArbeidsforhold")
-//    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: FeltMap) {
-//        // Act
-//        val pdfDoc = opprettPdf(feltMap)
-//        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-//
-//        // Assert
-//        assertTrue(tekstIPdf.contains("Arbeidsforhold 1"))
-//        assertTrue(tekstIPdf.contains("Arbeidsforhold 2"))
-//    }
+    @Test
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        val arbeidsforhold1Index = tekstIPdf.indexOf("Arbeidsforhold 1")
+        val navnIndex = tekstIPdf.indexOf("Nav", arbeidsforhold1Index)
+        val arbeidsforhold2Index = tekstIPdf.indexOf("Arbeidsforhold 2", navnIndex)
+        val termindatoIndex = tekstIPdf.indexOf("Bekk", arbeidsforhold2Index)
+
+        assertTrue(arbeidsforhold1Index != -1)
+        assertTrue(navnIndex != -1)
+        assertTrue(arbeidsforhold2Index != -1)
+        assertTrue(termindatoIndex != -1)
+        assertTrue(arbeidsforhold1Index < navnIndex)
+        assertTrue(navnIndex < arbeidsforhold2Index)
+        assertTrue(arbeidsforhold2Index < termindatoIndex)
+    }
 
     @Test
     fun `Tabeller får inn en liste av objekter som tegnes som tabeller`() {

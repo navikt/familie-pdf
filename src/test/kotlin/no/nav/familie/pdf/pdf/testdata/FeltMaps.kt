@@ -107,20 +107,26 @@ private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteElement> =
 //region Tabeller
 fun lagMedFlereArbeidsforhold(): FeltMap =
     FeltMap(
-        label = "Arbeid, utdanning og andre aktiviteter",
+        label = søknadsTittel,
         verdiliste =
             listOf(
                 VerdilisteElement(
-                    label = "Hvordan er situasjonen din?",
-                    verdi = "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)",
-                ),
-                VerdilisteElement(
-                    label = "Om arbeidsforholdet ditt",
-                    visningsVariant = VisningsVariant.TABELL.toString(),
+                    label = "Arbeid, utdanning og andre aktiviteter",
                     verdiliste =
                         listOf(
-                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Norge.as"),
-                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Sverige.as"),
+                            VerdilisteElement(
+                                label = "Hvordan er situasjonen din?",
+                                verdi = "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)",
+                            ),
+                            VerdilisteElement(
+                                label = "Om arbeidsforholdet ditt",
+                                visningsVariant = VisningsVariant.TABELL.toString(),
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(label = "Arbeidsforhold 1", verdiliste = listOf(VerdilisteElement(label = "Navn på arbeidssted", verdi = "Nav"))),
+                                        VerdilisteElement(label = "Arbeidsforhold 2", verdiliste = listOf(VerdilisteElement(label = "Navn på arbeidssted", verdi = "Bekk"))),
+                                    ),
+                            ),
                         ),
                 ),
             ),
