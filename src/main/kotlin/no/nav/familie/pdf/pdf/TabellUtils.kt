@@ -16,18 +16,15 @@ object TabellUtils {
         seksjon: Div,
     ) {
         verdiliste.forEach { barn ->
-            if (barn.verdiliste != null) {
-                seksjon.add(lagTabell(barn))
-            }
+            barn.verdiliste?.let { seksjon.add(lagTabell(barn)) }
         }
     }
 
     private fun lagTabell(
         tabellData: VerdilisteElement,
     ): Table {
-        if (tabellData.verdiliste == null) {
-            throw IllegalArgumentException("VerdilisteElement må ha en verdiliste for å kunne lage en tabell")
-        }
+        requireNotNull(tabellData.verdiliste) { "VerdilisteElement må ha en verdiliste for å kunne lage en tabell" }
+
         val tabell =
             Table(UnitValue.createPercentArray(floatArrayOf(50f, 50f))).apply {
                 useAllAvailableWidth()
@@ -35,6 +32,7 @@ object TabellUtils {
                 setMarginLeft(15f)
                 accessibilityProperties.role = StandardRoles.TABLE
             }
+
         val captionDiv =
             Div().apply {
                 add(
@@ -56,18 +54,18 @@ object TabellUtils {
         tekst: String,
         erVenstreKolonne: Boolean = true,
     ): Cell =
-        Cell()
-            .add(
+        Cell().apply {
+            add(
                 Paragraph(tekst).apply {
                     setFontColor(DeviceRgb(0, 86, 180))
                     setFontSize(14f)
                     simulateBold()
                 },
-            ).apply {
-                setBorder(Border.NO_BORDER)
-                if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-                accessibilityProperties.role = StandardRoles.TH
-            }
+            )
+            setBorder(Border.NO_BORDER)
+            if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+            accessibilityProperties.role = StandardRoles.TH
+        }
 
     private fun Table.lagTabellRekursivt(
         tabellData: List<VerdilisteElement>,
@@ -77,12 +75,9 @@ object TabellUtils {
             when {
                 element.verdi != null -> {
                     this.addCell(lagTabellInformasjonscelle(element.label, erUthevet = true))
-                    this.addCell(lagTabellInformasjonscelle(verdi.ifEmpty { " " }, false))
+                    this.addCell(lagTabellInformasjonscelle(verdi.ifEmpty { " " }, erVenstreKolonne = false))
                 }
-
-                element.verdiliste != null -> {
-                    lagTabellRekursivt(element.verdiliste)
-                }
+                element.verdiliste != null -> lagTabellRekursivt(element.verdiliste)
             }
         }
     }
@@ -92,15 +87,11 @@ object TabellUtils {
         erVenstreKolonne: Boolean = true,
         erUthevet: Boolean = false,
     ): Cell =
-        Cell()
-            .add(
-                Paragraph(tekst).apply {
-                    setFontSize(12f)
-                },
-            ).apply {
-                setBorder(Border.NO_BORDER)
-                if (erUthevet) simulateBold()
-                if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-                accessibilityProperties.role = StandardRoles.TD
-            }
+        Cell().apply {
+            add(Paragraph(tekst).setFontSize(12f))
+            setBorder(Border.NO_BORDER)
+            if (erUthevet) simulateBold()
+            if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+            accessibilityProperties.role = StandardRoles.TD
+        }
 }
