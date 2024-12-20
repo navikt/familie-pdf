@@ -1,11 +1,7 @@
 package no.nav.familie.pdf.pdf.domain
 
-import jakarta.validation.constraints.NotNull
-
 data class FeltMap(
-    @field:NotNull(message = "Label kan ikke være null")
     val label: String,
-    @field:NotNull(message = "Verdiliste kan ikke være null")
     val verdiliste: List<VerdilisteElement>,
 )
 
