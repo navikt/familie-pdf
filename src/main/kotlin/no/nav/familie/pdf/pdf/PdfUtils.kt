@@ -35,7 +35,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
+import no.nav.familie.pdf.pdf.TabellUtils.visningsVariantTabeller
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
@@ -172,14 +172,9 @@ object PdfUtils {
         seksjon: Div,
     ) {
         when (visningsVariant) {
-            VisningsVariant.TABELL_BARN.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
+            VisningsVariant.TABELL.toString() -> {
+                visningsVariantTabeller(verdiliste, seksjon)
             }
-
-            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
-            }
-
             VisningsVariant.VEDLEGG.toString() -> {
                 håndterVedlegg(verdiliste, seksjon)
             }
