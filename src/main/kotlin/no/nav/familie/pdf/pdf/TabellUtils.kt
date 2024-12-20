@@ -14,10 +14,8 @@ object TabellUtils {
     fun visningsVariantTabeller(
         verdiliste: List<VerdilisteElement>,
         seksjon: Div,
-    ) {
-        verdiliste.forEach { barn ->
-            barn.verdiliste?.let { seksjon.add(lagTabell(barn)) }
-        }
+    ) = verdiliste.forEach { verdilisteElement ->
+        verdilisteElement.verdiliste?.let { seksjon.add(lagTabell(verdilisteElement)) }
     }
 
     private fun lagTabell(
@@ -71,11 +69,10 @@ object TabellUtils {
         tabellData: List<VerdilisteElement>,
     ) {
         tabellData.forEach { element ->
-            val verdi = element.verdi ?: ""
             when {
                 element.verdi != null -> {
                     this.addCell(lagTabellInformasjonscelle(element.label, erUthevet = true))
-                    this.addCell(lagTabellInformasjonscelle(verdi.ifEmpty { " " }, erVenstreKolonne = false))
+                    this.addCell(lagTabellInformasjonscelle(element.verdi, erVenstreKolonne = false))
                 }
                 element.verdiliste != null -> lagTabellRekursivt(element.verdiliste)
             }
