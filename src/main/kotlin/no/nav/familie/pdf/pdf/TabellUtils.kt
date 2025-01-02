@@ -11,10 +11,10 @@ import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object TabellUtils {
-    fun visningsVariantTabeller(
-        verdiliste: List<VerdilisteElement>,
+    fun håndterTabeller(
+        verdilisteElement: VerdilisteElement,
         seksjon: Div,
-    ) = verdiliste.forEach { verdilisteElement ->
+    ) = verdilisteElement.verdiliste?.forEach { verdilisteElement ->
         verdilisteElement.verdiliste?.let { seksjon.add(lagTabell(verdilisteElement)) }
     }
 

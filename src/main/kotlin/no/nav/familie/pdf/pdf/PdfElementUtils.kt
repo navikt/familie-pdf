@@ -43,7 +43,7 @@ object PdfElementUtils {
             accessibilityProperties.role = StandardRoles.P
         }
 
-    fun lagPunktListe(element: VerdilisteElement): Paragraph =
+    fun lagPunktliste(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
             add(Text(element.label).apply { simulateBold() })
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
