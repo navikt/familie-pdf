@@ -230,15 +230,17 @@ object PdfUtils {
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
     ) {
         val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
+        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        add(
-            Paragraph(søknadstype).apply {
-                setMarginTop(-10f)
-            },
-        )
+        if (søknadstype.isNotEmpty()) {
+            add(
+                Paragraph(søknadstype).apply {
+                    setMarginTop(-10f)
+                }
+            )
+        }
         add(lagOverskriftH2("Innholdsfortegnelse"))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
