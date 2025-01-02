@@ -34,12 +34,9 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.VisningsvariantHåndterer.håndterPunktliste
-import no.nav.familie.pdf.pdf.VisningsvariantHåndterer.håndterTabeller
-import no.nav.familie.pdf.pdf.VisningsvariantHåndterer.håndterVedlegg
+import no.nav.familie.pdf.pdf.VisningsvariantHåndterer.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
-import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -166,24 +163,6 @@ object PdfUtils {
             }
             add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
-
-    private fun håndterVisningsvariant(
-        visningsVariant: String,
-        verdilisteElement: VerdilisteElement,
-        seksjon: Div,
-    ) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL.toString() -> {
-                håndterTabeller(verdilisteElement, seksjon)
-            }
-            VisningsVariant.PUNKTLISTE.toString() -> {
-                håndterPunktliste(verdilisteElement, seksjon)
-            }
-            VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdilisteElement, seksjon)
-            }
-        }
-    }
 
     fun håndterRekursivVerdiliste(
         verdiliste: List<VerdilisteElement>,
