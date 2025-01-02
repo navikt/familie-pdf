@@ -8,14 +8,38 @@ import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagPunktliste
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
+import no.nav.familie.pdf.pdf.PdfUtils.håndterRekursivVerdiliste
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
-object TabellUtils {
+object VisningsvariantHåndterer {
     fun håndterTabeller(
         verdilisteElement: VerdilisteElement,
         seksjon: Div,
     ) = verdilisteElement.verdiliste?.forEach { verdilisteElement ->
         verdilisteElement.verdiliste?.let { seksjon.add(lagTabell(verdilisteElement)) }
+    }
+
+    fun håndterPunktliste(
+        verdi: VerdilisteElement,
+        seksjon: Div,
+    ) {
+        seksjon.apply {
+            add(lagPunktliste(verdi))
+        }
+    }
+
+    fun håndterVedlegg(
+        verdilisteElement: VerdilisteElement,
+        seksjon: Div,
+    ) {
+        verdilisteElement.verdiliste?.forEach { vedlegg ->
+
+            vedlegg.verdi?.takeIf { it.isEmpty() }?.let {
+                seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
+            } ?: håndterRekursivVerdiliste(verdilisteElement.verdiliste, seksjon)
+        }
     }
 
     private fun lagTabell(
