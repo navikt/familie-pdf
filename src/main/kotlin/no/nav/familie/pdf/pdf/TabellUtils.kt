@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.pdf
 
+import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.borders.Border
@@ -36,7 +37,7 @@ object TabellUtils {
 
         tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
         tabell.addCell(lagTabellOverskriftscelle("Svar", false))
-        lagTabellRekursivt(tabellData, tabell)
+        lagTabellRekursivt(tabellData, tabell, MutableWrapper(false))
         return tabell
     }
 
@@ -60,22 +61,36 @@ object TabellUtils {
     private fun lagTabellRekursivt(
         tabellData: List<VerdilisteElement>,
         tabell: Table,
+        mørkBakgrunn: MutableWrapper<Boolean>,
     ) {
         tabellData.forEach { item ->
             val label = item.label
             val value = item.verdi ?: ""
             when {
                 item.verdi != null -> {
-                    tabell.addCell(lagTabellInformasjonscelle(label, erUthevet = true))
-                    tabell.addCell(lagTabellInformasjonscelle(value.ifEmpty { " " }, false))
+                    val labelCelle = lagTabellInformasjonscelle(label, erUthevet = true)
+                    val verdiCelle = lagTabellInformasjonscelle(value, false)
+
+                    if (mørkBakgrunn.value) {
+                        labelCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
+                        verdiCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
+                    }
+                    tabell.addCell(labelCelle)
+                    tabell.addCell(verdiCelle)
+
+                    mørkBakgrunn.value = !mørkBakgrunn.value
                 }
 
                 item.verdiliste != null -> {
-                    lagTabellRekursivt(item.verdiliste, tabell)
+                    lagTabellRekursivt(item.verdiliste, tabell, mørkBakgrunn)
                 }
             }
         }
     }
+
+    data class MutableWrapper<T>(
+        var value: T,
+    )
 
     private fun lagTabellInformasjonscelle(
         tekst: String,
