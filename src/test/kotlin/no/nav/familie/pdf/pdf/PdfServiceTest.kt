@@ -101,7 +101,7 @@ class PdfServiceTest {
     }
 
     @Test
-    fun `Pdf har soknadstype i overskrift`(){
+    fun `Pdf har søknadstype i overskrift`(){
         // Arrange
         val feltMap = lagMedVerdiliste()
 
@@ -115,7 +115,7 @@ class PdfServiceTest {
     }
 
     @Test
-    fun `Overskrift dukker ikke opp som soknadstype`() {
+    fun `Overskrift dukker ikke opp som søknadstype`() {
         // Arrange
         val feltMap = lagMedFlereArbeidsforhold()
 
