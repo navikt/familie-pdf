@@ -60,21 +60,34 @@ object TabellUtils {
     private fun lagTabellRekursivt(
         tabellData: List<VerdilisteElement>,
         tabell: Table,
-    ) {
+        bakgrunnErMørk: Boolean = false,
+    ): Boolean {
+        var mørkBakgrunn = bakgrunnErMørk
+
         tabellData.forEach { item ->
             val label = item.label
             val value = item.verdi ?: ""
             when {
                 item.verdi != null -> {
-                    tabell.addCell(lagTabellInformasjonscelle(label, erUthevet = true))
-                    tabell.addCell(lagTabellInformasjonscelle(value.ifEmpty { " " }, false))
+                    val labelCelle = lagTabellInformasjonscelle(label, erUthevet = true)
+                    val verdiCelle = lagTabellInformasjonscelle(value, false)
+
+                    if (mørkBakgrunn) {
+                        labelCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                        verdiCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                    }
+                    tabell.addCell(labelCelle)
+                    tabell.addCell(verdiCelle)
+
+                    mørkBakgrunn = !mørkBakgrunn
                 }
 
                 item.verdiliste != null -> {
-                    lagTabellRekursivt(item.verdiliste, tabell)
+                    mørkBakgrunn = lagTabellRekursivt(item.verdiliste, tabell, mørkBakgrunn)
                 }
             }
         }
+        return mørkBakgrunn
     }
 
     private fun lagTabellInformasjonscelle(
