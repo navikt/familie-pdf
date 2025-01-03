@@ -68,8 +68,8 @@ object PdfElementUtils {
                         symbolIndent = 8f
                         setListSymbol("\u2022")
                     }
-                valgteAlternativer.forEach { item ->
-                    punktListe.add(ListItem(item))
+                valgteAlternativer.forEach { alternativ ->
+                    punktListe.add(ListItem(alternativ))
                 }
                 add(punktListe)
             }
@@ -141,7 +141,7 @@ object PdfElementUtils {
         tabell.caption = captionDiv
         tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
         tabell.addCell(lagTabellOverskriftscelle("Svar", false))
-        tabell.lagTabellRekursivt(tabellData.verdiliste)
+        lagTabellRekursivt(tabell, tabellData.verdiliste)
         return tabell
     }
 
@@ -162,16 +162,17 @@ object PdfElementUtils {
             accessibilityProperties.role = StandardRoles.TH
         }
 
-    private fun Table.lagTabellRekursivt(
+    private fun lagTabellRekursivt(
+        tabell: Table,
         tabellData: kotlin.collections.List<VerdilisteElement>,
     ) {
         tabellData.forEach { element ->
             when {
                 element.verdi != null -> {
-                    this.addCell(lagTabellInformasjonscelle(element.label, erUthevet = true))
-                    this.addCell(lagTabellInformasjonscelle(element.verdi, erVenstreKolonne = false))
+                    tabell.addCell(lagTabellInformasjonscelle(element.label, erUthevet = true))
+                    tabell.addCell(lagTabellInformasjonscelle(element.verdi, erVenstreKolonne = false))
                 }
-                element.verdiliste != null -> lagTabellRekursivt(element.verdiliste)
+                element.verdiliste != null -> lagTabellRekursivt(tabell, element.verdiliste)
             }
         }
     }

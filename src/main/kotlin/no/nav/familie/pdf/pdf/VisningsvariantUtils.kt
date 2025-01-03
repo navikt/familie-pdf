@@ -8,7 +8,7 @@ import no.nav.familie.pdf.pdf.PdfUtils.håndterRekursivVerdiliste
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
-object VisningsvariantHåndterer {
+object VisningsvariantUtils {
     fun håndterVisningsvariant(
         visningsVariant: String,
         verdilisteElement: VerdilisteElement,
