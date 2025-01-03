@@ -20,6 +20,6 @@ enum class Sprak {
 }
 
 data class PdfConfig(
-    val innholdsfortegnelse: Boolean,
+    val harInnholdsFortegnelse: Boolean,
     val sprak: Sprak? = null,
 )
