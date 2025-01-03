@@ -1,6 +1,8 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils
 
 import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.domain.PdfConfig
+import no.nav.familie.pdf.pdf.domain.Sprak
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
@@ -117,4 +119,15 @@ fun lagMedFlereArbeidsforhold(): FeltMap =
                         ),
                 ),
             ),
+    )
+
+fun lagUteninnholdsfortegnelse(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        pdfConfig =
+            PdfConfig(
+                harInnholdsFortegnelse = false,
+                sprak = Sprak.NO,
+            ),
+        verdiliste = lagGjentattInnhold(20),
     )

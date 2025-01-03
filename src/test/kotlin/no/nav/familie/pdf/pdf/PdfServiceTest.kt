@@ -13,6 +13,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUteninnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -22,6 +23,7 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.io.ByteArrayInputStream
 import java.util.stream.Stream
+import kotlin.test.assertFalse
 
 class PdfServiceTest {
     private val pdfOppretterService = PdfService()
@@ -52,6 +54,12 @@ class PdfServiceTest {
         fun flereArbeidsforhold(): Stream<FeltMap> =
             Stream.of(
                 lagMedFlereArbeidsforhold(),
+            )
+
+        @JvmStatic
+        fun pdfUtenInnholdsfortegnelse(): Stream<FeltMap> =
+            Stream.of(
+                lagUteninnholdsfortegnelse(),
             )
     }
 
@@ -109,6 +117,18 @@ class PdfServiceTest {
 
         // Assert
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+    }
+
+    @ParameterizedTest
+    @MethodSource("pdfUtenInnholdsfortegnelse")
+    fun `Pdf lager forside uten innholdsfortegnelse`(feltMap: FeltMap) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertFalse { førsteSideTekst.contains("Innholdsfortegnelse") }
     }
 
     @ParameterizedTest
