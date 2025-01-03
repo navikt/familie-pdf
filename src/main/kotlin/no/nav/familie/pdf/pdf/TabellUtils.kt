@@ -1,6 +1,5 @@
 package no.nav.familie.pdf.pdf
 
-import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.borders.Border
@@ -74,8 +73,8 @@ object TabellUtils {
                     val verdiCelle = lagTabellInformasjonscelle(value, false)
 
                     if (mørkBakgrunn) {
-                        labelCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
-                        verdiCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
+                        labelCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                        verdiCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
                     }
                     tabell.addCell(labelCelle)
                     tabell.addCell(verdiCelle)
