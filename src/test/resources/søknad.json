@@ -1,5 +1,9 @@
 {
   "label": "Søknad om overgangsstønad (NAV 15-00.01)",
+  "pdfConfig": {
+    "innholdsfortegnelse": false,
+    "sprak": "NO"
+  },
   "verdiliste": [
     {
       "label": "Innsendingsdetaljer",

@@ -7,6 +7,7 @@ import com.itextpdf.kernel.xmp.XMPMeta
 import com.itextpdf.kernel.xmp.XMPMetaFactory
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.domain.Sprak
 
 /**
  * Metadata settes på to måter for ulike behov:
@@ -20,17 +21,18 @@ object UtilsMetaData {
     ) {
         val skaperAvPdf = "navikt/familie-pdf"
         val tittel = feltMap.label
+        val sprak = feltMap.pdfConfig?.sprak?.toString() ?: Sprak.NO.toString()
 
         pdfADokument.documentInfo.apply {
             this.title = tittel
             this.creator = skaperAvPdf
         }
 
-        val xmpMeta = lagXmpMeta(skaperAvPdf, tittel)
+        val xmpMeta = lagXmpMeta(skaperAvPdf, tittel, sprak)
         pdfADokument.xmpMetadata = xmpMeta
 
         pdfADokument.catalog.apply {
-            put(PdfName.Lang, PdfString("no-NB")) // TODO: Gjør dynamisk
+            put(PdfName.Lang, PdfString(sprak)) // TODO: Gjør dynamisk
             viewerPreferences = PdfViewerPreferences().setDisplayDocTitle(true)
         }
     }
@@ -38,6 +40,7 @@ object UtilsMetaData {
     private fun lagXmpMeta(
         skaperAvPDF: String,
         tittel: String,
+        sprak: String,
     ): XMPMeta {
         val xmpMeta =
             XMPMetaFactory.create().apply {
@@ -49,6 +52,7 @@ object UtilsMetaData {
                     tittel,
                 )
                 setProperty("http://purl.org/dc/elements/1.1/", "dc:creator", skaperAvPDF)
+                setProperty("http://purl.org/dc/elements/1.1/", "dc:language", sprak)
                 // Angir delnummeret for PDF/UA-samsvar (2 for UA-2, 1 for UA-1)
                 setProperty(
                     "http://www.aiim.org/pdfua/ns/id/",
