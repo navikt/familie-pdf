@@ -16,6 +16,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegn
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -47,7 +48,6 @@ class PdfServiceTest {
                 lagAdresseMedBareLinjeskift(),
                 lagMedTomAdresse(),
             )
-
         @JvmStatic
         fun flereArbeidsforhold(): Stream<FeltMap> =
             Stream.of(
@@ -100,6 +100,48 @@ class PdfServiceTest {
         }
     }
 
+    @Test
+    fun `Pdf har søknadstype i overskrift`(){
+        // Arrange
+        val feltMap = lagMedVerdiliste()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSidePdf.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSidePdf.contains("NAV 15-00.01"))
+    }
+
+    @Test
+    fun `Overskrift dukker ikke opp som søknadstype`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
+        //Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        val antallForekomster = Regex("Arbeid, utdanning og andre aktiviteter").findAll(førsteSidePdf).count()
+        assertTrue(1 == antallForekomster, "Overskriften dukker opp to ganger")
+    }
+
+    @Test
+    fun `Pdf har ikke parenteser i overskrift`() {
+        // Arrange
+        val feltMap = lagMedVerdiliste()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('");
+        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'");
+    }
+
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
     fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: FeltMap) {
@@ -111,9 +153,11 @@ class PdfServiceTest {
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
     }
 
-    @ParameterizedTest
-    @MethodSource("flereArbeidsforhold")
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: FeltMap) {
+    @Test
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
@@ -131,7 +175,7 @@ class PdfServiceTest {
     ) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
-        val firstPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
         val forventetInnholdsfortegnelse =
@@ -139,9 +183,9 @@ class PdfServiceTest {
                 "Innsendingsdetaljer" to forventetSide,
             )
         for ((label, forventetSide) in forventetInnholdsfortegnelse) {
-            assertTrue(firstPageText.contains("$label $forventetSide"))
-            val actualPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
-            assertTrue(actualPageText.contains(label))
+            assertTrue(førsteSideTekst.contains("$label $forventetSide"))
+            val faktiskSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
+            assertTrue(faktiskSideTekst.contains(label))
         }
     }
 
