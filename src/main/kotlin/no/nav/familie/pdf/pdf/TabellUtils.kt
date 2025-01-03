@@ -37,7 +37,7 @@ object TabellUtils {
 
         tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
         tabell.addCell(lagTabellOverskriftscelle("Svar", false))
-        lagTabellRekursivt(tabellData, tabell, MutableWrapper(false))
+        lagTabellRekursivt(tabellData, tabell)
         return tabell
     }
 
@@ -61,8 +61,10 @@ object TabellUtils {
     private fun lagTabellRekursivt(
         tabellData: List<VerdilisteElement>,
         tabell: Table,
-        mørkBakgrunn: MutableWrapper<Boolean>,
-    ) {
+        erMørkBakgrunn: Boolean = false,
+    ): Boolean {
+        var nåværendeBakgrunnErMørk = erMørkBakgrunn
+
         tabellData.forEach { item ->
             val label = item.label
             val value = item.verdi ?: ""
@@ -71,26 +73,23 @@ object TabellUtils {
                     val labelCelle = lagTabellInformasjonscelle(label, erUthevet = true)
                     val verdiCelle = lagTabellInformasjonscelle(value, false)
 
-                    if (mørkBakgrunn.value) {
+                    if (nåværendeBakgrunnErMørk) {
                         labelCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
                         verdiCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
                     }
                     tabell.addCell(labelCelle)
                     tabell.addCell(verdiCelle)
 
-                    mørkBakgrunn.value = !mørkBakgrunn.value
+                    nåværendeBakgrunnErMørk = !nåværendeBakgrunnErMørk
                 }
 
                 item.verdiliste != null -> {
-                    lagTabellRekursivt(item.verdiliste, tabell, mørkBakgrunn)
+                    nåværendeBakgrunnErMørk = lagTabellRekursivt(item.verdiliste, tabell, nåværendeBakgrunnErMørk)
                 }
             }
         }
+        return nåværendeBakgrunnErMørk
     }
-
-    data class MutableWrapper<T>(
-        var value: T,
-    )
 
     private fun lagTabellInformasjonscelle(
         tekst: String,
