@@ -53,18 +53,6 @@ class PdfServiceTest {
             Stream.of(
                 lagMedFlereArbeidsforhold(),
             )
-
-        @JvmStatic
-        fun soknadstypeIOverskrift(): Stream<FeltMap> =
-            Stream.of(
-                lagMedVerdiliste(),
-            )
-
-        @JvmStatic
-        fun pdfUtenSoknadstypeIOverskrift(): Stream<FeltMap> =
-            Stream.of(
-                lagMedFlereArbeidsforhold(),
-            )
     }
 
     @Test
@@ -112,6 +100,48 @@ class PdfServiceTest {
         }
     }
 
+    @Test
+    fun `Pdf har soknadstype i overskrift`(){
+        // Arrange
+        val feltMap = lagMedVerdiliste()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSidePdf.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSidePdf.contains("NAV 15-00.01"))
+    }
+
+    @Test
+    fun `Overskrift dukker ikke opp som soknadstype`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
+        //Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        val antallForekomster = Regex("Arbeid, utdanning og andre aktiviteter").findAll(førsteSidePdf).count()
+        assertTrue(1 == antallForekomster, "Overskriften dukker opp to ganger")
+    }
+
+    @Test
+    fun `Pdf har ikke parenteser i overskrift`() {
+        // Arrange
+        val feltMap = lagMedVerdiliste()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('");
+        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'");
+    }
+
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
     fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: FeltMap) {
@@ -123,9 +153,11 @@ class PdfServiceTest {
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
     }
 
-    @ParameterizedTest
-    @MethodSource("flereArbeidsforhold")
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: FeltMap) {
+    @Test
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
@@ -135,30 +167,6 @@ class PdfServiceTest {
         assertTrue(tekstIPdf.contains("Arbeidsforhold 2"))
     }
 
-    @ParameterizedTest
-    @MethodSource("soknadstypeIOverskrift")
-    fun `Pdf har soknadstype i overskrift`(feltMap: FeltMap) {
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
-
-        // Assert
-        assertTrue(førsteSidePdf.contains("Søknad om overgangsstønad"))
-        assertTrue(førsteSidePdf.contains("NAV 15-00.01"))
-    }
-
-    @ParameterizedTest
-    @MethodSource("pdfUtenSoknadstypeIOverskrift")
-    fun `Overskrift dukker ikke opp som soknadstype`(feltMap: FeltMap) {
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
-
-        // Assert
-        // Assert
-        val antallForekomster = Regex("Arbeid, utdanning og andre aktiviteter").findAll(førsteSidePdf).count()
-        assertTrue(1 == antallForekomster)
-    }
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSiderOgForventetSide")
     fun `Pdf har riktig sideantall i innholdsfortegnelsen`(
