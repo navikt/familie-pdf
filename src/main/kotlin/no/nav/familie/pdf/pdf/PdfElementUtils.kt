@@ -61,9 +61,13 @@ object PdfElementUtils {
                 )
             }
             element.verdi?.takeIf { it.isNotEmpty() }?.let {
-                add(Text("\n"))
+                add(Text("\n\n"))
                 val valgteAlternativer = element.verdi.split("\n\n")
-                val punktListe = List()
+                val punktListe =
+                    List().apply {
+                        symbolIndent = 8f
+                        setListSymbol("\u2022")
+                    }
                 valgteAlternativer.forEach { item ->
                     punktListe.add(ListItem(item))
                 }
