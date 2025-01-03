@@ -61,9 +61,9 @@ object TabellUtils {
     private fun lagTabellRekursivt(
         tabellData: List<VerdilisteElement>,
         tabell: Table,
-        erMørkBakgrunn: Boolean = false,
+        bakgrunnErMørk: Boolean = false,
     ): Boolean {
-        var nåværendeBakgrunnErMørk = erMørkBakgrunn
+        var mørkBakgrunn = bakgrunnErMørk
 
         tabellData.forEach { item ->
             val label = item.label
@@ -73,22 +73,22 @@ object TabellUtils {
                     val labelCelle = lagTabellInformasjonscelle(label, erUthevet = true)
                     val verdiCelle = lagTabellInformasjonscelle(value, false)
 
-                    if (nåværendeBakgrunnErMørk) {
+                    if (mørkBakgrunn) {
                         labelCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
                         verdiCelle.apply { setBackgroundColor(ColorConstants.LIGHT_GRAY) }
                     }
                     tabell.addCell(labelCelle)
                     tabell.addCell(verdiCelle)
 
-                    nåværendeBakgrunnErMørk = !nåværendeBakgrunnErMørk
+                    mørkBakgrunn = !mørkBakgrunn
                 }
 
                 item.verdiliste != null -> {
-                    nåværendeBakgrunnErMørk = lagTabellRekursivt(item.verdiliste, tabell, nåværendeBakgrunnErMørk)
+                    mørkBakgrunn = lagTabellRekursivt(item.verdiliste, tabell, mørkBakgrunn)
                 }
             }
         }
-        return nåværendeBakgrunnErMørk
+        return mørkBakgrunn
     }
 
     private fun lagTabellInformasjonscelle(
