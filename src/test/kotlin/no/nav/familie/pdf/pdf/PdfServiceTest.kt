@@ -53,6 +53,18 @@ class PdfServiceTest {
             Stream.of(
                 lagMedFlereArbeidsforhold(),
             )
+
+        @JvmStatic
+        fun soknadstypeIOverskrift(): Stream<FeltMap> =
+            Stream.of(
+                lagMedVerdiliste(),
+            )
+
+        @JvmStatic
+        fun pdfUtenSoknadstypeIOverskrift(): Stream<FeltMap> =
+            Stream.of(
+                lagMedFlereArbeidsforhold(),
+            )
     }
 
     @Test
@@ -124,6 +136,30 @@ class PdfServiceTest {
     }
 
     @ParameterizedTest
+    @MethodSource("soknadstypeIOverskrift")
+    fun `Pdf har soknadstype i overskrift`(feltMap: FeltMap) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSidePdf.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSidePdf.contains("NAV 15-00.01"))
+    }
+
+    @ParameterizedTest
+    @MethodSource("pdfUtenSoknadstypeIOverskrift")
+    fun `Overskrift dukker ikke opp som soknadstype`(feltMap: FeltMap) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        // Assert
+        val antallForekomster = Regex("Arbeid, utdanning og andre aktiviteter").findAll(førsteSidePdf).count()
+        assertTrue(1 == antallForekomster)
+    }
+    @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSiderOgForventetSide")
     fun `Pdf har riktig sideantall i innholdsfortegnelsen`(
         feltMap: FeltMap,
@@ -131,7 +167,7 @@ class PdfServiceTest {
     ) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
-        val firstPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
         val forventetInnholdsfortegnelse =
@@ -139,9 +175,9 @@ class PdfServiceTest {
                 "Innsendingsdetaljer" to forventetSide,
             )
         for ((label, forventetSide) in forventetInnholdsfortegnelse) {
-            assertTrue(firstPageText.contains("$label $forventetSide"))
-            val actualPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
-            assertTrue(actualPageText.contains(label))
+            assertTrue(førsteSideTekst.contains("$label $forventetSide"))
+            val faktiskSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
+            assertTrue(faktiskSideTekst.contains(label))
         }
     }
 
