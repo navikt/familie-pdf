@@ -1,6 +1,9 @@
 package no.nav.familie.pdf.pdf
 
+import com.itextpdf.io.font.FontProgramFactory
+import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.kernel.colors.DeviceRgb
+import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.borders.Border
 import com.itextpdf.layout.element.Cell
@@ -99,13 +102,26 @@ object TabellUtils {
             .add(
                 Paragraph(tekst).apply {
                     setFontSize(12f)
+                    if (erUthevet) settFetSkrift()
                 },
             ).apply {
                 setBorder(Border.NO_BORDER)
-                if (erUthevet) simulateBold()
+//                if (erUthevet) simulateBold()
                 if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
                 accessibilityProperties.role = StandardRoles.TD
             }
+
+    fun Paragraph.settFetSkrift() {
+        val skriftSti = "/fonts/SourceSans3-SemiBold.ttf"
+        val skriftProgram = FontProgramFactory.createFont(skriftSti)
+        val fetFont =
+            PdfFontFactory.createFont(
+                skriftProgram,
+                PdfEncodings.MACROMAN,
+                PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
+            )
+        this.apply { setFont(fetFont) }
+    }
 
     private fun lagTabellOverskriftscelle(
         tekst: String,
