@@ -1,16 +1,13 @@
 package no.nav.familie.pdf.pdf
 
-import com.itextpdf.io.font.FontProgramFactory
-import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.DeviceRgb
-import com.itextpdf.kernel.font.PdfFont
-import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
-import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
+import no.nav.familie.pdf.pdf.PdfUtils.FontStil
+import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object PdfElementUtils {
@@ -82,37 +79,4 @@ object PdfElementUtils {
             settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
         }
-
-    private fun bestemFont(stil: FontStil): PdfFont {
-        val skriftSti =
-            when (stil) {
-                FontStil.REGULAR -> "/fonts/SourceSans3-Regular.ttf"
-                FontStil.SEMIBOLD -> "/fonts/SourceSans3-SemiBold.ttf"
-                FontStil.ITALIC -> "/fonts/SourceSans3-Italic.ttf"
-            }
-        val skriftProgram = FontProgramFactory.createFont(skriftSti)
-        return PdfFontFactory.createFont(
-            skriftProgram,
-            PdfEncodings.MACROMAN,
-            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
-        )
-    }
-
-    fun Paragraph.settFont(stil: FontStil) {
-        this.setFont(bestemFont(stil))
-    }
-
-    fun Document.settFont(stil: FontStil) {
-        this.setFont(bestemFont(stil))
-    }
-
-    fun Text.settFont(stil: FontStil) {
-        this.setFont(bestemFont(stil))
-    }
-
-    enum class FontStil {
-        REGULAR,
-        SEMIBOLD,
-        ITALIC,
-    }
 }

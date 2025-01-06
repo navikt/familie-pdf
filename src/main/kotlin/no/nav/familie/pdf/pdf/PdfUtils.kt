@@ -1,7 +1,11 @@
 package no.nav.familie.pdf.pdf
 
+import com.itextpdf.io.font.FontProgramFactory
+import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.source.ByteArrayOutputStream
 import com.itextpdf.kernel.colors.DeviceRgb
+import com.itextpdf.kernel.font.PdfFont
+import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfAConformance
 import com.itextpdf.kernel.pdf.PdfOutputIntent
 import com.itextpdf.kernel.pdf.PdfString
@@ -20,19 +24,18 @@ import com.itextpdf.layout.element.Link
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Tab
 import com.itextpdf.layout.element.TabStop
+import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.AreaBreakType
 import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.pdf.PdfElementUtils.FontStil
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.PdfElementUtils.settFont
 import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
@@ -292,5 +295,38 @@ object PdfUtils {
         }
 
         return innholdsfortegnelseWrapper
+    }
+
+    private fun bestemFont(stil: FontStil): PdfFont {
+        val skriftSti =
+            when (stil) {
+                FontStil.REGULAR -> "/fonts/SourceSans3-Regular.ttf"
+                FontStil.SEMIBOLD -> "/fonts/SourceSans3-SemiBold.ttf"
+                FontStil.ITALIC -> "/fonts/SourceSans3-Italic.ttf"
+            }
+        val skriftProgram = FontProgramFactory.createFont(skriftSti)
+        return PdfFontFactory.createFont(
+            skriftProgram,
+            PdfEncodings.MACROMAN,
+            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
+        )
+    }
+
+    fun Paragraph.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Document.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Text.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    enum class FontStil {
+        REGULAR,
+        SEMIBOLD,
+        ITALIC,
     }
 }
