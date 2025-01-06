@@ -1,7 +1,10 @@
 package no.nav.familie.pdf.pdf
 
+import com.itextpdf.io.font.FontProgramFactory
+import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.DeviceRgb
+import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
@@ -20,7 +23,7 @@ object PdfElementUtils {
         Paragraph().apply {
             (element.label)
                 .takeIf { it?.isNotEmpty() == true }
-                ?.let { add(Text(it).apply { simulateBold() }) }
+                ?.let { add(Text(it).apply { settFetSkrift() }) }
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
@@ -74,7 +77,19 @@ object PdfElementUtils {
         Paragraph(tekst).apply {
             setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
-            simulateBold()
+            settFetSkrift()
             accessibilityProperties.role = rolle
         }
+
+    fun Paragraph.settFetSkrift() {
+        val skriftSti = "/fonts/SourceSans3-SemiBold.ttf"
+        val skriftProgram = FontProgramFactory.createFont(skriftSti)
+        val fetFont =
+            PdfFontFactory.createFont(
+                skriftProgram,
+                PdfEncodings.MACROMAN,
+                PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
+            )
+        this.apply { setFont(fetFont) }
+    }
 }

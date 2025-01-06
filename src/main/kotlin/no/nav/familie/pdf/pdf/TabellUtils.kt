@@ -1,9 +1,6 @@
 package no.nav.familie.pdf.pdf
 
-import com.itextpdf.io.font.FontProgramFactory
-import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.kernel.colors.DeviceRgb
-import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.borders.Border
 import com.itextpdf.layout.element.Cell
@@ -11,6 +8,7 @@ import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
+import no.nav.familie.pdf.pdf.PdfElementUtils.settFetSkrift
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object TabellUtils {
@@ -31,7 +29,7 @@ object TabellUtils {
                     Paragraph(caption).apply {
                         setFontColor(DeviceRgb(0, 52, 125))
                         setFontSize(14f)
-                        simulateBold()
+                        settFetSkrift()
                     },
                 )
             }
@@ -106,22 +104,9 @@ object TabellUtils {
                 },
             ).apply {
                 setBorder(Border.NO_BORDER)
-//                if (erUthevet) simulateBold()
                 if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
                 accessibilityProperties.role = StandardRoles.TD
             }
-
-    fun Paragraph.settFetSkrift() {
-        val skriftSti = "/fonts/SourceSans3-SemiBold.ttf"
-        val skriftProgram = FontProgramFactory.createFont(skriftSti)
-        val fetFont =
-            PdfFontFactory.createFont(
-                skriftProgram,
-                PdfEncodings.MACROMAN,
-                PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
-            )
-        this.apply { setFont(fetFont) }
-    }
 
     private fun lagTabellOverskriftscelle(
         tekst: String,
@@ -132,7 +117,7 @@ object TabellUtils {
                 Paragraph(tekst).apply {
                     setFontColor(DeviceRgb(0, 86, 180))
                     setFontSize(14f)
-                    simulateBold()
+                    settFetSkrift()
                 },
             ).apply {
                 setBorder(Border.NO_BORDER)
