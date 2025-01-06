@@ -9,6 +9,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeski
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
@@ -60,6 +61,12 @@ class PdfServiceTest {
         fun pdfUtenInnholdsfortegnelse(): Stream<FeltMap> =
             Stream.of(
                 lagUteninnholdsfortegnelse(),
+            )
+
+        @JvmStatic
+        fun pdfMedInnholdsfortegnelse(): Stream<FeltMap> =
+            Stream.of(
+                lagMedInnholdsfortegnelse(),
             )
     }
 
@@ -129,6 +136,18 @@ class PdfServiceTest {
         // Assert
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
         assertFalse { førsteSideTekst.contains("Innholdsfortegnelse") }
+    }
+
+    @ParameterizedTest
+    @MethodSource("pdfMedInnholdsfortegnelse")
+    fun `Pdf lager forside med innholdsfortegnelse`(feltMap: FeltMap) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
     }
 
     @ParameterizedTest
