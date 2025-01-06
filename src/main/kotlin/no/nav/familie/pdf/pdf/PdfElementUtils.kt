@@ -141,7 +141,7 @@ object PdfElementUtils {
         tabell.caption = captionDiv
         tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
         tabell.addCell(lagTabellOverskriftscelle("Svar", false))
-        lagTabellRekursivt(tabell, tabellData.verdiliste)
+        lagTabellRekursivt(tabellData.verdiliste, tabell)
         return tabell
     }
 
@@ -163,18 +163,33 @@ object PdfElementUtils {
         }
 
     private fun lagTabellRekursivt(
-        tabell: Table,
         tabellData: kotlin.collections.List<VerdilisteElement>,
-    ) {
+        tabell: Table,
+        harMørkBakgrunn: Boolean = false,
+    ): Boolean {
+        var mørkBakgrunn = harMørkBakgrunn
         tabellData.forEach { element ->
             when {
                 element.verdi != null -> {
-                    tabell.addCell(lagTabellInformasjonscelle(element.label, erUthevet = true))
-                    tabell.addCell(lagTabellInformasjonscelle(element.verdi, erVenstreKolonne = false))
+                    val labelCelle = lagTabellInformasjonscelle(element.label, erUthevet = true)
+                    val verdiCelle = lagTabellInformasjonscelle(element.verdi, false)
+
+                    if (mørkBakgrunn) {
+                        labelCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                        verdiCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                    }
+                    tabell.addCell(labelCelle)
+                    tabell.addCell(verdiCelle)
+
+                    mørkBakgrunn = !mørkBakgrunn
                 }
-                element.verdiliste != null -> lagTabellRekursivt(tabell, element.verdiliste)
+
+                element.verdiliste != null -> {
+                    mørkBakgrunn = lagTabellRekursivt(element.verdiliste, tabell, mørkBakgrunn)
+                }
             }
         }
+        return mørkBakgrunn
     }
 
     private fun lagTabellInformasjonscelle(
