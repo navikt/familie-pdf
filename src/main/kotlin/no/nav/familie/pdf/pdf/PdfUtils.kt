@@ -100,7 +100,6 @@ object PdfUtils {
     private fun kalkulerSideantallInnholdsfortegnelse(
         feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
-        sideAntallInnholdsfortegnelse: Int = 0,
     ): Int {
         val midlertidigPdfADokument = lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
@@ -109,7 +108,6 @@ object PdfUtils {
                 feltMap,
                 innholdsfortegnelse,
                 midlertidigPdfADokument,
-                sideAntallInnholdsfortegnelse,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
@@ -136,14 +134,15 @@ object PdfUtils {
         pdfADokument: PdfADocument,
         sideAntallInnholdsfortegnelse: Int = 0,
     ) {
-        if (sideAntallInnholdsfortegnelse == 0) {
+        val harInnholdsfortegnelse = feltMap.pdfConfig?.harInnholdsFortegnelse ?: true
+        if (!harInnholdsfortegnelse) {
             leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label)
         }
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
                 val navigeringDestinasjon = element.label
                 add(lagSeksjon(element, navigeringDestinasjon))
-                if (sideAntallInnholdsfortegnelse > 0) {
+                if (harInnholdsfortegnelse) {
                     innholdsfortegnelse.add(
                         InnholdsfortegnelseOppføringer(
                             element.label,
