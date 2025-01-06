@@ -8,7 +8,8 @@ import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
-import no.nav.familie.pdf.pdf.PdfElementUtils.settFetSkrift
+import no.nav.familie.pdf.pdf.PdfElementUtils.FontStil
+import no.nav.familie.pdf.pdf.PdfElementUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object TabellUtils {
@@ -29,7 +30,7 @@ object TabellUtils {
                     Paragraph(caption).apply {
                         setFontColor(DeviceRgb(0, 52, 125))
                         setFontSize(14f)
-                        settFetSkrift()
+                        settFont(FontStil.SEMIBOLD)
                     },
                 )
             }
@@ -100,7 +101,7 @@ object TabellUtils {
             .add(
                 Paragraph(tekst).apply {
                     setFontSize(12f)
-                    if (erUthevet) settFetSkrift()
+                    if (erUthevet) settFont(FontStil.SEMIBOLD)
                 },
             ).apply {
                 setBorder(Border.NO_BORDER)
@@ -117,7 +118,7 @@ object TabellUtils {
                 Paragraph(tekst).apply {
                     setFontColor(DeviceRgb(0, 86, 180))
                     setFontSize(14f)
-                    settFetSkrift()
+                    settFont(FontStil.SEMIBOLD)
                 },
             ).apply {
                 setBorder(Border.NO_BORDER)

@@ -4,8 +4,10 @@ import com.itextpdf.io.font.FontProgramFactory
 import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.DeviceRgb
+import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
+import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
@@ -23,7 +25,7 @@ object PdfElementUtils {
         Paragraph().apply {
             (element.label)
                 .takeIf { it?.isNotEmpty() == true }
-                ?.let { add(Text(it).apply { settFetSkrift() }) }
+                ?.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
@@ -77,19 +79,40 @@ object PdfElementUtils {
         Paragraph(tekst).apply {
             setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
-            settFetSkrift()
+            settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
         }
 
-    fun Paragraph.settFetSkrift() {
-        val skriftSti = "/fonts/SourceSans3-SemiBold.ttf"
+    private fun bestemFont(stil: FontStil): PdfFont {
+        val skriftSti =
+            when (stil) {
+                FontStil.REGULAR -> "/fonts/SourceSans3-Regular.ttf"
+                FontStil.SEMIBOLD -> "/fonts/SourceSans3-SemiBold.ttf"
+                FontStil.ITALIC -> "/fonts/SourceSans3-Italic.ttf"
+            }
         val skriftProgram = FontProgramFactory.createFont(skriftSti)
-        val fetFont =
-            PdfFontFactory.createFont(
-                skriftProgram,
-                PdfEncodings.MACROMAN,
-                PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
-            )
-        this.apply { setFont(fetFont) }
+        return PdfFontFactory.createFont(
+            skriftProgram,
+            PdfEncodings.MACROMAN,
+            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
+        )
+    }
+
+    fun Paragraph.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Document.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Text.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    enum class FontStil {
+        REGULAR,
+        SEMIBOLD,
+        ITALIC,
     }
 }

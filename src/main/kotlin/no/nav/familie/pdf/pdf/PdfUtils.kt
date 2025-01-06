@@ -1,11 +1,7 @@
 package no.nav.familie.pdf.pdf
 
-import com.itextpdf.io.font.FontProgramFactory
-import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.io.source.ByteArrayOutputStream
 import com.itextpdf.kernel.colors.DeviceRgb
-import com.itextpdf.kernel.font.PdfFont
-import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.pdf.PdfAConformance
 import com.itextpdf.kernel.pdf.PdfOutputIntent
 import com.itextpdf.kernel.pdf.PdfString
@@ -29,12 +25,14 @@ import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
+import no.nav.familie.pdf.pdf.PdfElementUtils.FontStil
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
+import no.nav.familie.pdf.pdf.PdfElementUtils.settFont
 import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
@@ -79,7 +77,7 @@ object PdfUtils {
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
         Document(pdfADokument).apply {
-            setFont(pdfSkrift())
+            settFont(FontStil.REGULAR)
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
@@ -100,7 +98,7 @@ object PdfUtils {
     ): Int {
         val midlertidigPdfADokument = lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
-            setFont(pdfSkrift())
+            settFont(FontStil.REGULAR)
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
@@ -114,16 +112,6 @@ object PdfUtils {
             innholdsfortegnelse.clear()
             return sideAntallEtterInnholdsfortegnelse - sideAntallFørInnholdsfortegnelse
         }
-    }
-
-    private fun pdfSkrift(): PdfFont {
-        val skriftSti = "/fonts/SourceSans3-Regular.ttf"
-        val skriftProgram = FontProgramFactory.createFont(skriftSti)
-        return PdfFontFactory.createFont(
-            skriftProgram,
-            PdfEncodings.MACROMAN,
-            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
-        )
     }
 
     private fun Document.leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
@@ -238,7 +226,7 @@ object PdfUtils {
             add(
                 Paragraph(søknadstype).apply {
                     setMarginTop(-10f)
-                }
+                },
             )
         }
         add(lagOverskriftH2("Innholdsfortegnelse"))
