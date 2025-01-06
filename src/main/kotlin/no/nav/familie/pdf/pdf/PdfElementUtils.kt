@@ -30,7 +30,7 @@ object PdfElementUtils {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
-                        simulateItalic()
+                        settFont(FontStil.ITALIC)
                         setFontSize(10f)
                     },
                 )
