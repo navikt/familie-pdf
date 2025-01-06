@@ -154,176 +154,176 @@ object PdfUtils {
             }
         }
     }
-}
 
-private fun lagSeksjon(
-    element: VerdilisteElement,
-    navigeringDestinasjon: String,
-): Div =
-    Div().apply {
+    private fun lagSeksjon(
+        element: VerdilisteElement,
+        navigeringDestinasjon: String,
+    ): Div =
+        Div().apply {
+            add(
+                lagOverskriftH2(element.label).apply {
+                    setDestination(navigeringDestinasjon)
+                },
+            )
+            if (element.verdiliste != null) {
+                if (element.visningsVariant != null) {
+                    håndterVisningsvariant(element.visningsVariant, element.verdiliste, this)
+                } else {
+                    håndterRekursivVerdiliste(element.verdiliste, this)
+                }
+            }
+            add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
+        }
+
+    private fun håndterVisningsvariant(
+        visningsVariant: String,
+        verdiliste: List<VerdilisteElement>,
+        seksjon: Div,
+    ) {
+        when (visningsVariant) {
+            VisningsVariant.TABELL_BARN.toString() -> {
+                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
+            }
+
+            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
+                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
+            }
+
+            VisningsVariant.VEDLEGG.toString() -> {
+                håndterVedlegg(verdiliste, seksjon)
+            }
+        }
+    }
+
+    private fun håndterVedlegg(
+        verdiListe: List<VerdilisteElement>,
+        seksjon: Div,
+    ) {
+        verdiListe.forEach { vedlegg ->
+            val vedleggInnhold = vedlegg.verdi
+            if (vedleggInnhold == "") {
+                seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
+            } else {
+                håndterRekursivVerdiliste(verdiListe, seksjon)
+            }
+        }
+    }
+
+    private fun håndterRekursivVerdiliste(
+        verdiliste: List<VerdilisteElement>,
+        seksjon: Div,
+        rekursjonsDybde: Int = 1,
+    ) {
+        verdiliste.forEach { element ->
+            val marginVenstre = 15f * rekursjonsDybde
+            Div().apply {
+                isKeepTogether = true
+                if (element.visningsVariant != null) {
+                    håndterVisningsvariant(
+                        element.visningsVariant,
+                        element.verdiliste ?: emptyList(),
+                        seksjon,
+                    )
+                } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
+                    seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
+                    håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
+                } else if (element.verdi != null) {
+                    seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+                }
+            }
+        }
+    }
+
+    private fun Document.leggTilForsideMedInnholdsfortegnelse(
+        overskrift: String,
+        innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
+    ) {
+        val tittel = overskrift.substringBefore(" (")
+        val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
+        add(AreaBreak(AreaBreakType.NEXT_PAGE))
+        add(lagOverskriftH1(tittel))
+        add(navLogoBilde())
         add(
-            lagOverskriftH2(element.label).apply {
-                setDestination(navigeringDestinasjon)
+            Paragraph(søknadstype).apply {
+                setMarginTop(-10f)
             },
         )
-        if (element.verdiliste != null) {
-            if (element.visningsVariant != null) {
-                håndterVisningsvariant(element.visningsVariant, element.verdiliste, this)
-            } else {
-                håndterRekursivVerdiliste(element.verdiliste, this)
-            }
-        }
-        add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
+        add(lagOverskriftH2("Innholdsfortegnelse"))
+        add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
 
-private fun håndterVisningsvariant(
-    visningsVariant: String,
-    verdiliste: List<VerdilisteElement>,
-    seksjon: Div,
-) {
-    when (visningsVariant) {
-        VisningsVariant.TABELL_BARN.toString() -> {
-            håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
-        }
+    private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
+        overskrift: String,
+    ) {
+        val tittel = overskrift.substringBefore(" (")
+        val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
+        add(lagOverskriftH1(tittel))
+        add(navLogoBilde())
+        add(
+            Paragraph(søknadstype).apply {
+                setMarginTop(-10f)
+            },
+        )
+    }
 
-        VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-            håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
-        }
-
-        VisningsVariant.VEDLEGG.toString() -> {
-            håndterVedlegg(verdiliste, seksjon)
+    private fun leggInnholdsfortegnelsenFørst(
+        sideantallInnholdsfortegnelse: Int,
+        pdfADokument: PdfADocument,
+    ) {
+        repeat(sideantallInnholdsfortegnelse) {
+            pdfADokument.movePage(pdfADokument.numberOfPages, 1)
         }
     }
-}
 
-private fun håndterVedlegg(
-    verdiListe: List<VerdilisteElement>,
-    seksjon: Div,
-) {
-    verdiListe.forEach { vedlegg ->
-        val vedleggInnhold = vedlegg.verdi
-        if (vedleggInnhold == "") {
-            seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
-        } else {
-            håndterRekursivVerdiliste(verdiListe, seksjon)
+    private fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
+        for (sidetall in 1..pdfADokument.numberOfPages) {
+            val bunntekst = Paragraph().add("Side $sidetall av ${pdfADokument.numberOfPages}")
+            showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
         }
     }
-}
 
-private fun håndterRekursivVerdiliste(
-    verdiliste: List<VerdilisteElement>,
-    seksjon: Div,
-    rekursjonsDybde: Int = 1,
-) {
-    verdiliste.forEach { element ->
-        val marginVenstre = 15f * rekursjonsDybde
-        Div().apply {
-            isKeepTogether = true
-            if (element.visningsVariant != null) {
-                håndterVisningsvariant(
-                    element.visningsVariant,
-                    element.verdiliste ?: emptyList(),
-                    seksjon,
-                )
-            } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
-                seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
-                håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
-            } else if (element.verdi != null) {
-                seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
-            }
-        }
-    }
-}
-
-private fun Document.leggTilForsideMedInnholdsfortegnelse(
-    overskrift: String,
-    innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
-) {
-    val tittel = overskrift.substringBefore(" (")
-    val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
-    add(AreaBreak(AreaBreakType.NEXT_PAGE))
-    add(lagOverskriftH1(tittel))
-    add(navLogoBilde())
-    add(
-        Paragraph(søknadstype).apply {
-            setMarginTop(-10f)
-        },
+    data class InnholdsfortegnelseOppføringer(
+        val tittel: String,
+        val sideNummer: Int,
     )
-    add(lagOverskriftH2("Innholdsfortegnelse"))
-    add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
-}
 
-private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
-    overskrift: String,
-) {
-    val tittel = overskrift.substringBefore(" (")
-    val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
-    add(lagOverskriftH1(tittel))
-    add(navLogoBilde())
-    add(
-        Paragraph(søknadstype).apply {
-            setMarginTop(-10f)
-        },
-    )
-}
+    private fun lagInnholdsfortegnelse(innholdsfortegnelse: List<InnholdsfortegnelseOppføringer>): Paragraph {
+        val innholdsfortegnelseWrapper =
+            Paragraph().apply {
+                accessibilityProperties.role = StandardRoles.L
+            }
 
-private fun leggInnholdsfortegnelsenFørst(
-    sideantallInnholdsfortegnelse: Int,
-    pdfADokument: PdfADocument,
-) {
-    repeat(sideantallInnholdsfortegnelse) {
-        pdfADokument.movePage(pdfADokument.numberOfPages, 1)
-    }
-}
+        innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
+            val alternativTekst =
+                "Naviger til ${innholdsfortegnelseElement.tittel} på side ${innholdsfortegnelseElement.sideNummer}"
+            val lenke =
+                Link(
+                    innholdsfortegnelseElement.tittel,
+                    PdfAction.createGoTo(innholdsfortegnelseElement.tittel),
+                ).apply {
+                    accessibilityProperties.alternateDescription = alternativTekst
+                    accessibilityProperties.role = StandardRoles.LINK
+                    linkAnnotation.contents = PdfString(alternativTekst)
+                }
+            val lBody =
+                Paragraph().apply {
+                    setMargin(0f)
+                    setPadding(0f)
+                    accessibilityProperties.role = StandardRoles.LBODY
+                    add(lenke)
+                    add(Tab())
+                    addTabStops(TabStop(1000f, TabAlignment.RIGHT))
+                    add("${innholdsfortegnelseElement.sideNummer}")
+                }
+            val oppføring =
+                Paragraph().apply {
+                    accessibilityProperties.role = StandardRoles.LI
+                    add(lBody)
+                }
 
-private fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
-    for (sidetall in 1..pdfADokument.numberOfPages) {
-        val bunntekst = Paragraph().add("Side $sidetall av ${pdfADokument.numberOfPages}")
-        showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
-    }
-}
-
-data class InnholdsfortegnelseOppføringer(
-    val tittel: String,
-    val sideNummer: Int,
-)
-
-private fun lagInnholdsfortegnelse(innholdsfortegnelse: List<InnholdsfortegnelseOppføringer>): Paragraph {
-    val innholdsfortegnelseWrapper =
-        Paragraph().apply {
-            accessibilityProperties.role = StandardRoles.L
+            innholdsfortegnelseWrapper.add(oppføring)
         }
 
-    innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
-        val alternativTekst =
-            "Naviger til ${innholdsfortegnelseElement.tittel} på side ${innholdsfortegnelseElement.sideNummer}"
-        val lenke =
-            Link(
-                innholdsfortegnelseElement.tittel,
-                PdfAction.createGoTo(innholdsfortegnelseElement.tittel),
-            ).apply {
-                accessibilityProperties.alternateDescription = alternativTekst
-                accessibilityProperties.role = StandardRoles.LINK
-                linkAnnotation.contents = PdfString(alternativTekst)
-            }
-        val lBody =
-            Paragraph().apply {
-                setMargin(0f)
-                setPadding(0f)
-                accessibilityProperties.role = StandardRoles.LBODY
-                add(lenke)
-                add(Tab())
-                addTabStops(TabStop(1000f, TabAlignment.RIGHT))
-                add("${innholdsfortegnelseElement.sideNummer}")
-            }
-        val oppføring =
-            Paragraph().apply {
-                accessibilityProperties.role = StandardRoles.LI
-                add(lBody)
-            }
-
-        innholdsfortegnelseWrapper.add(oppføring)
+        return innholdsfortegnelseWrapper
     }
-
-    return innholdsfortegnelseWrapper
 }
