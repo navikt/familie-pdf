@@ -24,6 +24,7 @@ import com.itextpdf.layout.element.Link
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Tab
 import com.itextpdf.layout.element.TabStop
+import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.AreaBreakType
 import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
@@ -324,5 +325,38 @@ object PdfUtils {
         }
 
         return innholdsfortegnelseWrapper
+    }
+
+    private fun bestemFont(stil: FontStil): PdfFont {
+        val skriftSti =
+            when (stil) {
+                FontStil.REGULAR -> "/fonts/SourceSans3-Regular.ttf"
+                FontStil.SEMIBOLD -> "/fonts/SourceSans3-SemiBold.ttf"
+                FontStil.ITALIC -> "/fonts/SourceSans3-Italic.ttf"
+            }
+        val skriftProgram = FontProgramFactory.createFont(skriftSti)
+        return PdfFontFactory.createFont(
+            skriftProgram,
+            PdfEncodings.MACROMAN,
+            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
+        )
+    }
+
+    fun Paragraph.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Document.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Text.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    enum class FontStil {
+        REGULAR,
+        SEMIBOLD,
+        ITALIC,
     }
 }

@@ -6,6 +6,8 @@ import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
+import no.nav.familie.pdf.pdf.PdfUtils.FontStil
+import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object PdfElementUtils {
@@ -20,12 +22,12 @@ object PdfElementUtils {
         Paragraph().apply {
             (element.label)
                 .takeIf { it?.isNotEmpty() == true }
-                ?.let { add(Text(it).apply { simulateBold() }) }
+                ?.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
-                        simulateItalic()
+                        settFont(FontStil.ITALIC)
                         setFontSize(10f)
                     },
                 )
@@ -74,7 +76,7 @@ object PdfElementUtils {
         Paragraph(tekst).apply {
             setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
-            simulateBold()
+            settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
         }
 }
