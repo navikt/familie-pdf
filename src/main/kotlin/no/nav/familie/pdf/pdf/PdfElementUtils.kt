@@ -13,6 +13,8 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.UnitValue
+import no.nav.familie.pdf.pdf.PdfUtils.FontStil
+import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object PdfElementUtils {
@@ -25,14 +27,14 @@ object PdfElementUtils {
 
     fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            element.label.takeIf { it.isNotEmpty() }?.let {
-                add(Text(it).apply { simulateBold() })
-            }
+            (element.label)
+                .takeIf { it.isNotEmpty() }
+                ?.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
-                        simulateItalic()
+                        settFont(FontStil.ITALIC)
                         setFontSize(10f)
                     },
                 )
@@ -50,12 +52,18 @@ object PdfElementUtils {
 
     fun lagPunktliste(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            add(Text(element.label).apply { simulateBold() })
+            add(
+                Text(element.label).apply {
+                    settFont(
+                        FontStil.SEMIBOLD,
+                    )
+                },
+            )
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
-                        simulateItalic()
+                        settFont(FontStil.ITALIC)
                         setFontSize(10f)
                     },
                 )
@@ -111,7 +119,7 @@ object PdfElementUtils {
         Paragraph(tekst).apply {
             setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
-            simulateBold()
+            settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
         }
 
@@ -134,7 +142,7 @@ object PdfElementUtils {
                     Paragraph(tabellData.label).apply {
                         setFontColor(DeviceRgb(0, 52, 125))
                         setFontSize(14f)
-                        simulateBold()
+                        settFont(FontStil.SEMIBOLD)
                     },
                 )
             }
@@ -154,7 +162,7 @@ object PdfElementUtils {
                 Paragraph(tekst).apply {
                     setFontColor(DeviceRgb(0, 86, 180))
                     setFontSize(14f)
-                    simulateBold()
+                    settFont(FontStil.SEMIBOLD)
                 },
             )
             setBorder(Border.NO_BORDER)
@@ -198,9 +206,13 @@ object PdfElementUtils {
         erUthevet: Boolean = false,
     ): Cell =
         Cell().apply {
-            add(Paragraph(tekst).setFontSize(12f))
+            add(
+                Paragraph(tekst).apply {
+                    setFontSize(12f)
+                    if (erUthevet) settFont(FontStil.SEMIBOLD)
+                },
+            )
             setBorder(Border.NO_BORDER)
-            if (erUthevet) simulateBold()
             if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
             accessibilityProperties.role = StandardRoles.TD
         }
