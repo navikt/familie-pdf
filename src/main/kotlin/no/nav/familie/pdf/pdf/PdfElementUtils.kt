@@ -189,7 +189,7 @@ object PdfElementUtils {
                     mørkBakgrunn = !mørkBakgrunn
                 }
                 element.verdiliste != null -> {
-                    mørkBakgrunn = lagTabellRekursivt(tabell, element.verdiliste)
+                    mørkBakgrunn = lagTabellRekursivt(tabell, element.verdiliste, mørkBakgrunn)
                 }
             }
         }
