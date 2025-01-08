@@ -190,7 +190,7 @@ class PdfServiceTest {
     ) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
-        val firstPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
         val forventetInnholdsfortegnelse =
@@ -198,9 +198,9 @@ class PdfServiceTest {
                 "Innsendingsdetaljer" to forventetSide,
             )
         for ((label, forventetSide) in forventetInnholdsfortegnelse) {
-            assertTrue(firstPageText.contains("$label $forventetSide"))
-            val actualPageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
-            assertTrue(actualPageText.contains(label))
+            assertTrue(førsteSideTekst.contains("$label $forventetSide"))
+            val faktiskSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
+            assertTrue(faktiskSideTekst.contains(label))
         }
     }
 
