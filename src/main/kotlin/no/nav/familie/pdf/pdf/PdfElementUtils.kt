@@ -3,11 +3,16 @@ package no.nav.familie.pdf.pdf
 import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
+import com.itextpdf.layout.borders.Border
+import com.itextpdf.layout.element.Cell
+import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.element.List
 import com.itextpdf.layout.element.ListItem
 import com.itextpdf.layout.element.Paragraph
+import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
+import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.PdfUtils.FontStil
 import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
@@ -112,4 +117,100 @@ object PdfElementUtils {
             settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
         }
+
+    fun lagTabell(
+        tabellData: kotlin.collections.List<VerdilisteElement>,
+        caption: String,
+    ): Table {
+        val tabell =
+            Table(UnitValue.createPercentArray(floatArrayOf(50f, 50f))).apply {
+                useAllAvailableWidth()
+                setMarginBottom(10f)
+                setMarginLeft(15f)
+                accessibilityProperties.role = StandardRoles.TABLE
+            }
+        val captionDiv =
+            Div().apply {
+                add(
+                    Paragraph(caption).apply {
+                        setFontColor(DeviceRgb(0, 52, 125))
+                        setFontSize(14f)
+                        settFont(FontStil.SEMIBOLD)
+                    },
+                )
+            }
+        tabell.caption = captionDiv
+
+        tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
+        tabell.addCell(lagTabellOverskriftscelle("Svar", false))
+        lagTabellRekursivt(tabellData, tabell)
+        return tabell
+    }
+
+    private fun lagTabellRekursivt(
+        tabellData: kotlin.collections.List<VerdilisteElement>,
+        tabell: Table,
+        bakgrunnErMørk: Boolean = false,
+    ): Boolean {
+        var mørkBakgrunn = bakgrunnErMørk
+
+        tabellData.forEach { item ->
+            val label = item.label
+            val value = item.verdi ?: ""
+            when {
+                item.verdi != null -> {
+                    val labelCelle = lagTabellInformasjonscelle(label, erUthevet = true)
+                    val verdiCelle = lagTabellInformasjonscelle(value, false)
+
+                    if (mørkBakgrunn) {
+                        labelCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                        verdiCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                    }
+                    tabell.addCell(labelCelle)
+                    tabell.addCell(verdiCelle)
+
+                    mørkBakgrunn = !mørkBakgrunn
+                }
+
+                item.verdiliste != null -> {
+                    mørkBakgrunn = lagTabellRekursivt(item.verdiliste, tabell, mørkBakgrunn)
+                }
+            }
+        }
+        return mørkBakgrunn
+    }
+
+    private fun lagTabellInformasjonscelle(
+        tekst: String,
+        erVenstreKolonne: Boolean = true,
+        erUthevet: Boolean = false,
+    ): Cell =
+        Cell()
+            .add(
+                Paragraph(tekst).apply {
+                    setFontSize(12f)
+                    if (erUthevet) settFont(FontStil.SEMIBOLD)
+                },
+            ).apply {
+                setBorder(Border.NO_BORDER)
+                if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+                accessibilityProperties.role = StandardRoles.TD
+            }
+
+    private fun lagTabellOverskriftscelle(
+        tekst: String,
+        erVenstreKolonne: Boolean = true,
+    ): Cell =
+        Cell()
+            .add(
+                Paragraph(tekst).apply {
+                    setFontColor(DeviceRgb(0, 86, 180))
+                    setFontSize(14f)
+                    settFont(FontStil.SEMIBOLD)
+                },
+            ).apply {
+                setBorder(Border.NO_BORDER)
+                if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+                accessibilityProperties.role = StandardRoles.TH
+            }
 }

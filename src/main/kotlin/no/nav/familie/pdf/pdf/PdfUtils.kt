@@ -33,14 +33,11 @@ import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagPunktliste
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellUtils.håndterTabeller
+import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
-import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -158,54 +155,7 @@ object PdfUtils {
             add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
 
-    private fun håndterVisningsvariant(
-        visningsVariant: String,
-        verdiElement: VerdilisteElement,
-        seksjon: Div,
-    ) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL_BARN.toString() -> {
-                håndterTabeller(verdiElement, "Navn", "Barn", seksjon)
-            }
-
-            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                håndterTabeller(verdiElement, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
-            }
-
-            VisningsVariant.PUNKTLISTE.toString() -> {
-                håndterPunktliste(verdiElement, seksjon)
-            }
-
-            VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdiElement, seksjon)
-            }
-        }
-    }
-
-    private fun håndterPunktliste(
-        verdi: VerdilisteElement,
-        seksjon: Div,
-    ) {
-        seksjon.apply {
-            add(lagPunktliste(verdi))
-        }
-    }
-
-    private fun håndterVedlegg(
-        verdilisteElement: VerdilisteElement,
-        seksjon: Div,
-    ) {
-        verdilisteElement.verdiliste?.forEach { vedlegg ->
-            val vedleggInnhold = vedlegg.verdi
-            if (vedleggInnhold == "") {
-                seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
-            } else {
-                håndterRekursivVerdiliste(verdilisteElement.verdiliste, seksjon)
-            }
-        }
-    }
-
-    private fun håndterRekursivVerdiliste(
+    fun håndterRekursivVerdiliste(
         verdiliste: List<VerdilisteElement>,
         seksjon: Div,
         rekursjonsDybde: Int = 1,
