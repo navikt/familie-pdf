@@ -32,13 +32,13 @@ object UtilsMetaData {
         pdfADokument.xmpMetadata = xmpMeta
 
         pdfADokument.catalog.apply {
-            put(PdfName.Lang, PdfString(språk)) // TODO: Gjør dynamisk
+            put(PdfName.Lang, PdfString(språk))
             viewerPreferences = PdfViewerPreferences().setDisplayDocTitle(true)
         }
     }
 
     private fun lagXmpMeta(
-        skaperAvPDF: String,
+        skaperAvPdf: String,
         tittel: String,
         språk: String,
     ): XMPMeta {
@@ -51,7 +51,7 @@ object UtilsMetaData {
                     "x-default",
                     tittel,
                 )
-                setProperty("http://purl.org/dc/elements/1.1/", "dc:creator", skaperAvPDF)
+                setProperty("http://purl.org/dc/elements/1.1/", "dc:creator", skaperAvPdf)
                 setProperty("http://purl.org/dc/elements/1.1/", "dc:language", språk)
                 // Angir delnummeret for PDF/UA-samsvar (2 for UA-2, 1 for UA-1)
                 setProperty(

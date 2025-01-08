@@ -81,7 +81,8 @@ object PdfUtils {
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
         Document(pdfADokument).apply {
-            setFont(pdfSkrift())
+            settFont(FontStil.REGULAR)
+
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
@@ -104,7 +105,7 @@ object PdfUtils {
     ): Int {
         val midlertidigPdfADokument = lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
-            setFont(pdfSkrift())
+            settFont(FontStil.REGULAR)
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
@@ -117,16 +118,6 @@ object PdfUtils {
             innholdsfortegnelse.clear()
             return sideAntallEtterInnholdsfortegnelse - sideAntallFørInnholdsfortegnelse
         }
-    }
-
-    private fun pdfSkrift(): PdfFont {
-        val skriftSti = "/fonts/SourceSans3-Regular.ttf"
-        val skriftProgram = FontProgramFactory.createFont(skriftSti)
-        return PdfFontFactory.createFont(
-            skriftProgram,
-            PdfEncodings.MACROMAN,
-            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
-        )
     }
 
     private fun Document.leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
@@ -239,7 +230,7 @@ object PdfUtils {
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
     ) {
         val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
+        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
