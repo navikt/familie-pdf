@@ -14,12 +14,12 @@ data class VerdilisteElement(
     val alternativer: String? = null,
 )
 
-enum class Sprak {
-    NO,
+enum class Språk {
+    NB,
     EN,
 }
 
 data class PdfConfig(
-    val harInnholdsFortegnelse: Boolean,
-    val sprak: Sprak? = null,
+    val harInnholdsfortegnelse: Boolean,
+    val språk: Språk,
 )

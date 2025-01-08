@@ -2,18 +2,18 @@ package no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils
 
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.PdfConfig
-import no.nav.familie.pdf.pdf.domain.Sprak
+import no.nav.familie.pdf.pdf.domain.Språk
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 private val søknadsTittel = "Søknad om overgangsstønad (NAV 15-00.01)"
 
-fun lagMedTomVerdiliste(): FeltMap = FeltMap(label = søknadsTittel, pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO), verdiliste = emptyList())
+fun lagMedTomVerdiliste(): FeltMap = FeltMap(label = søknadsTittel, pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB), verdiliste = emptyList())
 
 fun lagMedVerdiliste(): FeltMap =
     FeltMap(
         label = søknadsTittel,
-        pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO),
+        pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB),
         verdiliste =
             listOf(
                 VerdilisteElement(
@@ -30,7 +30,7 @@ fun lagMedVerdiliste(): FeltMap =
 fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
     FeltMap(
         label = søknadsTittel,
-        pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO),
+        pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB),
         verdiliste =
             listOf(
                 VerdilisteElement(
@@ -50,7 +50,7 @@ fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
 fun lagMedTomAdresse(): FeltMap =
     FeltMap(
         label = søknadsTittel,
-        pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO),
+        pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB),
         verdiliste =
             listOf(
                 VerdilisteElement(
@@ -66,7 +66,7 @@ fun lagMedTomAdresse(): FeltMap =
 fun lagAdresseMedBareLinjeskift(): FeltMap =
     FeltMap(
         label = søknadsTittel,
-        pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO),
+        pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB),
         verdiliste =
             listOf(
                 VerdilisteElement(
@@ -82,7 +82,7 @@ fun lagAdresseMedBareLinjeskift(): FeltMap =
 fun lagAdresseMedFlereLinjeskift(): FeltMap =
     FeltMap(
         label = søknadsTittel,
-        pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO),
+        pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB),
         verdiliste =
             listOf(
                 VerdilisteElement(
@@ -98,7 +98,7 @@ fun lagAdresseMedFlereLinjeskift(): FeltMap =
 fun lagToSiderInnholdsfortegnelse(): FeltMap =
     FeltMap(
         label = søknadsTittel,
-        pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO),
+        pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB),
         verdiliste = lagGjentattInnhold(48),
     )
 
@@ -113,7 +113,7 @@ private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteElement> =
 fun lagMedFlereArbeidsforhold(): FeltMap =
     FeltMap(
         label = "Arbeid, utdanning og andre aktiviteter",
-        pdfConfig = PdfConfig(harInnholdsFortegnelse = true, sprak = Sprak.NO),
+        pdfConfig = PdfConfig(harInnholdsfortegnelse = true, språk = Språk.NB),
         verdiliste =
             listOf(
                 VerdilisteElement(
@@ -137,8 +137,8 @@ fun lagUteninnholdsfortegnelse(): FeltMap =
         label = søknadsTittel,
         pdfConfig =
             PdfConfig(
-                harInnholdsFortegnelse = false,
-                sprak = Sprak.NO,
+                harInnholdsfortegnelse = false,
+                språk = Språk.NB,
             ),
         verdiliste = lagGjentattInnhold(20),
     )
@@ -148,8 +148,8 @@ fun lagMedInnholdsfortegnelse(): FeltMap =
         label = søknadsTittel,
         pdfConfig =
             PdfConfig(
-                harInnholdsFortegnelse = true,
-                sprak = Sprak.NO,
+                harInnholdsfortegnelse = true,
+                språk = Språk.NB,
             ),
         verdiliste = lagGjentattInnhold(20),
     )
