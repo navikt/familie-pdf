@@ -281,6 +281,7 @@
       "verdiliste": [
         {
           "label": "Gjelder noe av dette deg?",
+          "visningsVariant": "PUNKTLISTE",
           "verdi": "Jeg er syk\n\nBarnet mitt er sykt",
           "alternativer": "Jeg er syk / Barnet mitt er sykt / Jeg har søkt om barnepass, men ikke fått plass enda / Jeg har barn som trenger særlig tilsyn på grunn av fysiske, psykiske eller store sosiale problemer / Nei"
         },

@@ -33,6 +33,7 @@ import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagPunktliste
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
@@ -149,7 +150,7 @@ object PdfUtils {
             )
             if (element.verdiliste != null) {
                 if (element.visningsVariant != null) {
-                    håndterVisningsvariant(element.visningsVariant, element.verdiliste, this)
+                    håndterVisningsvariant(element.visningsVariant, element.verdiliste, element, this)
                 } else {
                     håndterRekursivVerdiliste(element.verdiliste, this)
                 }
@@ -160,6 +161,7 @@ object PdfUtils {
     private fun håndterVisningsvariant(
         visningsVariant: String,
         verdiliste: List<VerdilisteElement>,
+        verdiElement: VerdilisteElement,
         seksjon: Div,
     ) {
         when (visningsVariant) {
@@ -171,9 +173,22 @@ object PdfUtils {
                 håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
             }
 
+            VisningsVariant.PUNKTLISTE.toString() -> {
+                håndterPunktListe(verdiElement, seksjon)
+            }
+
             VisningsVariant.VEDLEGG.toString() -> {
                 håndterVedlegg(verdiliste, seksjon)
             }
+        }
+    }
+
+    private fun håndterPunktListe(
+        verdi: VerdilisteElement,
+        seksjon: Div,
+    ) {
+        seksjon.apply {
+            add(lagPunktliste(verdi))
         }
     }
 
@@ -204,6 +219,7 @@ object PdfUtils {
                     håndterVisningsvariant(
                         element.visningsVariant,
                         element.verdiliste ?: emptyList(),
+                        element,
                         seksjon,
                     )
                 } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
