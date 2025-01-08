@@ -37,7 +37,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagPunktliste
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
+import no.nav.familie.pdf.pdf.TabellUtils.håndterTabeller
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
@@ -150,7 +150,7 @@ object PdfUtils {
             )
             if (element.verdiliste != null) {
                 if (element.visningsVariant != null) {
-                    håndterVisningsvariant(element.visningsVariant, element.verdiliste, element, this)
+                    håndterVisningsvariant(element.visningsVariant, element, this)
                 } else {
                     håndterRekursivVerdiliste(element.verdiliste, this)
                 }
@@ -160,30 +160,29 @@ object PdfUtils {
 
     private fun håndterVisningsvariant(
         visningsVariant: String,
-        verdiliste: List<VerdilisteElement>,
         verdiElement: VerdilisteElement,
         seksjon: Div,
     ) {
         when (visningsVariant) {
             VisningsVariant.TABELL_BARN.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
+                håndterTabeller(verdiElement, "Navn", "Barn", seksjon)
             }
 
             VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
+                håndterTabeller(verdiElement, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
             }
 
             VisningsVariant.PUNKTLISTE.toString() -> {
-                håndterPunktListe(verdiElement, seksjon)
+                håndterPunktliste(verdiElement, seksjon)
             }
 
             VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdiliste, seksjon)
+                håndterVedlegg(verdiElement, seksjon)
             }
         }
     }
 
-    private fun håndterPunktListe(
+    private fun håndterPunktliste(
         verdi: VerdilisteElement,
         seksjon: Div,
     ) {
@@ -193,15 +192,15 @@ object PdfUtils {
     }
 
     private fun håndterVedlegg(
-        verdiListe: List<VerdilisteElement>,
+        verdilisteElement: VerdilisteElement,
         seksjon: Div,
     ) {
-        verdiListe.forEach { vedlegg ->
+        verdilisteElement.verdiliste?.forEach { vedlegg ->
             val vedleggInnhold = vedlegg.verdi
             if (vedleggInnhold == "") {
                 seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
             } else {
-                håndterRekursivVerdiliste(verdiListe, seksjon)
+                håndterRekursivVerdiliste(verdilisteElement.verdiliste, seksjon)
             }
         }
     }
@@ -218,7 +217,6 @@ object PdfUtils {
                 if (element.visningsVariant != null) {
                     håndterVisningsvariant(
                         element.visningsVariant,
-                        element.verdiliste ?: emptyList(),
                         element,
                         seksjon,
                     )

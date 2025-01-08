@@ -126,14 +126,15 @@ object TabellUtils {
                 accessibilityProperties.role = StandardRoles.TH
             }
 
-    fun håndterTabellBasertPåVisningsvariant(
-        verdiliste: List<VerdilisteElement>,
+    fun håndterTabeller(
+        verdilisteElement: VerdilisteElement,
         strengManSkalSplitteTabellPå: String,
         prefiks: String,
         seksjon: Div,
     ) {
-        val listeMedAlleBarn = lagListeMedAlleElementer(verdiliste, strengManSkalSplitteTabellPå)
-        listeMedAlleBarn.forEachIndexed { index, barn ->
+        val listeMedAlleBarn =
+            verdilisteElement.verdiliste?.let { lagListeMedAlleElementer(it, strengManSkalSplitteTabellPå) }
+        listeMedAlleBarn?.forEachIndexed { index, barn ->
             val barneIndeksTekst = "$prefiks ${index + 1}"
             seksjon.add(lagTabell(barn, barneIndeksTekst))
         }
