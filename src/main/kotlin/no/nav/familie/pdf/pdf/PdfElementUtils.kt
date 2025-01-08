@@ -201,16 +201,10 @@ object PdfElementUtils {
         erVenstreKolonne: Boolean = true,
         erUthevet: Boolean = false,
     ): Cell =
-        Cell()
-            .add(
-                Paragraph(tekst)
-                    .apply {
-                        setFontSize(12f)
-                        if (erUthevet) settFont(FontStil.SEMIBOLD)
-                    }.apply {
-                        setBorder(Border.NO_BORDER)
-                        if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-                        accessibilityProperties.role = StandardRoles.TD
-                    },
-            )
+        Cell().apply {
+            add(Paragraph(tekst).setFontSize(12f).apply { if (erUthevet) settFont(FontStil.SEMIBOLD) })
+            setBorder(Border.NO_BORDER)
+            if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+            accessibilityProperties.role = StandardRoles.TD
+        }
 }
