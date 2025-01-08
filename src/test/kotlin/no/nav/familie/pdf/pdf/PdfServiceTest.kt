@@ -50,18 +50,6 @@ class PdfServiceTest {
                 lagAdresseMedBareLinjeskift(),
                 lagMedTomAdresse(),
             )
-
-        @JvmStatic
-        fun pdfUtenInnholdsfortegnelse(): Stream<FeltMap> =
-            Stream.of(
-                lagUteninnholdsfortegnelse(),
-            )
-
-        @JvmStatic
-        fun pdfMedInnholdsfortegnelse(): Stream<FeltMap> =
-            Stream.of(
-                lagMedInnholdsfortegnelse(),
-            )
     }
 
     @Test
@@ -220,9 +208,11 @@ class PdfServiceTest {
         assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
     }
 
-    @ParameterizedTest
-    @MethodSource("pdfUtenInnholdsfortegnelse")
-    fun `Pdf lager forside uten innholdsfortegnelse`(feltMap: FeltMap) {
+    @Test
+    fun `Pdf lager forside uten innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagUteninnholdsfortegnelse()
+
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
@@ -232,9 +222,11 @@ class PdfServiceTest {
         assertFalse { førsteSideTekst.contains("Innholdsfortegnelse") }
     }
 
-    @ParameterizedTest
-    @MethodSource("pdfMedInnholdsfortegnelse")
-    fun `Pdf lager forside med innholdsfortegnelse`(feltMap: FeltMap) {
+    @Test
+    fun `Pdf lager forside med innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagMedInnholdsfortegnelse()
+
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
