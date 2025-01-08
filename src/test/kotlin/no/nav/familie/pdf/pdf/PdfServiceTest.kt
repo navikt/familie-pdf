@@ -115,6 +115,48 @@ class PdfServiceTest {
         }
     }
 
+    @Test
+    fun `Pdf har søknadstype i overskrift`() {
+        // Arrange
+        val feltMap = lagMedVerdiliste()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSidePdf.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSidePdf.contains("NAV 15-00.01"))
+    }
+
+    @Test
+    fun `Overskrift dukker ikke opp som søknadstype`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        val antallForekomster = Regex("Arbeid, utdanning og andre aktiviteter").findAll(førsteSidePdf).count()
+        assertTrue(1 == antallForekomster, "Overskriften dukker opp to ganger")
+    }
+
+    @Test
+    fun `Pdf har ikke parenteser i overskrift`() {
+        // Arrange
+        val feltMap = lagMedVerdiliste()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('")
+        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'")
+    }
+
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
     fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: FeltMap) {
@@ -126,33 +168,11 @@ class PdfServiceTest {
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
     }
 
-    @ParameterizedTest
-    @MethodSource("pdfUtenInnholdsfortegnelse")
-    fun `Pdf lager forside uten innholdsfortegnelse`(feltMap: FeltMap) {
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+    @Test
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
 
-        // Assert
-        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-        assertFalse { førsteSideTekst.contains("Innholdsfortegnelse") }
-    }
-
-    @ParameterizedTest
-    @MethodSource("pdfMedInnholdsfortegnelse")
-    fun `Pdf lager forside med innholdsfortegnelse`(feltMap: FeltMap) {
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
-
-        // Assert
-        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
-    }
-
-    @ParameterizedTest
-    @MethodSource("flereArbeidsforhold")
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`(feltMap: FeltMap) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
@@ -204,6 +224,30 @@ class PdfServiceTest {
         // Assert
         // Tror ekstra mellomrommet etter 12 er fordi pdf genereringen legger til en ekstra linje. Debuget og ser aldri hvor den blir lagt til.
         assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
+    }
+
+    @ParameterizedTest
+    @MethodSource("pdfUtenInnholdsfortegnelse")
+    fun `Pdf lager forside uten innholdsfortegnelse`(feltMap: FeltMap) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertFalse { førsteSideTekst.contains("Innholdsfortegnelse") }
+    }
+
+    @ParameterizedTest
+    @MethodSource("pdfMedInnholdsfortegnelse")
+    fun `Pdf lager forside med innholdsfortegnelse`(feltMap: FeltMap) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
     }
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {
