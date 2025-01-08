@@ -106,6 +106,10 @@ object PdfValidator {
                 // value of "pdfaid:conformance" as A. A Level
                 // B conforming file shall specify the value
                 // of "pdfaid:conformance" as B.
+                "clause=6.9 testNumber=5",
+                // PDF/A-4f mandates embedded files. This rule is removed to allow
+                // PDF/A-4f documents without attachments, enabling flexibility
+                // for cases where no embedded files are needed.
             )
         return feiledeRegler.replace(Regex("[,{}]"), "").split("RuleId ").drop(1).filter { feiletRegel ->
             !konflikterendeRegler.any { feiletRegel.contains(it) }
