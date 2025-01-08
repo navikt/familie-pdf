@@ -52,12 +52,6 @@ class PdfServiceTest {
             )
 
         @JvmStatic
-        fun flereArbeidsforhold(): Stream<FeltMap> =
-            Stream.of(
-                lagMedFlereArbeidsforhold(),
-            )
-
-        @JvmStatic
         fun pdfUtenInnholdsfortegnelse(): Stream<FeltMap> =
             Stream.of(
                 lagUteninnholdsfortegnelse(),
