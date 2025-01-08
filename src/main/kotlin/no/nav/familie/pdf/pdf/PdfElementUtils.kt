@@ -13,6 +13,8 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.UnitValue
+import no.nav.familie.pdf.pdf.PdfUtils.FontStil
+import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object PdfElementUtils {
@@ -26,13 +28,13 @@ object PdfElementUtils {
     fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
             element.label.takeIf { it.isNotEmpty() }?.let {
-                add(Text(it).apply { simulateBold() })
+                add(Text(it).apply { settFont(FontStil.SEMIBOLD) })
             }
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
                     Text(it).apply {
-                        simulateItalic()
+                        settFont(FontStil.ITALIC)
                         setFontSize(10f)
                     },
                 )
@@ -111,7 +113,7 @@ object PdfElementUtils {
         Paragraph(tekst).apply {
             setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
-            simulateBold()
+            settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
         }
 
@@ -134,7 +136,7 @@ object PdfElementUtils {
                     Paragraph(tabellData.label).apply {
                         setFontColor(DeviceRgb(0, 52, 125))
                         setFontSize(14f)
-                        simulateBold()
+                        settFont(FontStil.SEMIBOLD)
                     },
                 )
             }
@@ -165,16 +167,33 @@ object PdfElementUtils {
     private fun lagTabellRekursivt(
         tabell: Table,
         tabellData: kotlin.collections.List<VerdilisteElement>,
-    ) {
+        bakgrunnErMørk: Boolean = false,
+    ): Boolean {
+        var mørkBakgrunn = bakgrunnErMørk
+
         tabellData.forEach { element ->
+            val label = element.label
+            val verdi = element.verdi ?: ""
             when {
                 element.verdi != null -> {
-                    tabell.addCell(lagTabellInformasjonscelle(element.label, erUthevet = true))
-                    tabell.addCell(lagTabellInformasjonscelle(element.verdi, erVenstreKolonne = false))
+                    val labelCelle = lagTabellInformasjonscelle(label, erUthevet = true)
+                    val verdiCelle = lagTabellInformasjonscelle(verdi, erVenstreKolonne = false)
+
+                    if (mørkBakgrunn) {
+                        labelCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                        verdiCelle.apply { setBackgroundColor(DeviceRgb(204, 225, 255)) }
+                    }
+                    tabell.addCell(labelCelle)
+                    tabell.addCell(verdiCelle)
+
+                    mørkBakgrunn = !mørkBakgrunn
                 }
-                element.verdiliste != null -> lagTabellRekursivt(tabell, element.verdiliste)
+                element.verdiliste != null -> {
+                    mørkBakgrunn = lagTabellRekursivt(tabell, element.verdiliste)
+                }
             }
         }
+        return mørkBakgrunn
     }
 
     private fun lagTabellInformasjonscelle(
@@ -182,11 +201,16 @@ object PdfElementUtils {
         erVenstreKolonne: Boolean = true,
         erUthevet: Boolean = false,
     ): Cell =
-        Cell().apply {
-            add(Paragraph(tekst).setFontSize(12f))
-            setBorder(Border.NO_BORDER)
-            if (erUthevet) simulateBold()
-            if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-            accessibilityProperties.role = StandardRoles.TD
-        }
+        Cell()
+            .add(
+                Paragraph(tekst)
+                    .apply {
+                        setFontSize(12f)
+                        if (erUthevet) settFont(FontStil.SEMIBOLD)
+                    }.apply {
+                        setBorder(Border.NO_BORDER)
+                        if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
+                        accessibilityProperties.role = StandardRoles.TD
+                    },
+            )
 }

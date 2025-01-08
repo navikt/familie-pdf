@@ -24,6 +24,7 @@ import com.itextpdf.layout.element.Link
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Tab
 import com.itextpdf.layout.element.TabStop
+import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.AreaBreakType
 import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
@@ -77,7 +78,7 @@ object PdfUtils {
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
         Document(pdfADokument).apply {
-            setFont(pdfSkrift())
+            settFont(FontStil.REGULAR)
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
@@ -98,7 +99,7 @@ object PdfUtils {
     ): Int {
         val midlertidigPdfADokument = lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
-            setFont(pdfSkrift())
+            settFont(FontStil.REGULAR)
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
@@ -112,16 +113,6 @@ object PdfUtils {
             innholdsfortegnelse.clear()
             return sideAntallEtterInnholdsfortegnelse - sideAntallFørInnholdsfortegnelse
         }
-    }
-
-    private fun pdfSkrift(): PdfFont {
-        val skriftSti = "/fonts/SourceSans3-Regular.ttf"
-        val skriftProgram = FontProgramFactory.createFont(skriftSti)
-        return PdfFontFactory.createFont(
-            skriftProgram,
-            PdfEncodings.MACROMAN,
-            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
-        )
     }
 
     private fun Document.leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
@@ -194,15 +185,17 @@ object PdfUtils {
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
     ) {
         val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
+        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        add(
-            Paragraph(søknadstype).apply {
-                setMarginTop(-10f)
-            },
-        )
+        if (søknadstype.isNotEmpty()) {
+            add(
+                Paragraph(søknadstype).apply {
+                    setMarginTop(-10f)
+                },
+            )
+        }
         add(lagOverskriftH2("Innholdsfortegnelse"))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
@@ -266,5 +259,38 @@ object PdfUtils {
         }
 
         return innholdsfortegnelseWrapper
+    }
+
+    private fun bestemFont(stil: FontStil): PdfFont {
+        val skriftSti =
+            when (stil) {
+                FontStil.REGULAR -> "/fonts/SourceSans3-Regular.ttf"
+                FontStil.SEMIBOLD -> "/fonts/SourceSans3-SemiBold.ttf"
+                FontStil.ITALIC -> "/fonts/SourceSans3-Italic.ttf"
+            }
+        val skriftProgram = FontProgramFactory.createFont(skriftSti)
+        return PdfFontFactory.createFont(
+            skriftProgram,
+            PdfEncodings.MACROMAN,
+            PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
+        )
+    }
+
+    fun Paragraph.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Document.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    fun Text.settFont(stil: FontStil) {
+        this.setFont(bestemFont(stil))
+    }
+
+    enum class FontStil {
+        REGULAR,
+        SEMIBOLD,
+        ITALIC,
     }
 }
