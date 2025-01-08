@@ -52,7 +52,7 @@ object PdfElementUtils {
 
     fun lagPunktliste(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            add(Text(element.label).apply { simulateBold() })
+            add(Text(element.label).apply { settFont(FontStil.SEMIBOLD) })
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
