@@ -4,6 +4,8 @@ import com.itextpdf.io.image.ImageDataFactory
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.element.Image
+import com.itextpdf.layout.element.List
+import com.itextpdf.layout.element.ListItem
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
 import no.nav.familie.pdf.pdf.PdfUtils.FontStil
@@ -21,8 +23,9 @@ object PdfElementUtils {
     fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
             (element.label)
-                .takeIf { it?.isNotEmpty() == true }
-                ?.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
+            element.label.takeIf { it.isNotEmpty() }?.let {
+                add(Text(it).apply { simulateBold() })
+            }
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
@@ -37,6 +40,36 @@ object PdfElementUtils {
                 add(sjekkDobbelLinjeskift(element.verdi))
             } else {
                 add(element.verdi)
+            }
+            setFontSize(12f)
+            isKeepTogether = true
+            accessibilityProperties.role = StandardRoles.P
+        }
+
+    fun lagPunktliste(element: VerdilisteElement): Paragraph =
+        Paragraph().apply {
+            add(Text(element.label).apply { simulateBold() })
+            element.alternativer?.takeIf { it.isNotEmpty() }?.let {
+                add(Text("\n"))
+                add(
+                    Text(it).apply {
+                        simulateItalic()
+                        setFontSize(10f)
+                    },
+                )
+            }
+            element.verdi?.takeIf { it.isNotEmpty() }?.let {
+                add(Text("\n\n"))
+                val valgteAlternativer = element.verdi.split("\n\n")
+                val punktListe =
+                    List().apply {
+                        symbolIndent = 8f
+                        setListSymbol("\u2022")
+                    }
+                valgteAlternativer.forEach { alternativ ->
+                    punktListe.add(ListItem(alternativ))
+                }
+                add(punktListe)
             }
             setFontSize(12f)
             isKeepTogether = true
