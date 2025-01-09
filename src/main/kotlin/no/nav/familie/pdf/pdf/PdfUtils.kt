@@ -250,7 +250,7 @@ object PdfUtils {
         overskrift: String,
     ) {
         val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (").trimEnd(')')
+        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
         if (søknadstype.isNotEmpty()) {
