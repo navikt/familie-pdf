@@ -21,7 +21,11 @@ object UtilsMetaData {
     ) {
         val skaperAvPdf = "navikt/familie-pdf"
         val tittel = feltMap.label
-        val språk = feltMap.pdfConfig?.språk?.toString() ?: Språk.NB.toString()
+        val språk =
+            feltMap.pdfConfig
+                ?.språk
+                ?.toString()
+                ?.lowercase() ?: Språk.NB.toString().lowercase()
 
         pdfADokument.documentInfo.apply {
             this.title = tittel
