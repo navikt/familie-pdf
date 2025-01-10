@@ -33,27 +33,12 @@ object PdfElementUtils {
                 )
             }
             add(Text("\n"))
-            if (element.label == "Adresse" && element.verdi != null) {
-                add(sjekkDobbelLinjeskift(element.verdi))
-            } else {
-                add(element.verdi)
-            }
+            add(element.verdi)
             setFontSize(12f)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
         }
 
-    fun sjekkDobbelLinjeskift(tekst: String): String {
-        val bareLinjeskiftRegex = Regex("^\\n+$")
-        val dobbelLinjeskiftRegex = Regex("\\n{2,}")
-        val rensetVerdi =
-            if (tekst.isEmpty() || tekst.matches(bareLinjeskiftRegex)) {
-                "Ingen registrert adresse"
-            } else {
-                tekst.replace(dobbelLinjeskiftRegex, "\n")
-            }
-        return rensetVerdi
-    }
 
     fun lagTekstElement(tekst: String): Paragraph =
         Paragraph().apply {
