@@ -20,16 +20,16 @@
         <sha1/>
         <changelist>-SNAPSHOT</changelist>
         <kotlin.version>2.1.0</kotlin.version>
-        <springdoc.version>2.8.0</springdoc.version>
+        <springdoc.version>2.8.1</springdoc.version>
         <jupiter.version>5.11.4</jupiter.version>
-        <mockk.version>1.13.14</mockk.version>
+        <mockk.version>1.13.16</mockk.version>
         <felles.version>3.20250106100611_6ae49d2</felles.version>
-        <token-validation.version>5.0.13</token-validation.version>
+        <token-validation.version>5.0.14</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
         <itext.version>9.0.0</itext.version>
         <jackson.version>2.18.2</jackson.version>
         <swagger.version>2.2.27</swagger.version>
-        <validation-model-jakarta.version>1.26.2</validation-model-jakarta.version>
+        <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
 
         <!-- Setter disse til token-support sine versjoner, versjoner(9.x) i spring er ikke kompatibel med oauth2-oidc-sdk -->
         <nimbus-jose-jwt.version>8.20.2</nimbus-jose-jwt.version>
