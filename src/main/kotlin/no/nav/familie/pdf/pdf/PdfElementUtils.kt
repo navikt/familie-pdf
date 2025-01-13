@@ -207,7 +207,8 @@ object PdfElementUtils {
     ): Cell =
         Cell().apply {
             add(
-                Paragraph(tekst).apply {
+                // Legger på non-breaking space for at iText sin movePage-funksjon ikke skal feile
+                Paragraph(tekst.ifEmpty { "\u00A0" }).apply {
                     setFontSize(12f)
                     if (erUthevet) settFont(FontStil.SEMIBOLD)
                 },

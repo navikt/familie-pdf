@@ -16,8 +16,8 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -100,7 +100,7 @@ class PdfServiceTest {
 
     //region Innholdsfortegnelse
     @Test
-    fun `Pdf har søknadstype i overskrift`(){
+    fun `Pdf har søknadstype i overskrift`() {
         // Arrange
         val feltMap = lagMedVerdiliste()
 
@@ -118,7 +118,7 @@ class PdfServiceTest {
         // Arrange
         val feltMap = lagMedFlereArbeidsforhold()
 
-        //Act
+        // Act
         val pdfDoc = opprettPdf(feltMap)
         val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
@@ -137,8 +137,8 @@ class PdfServiceTest {
         val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
-        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('");
-        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'");
+        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('")
+        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'")
     }
 
     @ParameterizedTest
@@ -246,6 +246,18 @@ class PdfServiceTest {
         assertTrue(barn1Index < navnIndex)
         assertTrue(navnIndex < barn2Index)
         assertTrue(barn2Index < termindatoIndex)
+    }
+
+    @Test
+    fun `Tom verdi i tabell skal ikke krasje pdf-opprettelsen`() {
+        // Arrange
+        val feltMap = lagMedBarneTabell()
+
+        // Act
+        val pdfDoc = pdfOppretterService.opprettPdf(feltMap)
+
+        // Assert
+        assertTrue(pdfDoc.isNotEmpty(), "Pdf-opprettelsen feilet, tom byteArray")
     }
     //endregion
 

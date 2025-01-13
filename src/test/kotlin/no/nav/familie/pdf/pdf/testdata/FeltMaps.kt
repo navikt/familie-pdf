@@ -153,6 +153,7 @@ fun lagMedBarneTabell(): FeltMap =
                                 label = "Barn 2",
                                 verdiliste =
                                     listOf(
+                                        VerdilisteElement(label = "Navn", verdi = ""),
                                         VerdilisteElement(label = "Termindato", verdi = "2022-01-01"),
                                     ),
                             ),
