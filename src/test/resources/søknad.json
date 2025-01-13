@@ -6,7 +6,7 @@
       "verdiliste": [
         {
           "label": "Dato mottatt",
-          "verdi": "08.01.2025 14:45:58"
+          "verdi": "09.10.2024 09:59:35"
         }
       ]
     },
@@ -15,23 +15,23 @@
       "verdiliste": [
         {
           "label": "Fødselsnummer",
-          "verdi": "09916199837"
+          "verdi": "31458931375"
         },
         {
           "label": "Navn",
-          "verdi": "FATTET BART"
+          "verdi": "Fornavn mellomnavn Etternavn"
         },
         {
           "label": "Statsborgerskap",
-          "verdi": "NORGE"
+          "verdi": "Norge, Norge"
         },
         {
           "label": "Adresse",
-          "verdi": "Hánnomaras 19 U0101\n\n9520 KAUTOKEINO\n\n"
+          "verdi": "Charlies vei 13 b\n\n0575 Oslo\n\n"
         },
         {
           "label": "Sivilstatus",
-          "verdi": "GIFT"
+          "verdi": "SKILT"
         }
       ]
     },
@@ -48,7 +48,11 @@
       "label": "Årsak til alene med barn",
       "verdiliste": [
         {
-          "label": "Har dere søkt om separasjon, søkt om skilsmisse eller reist sak for domstolen?",
+          "label": "Er du gift uten at det er registrert i folkeregisteret i Norge?",
+          "verdi": "Nei"
+        },
+        {
+          "label": "Er du separert eller skilt uten at dette er registrert i folkeregisteret i Norge?",
           "verdi": "Nei"
         },
         {
@@ -101,33 +105,50 @@
           "verdiliste": [
             {
               "label": "Navn",
-              "verdi": "e"
+              "verdi": "Hei På Deg"
+            },
+            {
+              "label": "Fødselsnummer eller d-nummer",
+              "verdi": "28021078036"
             },
             {
               "label": "Har barnet samme adresse som deg?",
               "verdi": "Ja"
             },
             {
-              "label": "Er barnet født?",
-              "verdi": "Nei"
+              "label": "Født",
+              "verdi": "Ja"
             },
             {
-              "label": "Termindato",
-              "verdi": "08.01.2025"
+              "label": "Fødselsdato",
+              "verdi": "09.04.2024"
+            },
+            {
+              "label": "Terminbekreftelse",
+              "verdiliste": [
+                {
+                  "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
+                  "verdi": "Ja"
+                }
+              ]
             },
             {
               "label": "Barnets andre forelder",
               "verdiliste": [
                 {
-                  "label": "Hvorfor kan du ikke oppgi den andre forelderen?",
-                  "verdi": "Donor"
+                  "label": "Bor Hei På Degs andre forelder i Norge?",
+                  "verdi": "Ja"
                 },
                 {
                   "label": "Persondata",
                   "verdiliste": [
                     {
-                      "label": "Annen forelder navn",
-                      "verdi": "Ikke oppgitt"
+                      "label": "Navn",
+                      "verdi": "Bjørn Borg 11111111"
+                    },
+                    {
+                      "label": "Fødselsnummer eller d-nummer",
+                      "verdi": "23019936597"
                     }
                   ]
                 }
@@ -135,45 +156,28 @@
             },
             {
               "label": "Samvær",
-              "verdiliste": []
-            },
-            {
-              "label": "Navn",
-              "verdi": "eve"
-            },
-            {
-              "label": "Har barnet samme adresse som deg?",
-              "verdi": "Ja"
-            },
-            {
-              "label": "Er barnet født?",
-              "verdi": "Nei"
-            },
-            {
-              "label": "Termindato",
-              "verdi": "09.01.2025"
-            },
-            {
-              "label": "Barnets andre forelder",
               "verdiliste": [
                 {
-                  "label": "Hvorfor kan du ikke oppgi den andre forelderen?",
-                  "verdi": "Donor"
+                  "label": "Har du og den andre forelderen skriftlig avtale om delt fast bosted for Hei På Deg?",
+                  "verdi": "Nei"
                 },
                 {
-                  "label": "Persondata",
-                  "verdiliste": [
-                    {
-                      "label": "Annen forelder navn",
-                      "verdi": "Ikke oppgitt"
-                    }
-                  ]
+                  "label": "Har den andre forelderen samvær med Hei På Deg?",
+                  "verdi": "Nei, den andre forelderen har ikke samvær med barnet"
+                },
+                {
+                  "label": "Bor du og den andre forelderen til Hei På Deg i samme hus, blokk, gårdstun, kvartal eller vei/gate?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "Har du bodd sammen med den andre forelderen til Hei På Deg før?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "Hvor mye er du sammen med den andre forelderen til Hei På Deg?",
+                  "verdi": "Vi møtes ikke"
                 }
               ]
-            },
-            {
-              "label": "Samvær",
-              "verdiliste": []
             }
           ]
         },
@@ -182,7 +186,7 @@
           "verdiliste": [
             {
               "label": "Navn",
-              "verdi": ""
+              "verdi": "Ikke født enda hahaha"
             },
             {
               "label": "Har barnet samme adresse som deg?",
@@ -194,21 +198,34 @@
             },
             {
               "label": "Termindato",
-              "verdi": "08.01.2025"
+              "verdi": "24.10.2024"
+            },
+            {
+              "label": "Terminbekreftelse",
+              "verdiliste": [
+                {
+                  "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
+                  "verdi": "Ja"
+                }
+              ]
             },
             {
               "label": "Barnets andre forelder",
               "verdiliste": [
                 {
-                  "label": "Hvorfor kan du ikke oppgi den andre forelderen?",
-                  "verdi": "Donor"
+                  "label": "Bor barnets andre forelder i Norge?",
+                  "verdi": "Ja"
                 },
                 {
                   "label": "Persondata",
                   "verdiliste": [
                     {
-                      "label": "Annen forelder navn",
-                      "verdi": "Ikke oppgitt"
+                      "label": "Navn",
+                      "verdi": "Bjørn Borg Borgersen"
+                    },
+                    {
+                      "label": "Fødselsnummer eller d-nummer",
+                      "verdi": "23019936597"
                     }
                   ]
                 }
@@ -216,45 +233,28 @@
             },
             {
               "label": "Samvær",
-              "verdiliste": []
-            },
-            {
-              "label": "Navn",
-              "verdi": "ewewwe"
-            },
-            {
-              "label": "Har barnet samme adresse som deg?",
-              "verdi": "Ja"
-            },
-            {
-              "label": "Er barnet født?",
-              "verdi": "Nei"
-            },
-            {
-              "label": "Termindato",
-              "verdi": "09.01.2025"
-            },
-            {
-              "label": "Barnets andre forelder",
               "verdiliste": [
                 {
-                  "label": "Hvorfor kan du ikke oppgi den andre forelderen?",
-                  "verdi": "Donor"
+                  "label": "Skal du og den andre forelderen ha skriftlig avtale om delt fast bosted for barnet?",
+                  "verdi": "Nei"
                 },
                 {
-                  "label": "Persondata",
-                  "verdiliste": [
-                    {
-                      "label": "Annen forelder navn",
-                      "verdi": "Ikke oppgitt"
-                    }
-                  ]
+                  "label": "Skal den andre forelderen ha samvær med barnet?",
+                  "verdi": "Nei, den andre forelderen skal ikke ha samvær med barnet"
+                },
+                {
+                  "label": "Bor du og den andre forelderen til barnet i samme hus, blokk, gårdstun, kvartal eller vei/gate?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "Har du bodd sammen med den andre forelderen til barnet før?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "Hvor mye er du sammen med den andre forelderen til barnet?",
+                  "verdi": "Vi møtes ikke"
                 }
               ]
-            },
-            {
-              "label": "Samvær",
-              "verdiliste": []
             }
           ]
         }
@@ -265,7 +265,47 @@
       "verdiliste": [
         {
           "label": "Hvordan er situasjonen din?",
-          "verdi": "Jeg er ikke i arbeid, utdanning eller arbeidssøker"
+          "verdi": "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)"
+        },
+        {
+          "label": "Om arbeidsforholdet ditt",
+          "visningsVariant": "TABELL",
+          "verdiliste": [
+            {
+              "label": "Arbeidsforhold 1",
+              "verdiliste": [
+                {
+                  "label": "Navn på arbeidssted",
+                  "verdi": "Nav"
+                },
+                {
+                  "label": "Hvor mye jobber du?",
+                  "verdi": "100"
+                },
+                {
+                  "label": "Hva slags ansettelsesforhold har du?",
+                  "verdi": "Fast stilling"
+                }
+              ]
+            },
+            {
+              "label": "Arbeidsforhold 2",
+              "verdiliste": [
+                {
+                  "label": "Navn på arbeidssted",
+                  "verdi": "Bekk"
+                },
+                {
+                  "label": "Hvor mye jobber du?",
+                  "verdi": "100"
+                },
+                {
+                  "label": "Hva slags ansettelsesforhold har du?",
+                  "verdi": "Fast stilling"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -274,13 +314,26 @@
       "verdiliste": [
         {
           "label": "Gjelder noe av dette deg?",
-          "visningsVariant": "PUNKTLISTE",
-          "verdi": "Nei",
+          "verdi": "Jeg er syk\n\nBarnet mitt er sykt",
           "alternativer": "Jeg er syk / Barnet mitt er sykt / Jeg har søkt om barnepass, men ikke fått plass enda / Jeg har barn som trenger særlig tilsyn på grunn av fysiske, psykiske eller store sosiale problemer / Nei"
         },
         {
-          "label": "Har du sagt opp jobben eller redusert arbeidstiden de siste 6 månedene?",
-          "verdi": "Nei"
+          "label": "Dokumentasjon på at du er syk",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Dokumentasjon på barnets sykdom",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
+              "verdi": "Ja"
+            }
+          ]
         }
       ]
     },
