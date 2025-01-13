@@ -54,16 +54,6 @@ object PdfUtils {
                 PdfOutputIntent("Custom", "", null, "sRGB IEC61966-2.1", inputStream),
             )
         pdfADokument.setTagged()
-        pdfADokument.addAssociatedFile(
-            "TestFile",
-            createEmbeddedFileSpec(
-                pdfADokument,
-                javaClass.getResourceAsStream("/test.pdf")?.readAllBytes(),
-                "This is a description",
-                "test.pdf",
-                null,
-            ),
-        )
 
         return pdfADokument
     }
