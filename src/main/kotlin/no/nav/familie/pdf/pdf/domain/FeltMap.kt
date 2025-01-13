@@ -3,7 +3,7 @@ package no.nav.familie.pdf.pdf.domain
 data class FeltMap(
     val label: String,
     val verdiliste: List<VerdilisteElement>,
-    val pdfConfig: PdfConfig? = null,
+    val pdfConfig: PdfConfig,
 )
 
 data class VerdilisteElement(

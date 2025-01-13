@@ -74,7 +74,7 @@ object PdfUtils {
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
     ) {
-        val harInnholdsfortegnelse = feltMap.pdfConfig?.harInnholdsfortegnelse ?: true
+        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
         val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
 
@@ -126,7 +126,7 @@ object PdfUtils {
         pdfADokument: PdfADocument,
         sideAntallInnholdsfortegnelse: Int = 0,
     ) {
-        val harInnholdsfortegnelse = feltMap.pdfConfig?.harInnholdsfortegnelse ?: true
+        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         if (!harInnholdsfortegnelse) {
             leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label)
         }

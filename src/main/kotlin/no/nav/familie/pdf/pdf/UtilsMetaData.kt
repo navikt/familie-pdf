@@ -7,7 +7,6 @@ import com.itextpdf.kernel.xmp.XMPMeta
 import com.itextpdf.kernel.xmp.XMPMetaFactory
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.domain.Språk
 
 /**
  * Metadata settes på to måter for ulike behov:
@@ -23,9 +22,9 @@ object UtilsMetaData {
         val tittel = feltMap.label
         val språk =
             feltMap.pdfConfig
-                ?.språk
-                ?.toString()
-                ?.lowercase() ?: Språk.NB.toString().lowercase()
+                .språk
+                .toString()
+                .lowercase()
 
         pdfADokument.documentInfo.apply {
             this.title = tittel

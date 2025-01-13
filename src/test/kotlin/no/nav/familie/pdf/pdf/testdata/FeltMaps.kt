@@ -8,7 +8,7 @@ import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 private val søknadsTittel = "Søknad om overgangsstønad (NAV 15-00.01)"
 
-fun lagMedTomVerdiliste(): FeltMap = FeltMap(label = søknadsTittel, verdiliste = emptyList())
+fun lagMedTomVerdiliste(): FeltMap = FeltMap(label = søknadsTittel, verdiliste = emptyList(), pdfConfig = PdfConfig(true, språk = Språk.NB))
 
 fun lagMedVerdiliste(): FeltMap =
     FeltMap(
@@ -24,6 +24,7 @@ fun lagMedVerdiliste(): FeltMap =
                         ),
                 ),
             ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
 
 fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
@@ -43,6 +44,7 @@ fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
                         ),
                 ),
             ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
 
 fun lagMedTomAdresse(): FeltMap =
@@ -58,6 +60,7 @@ fun lagMedTomAdresse(): FeltMap =
                         ),
                 ),
             ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
 
 fun lagAdresseMedBareLinjeskift(): FeltMap =
@@ -73,6 +76,7 @@ fun lagAdresseMedBareLinjeskift(): FeltMap =
                         ),
                 ),
             ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
 
 fun lagAdresseMedFlereLinjeskift(): FeltMap =
@@ -88,12 +92,14 @@ fun lagAdresseMedFlereLinjeskift(): FeltMap =
                         ),
                 ),
             ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
 
 fun lagToSiderInnholdsfortegnelse(): FeltMap =
     FeltMap(
         label = søknadsTittel,
         verdiliste = lagGjentattInnhold(48),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
 
 private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteElement> =
@@ -123,26 +129,27 @@ fun lagMedFlereArbeidsforhold(): FeltMap =
                         ),
                 ),
             ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
 
 fun lagUteninnholdsfortegnelse(): FeltMap =
     FeltMap(
         label = søknadsTittel,
+        verdiliste = lagGjentattInnhold(20),
         pdfConfig =
             PdfConfig(
                 harInnholdsfortegnelse = false,
                 språk = Språk.NB,
             ),
-        verdiliste = lagGjentattInnhold(20),
     )
 
 fun lagMedInnholdsfortegnelse(): FeltMap =
     FeltMap(
         label = søknadsTittel,
+        verdiliste = lagGjentattInnhold(20),
         pdfConfig =
             PdfConfig(
                 harInnholdsfortegnelse = true,
                 språk = Språk.NB,
             ),
-        verdiliste = lagGjentattInnhold(20),
     )
