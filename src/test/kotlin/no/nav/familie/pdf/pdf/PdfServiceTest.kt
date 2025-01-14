@@ -6,16 +6,20 @@ import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUteninnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -42,6 +46,7 @@ class PdfServiceTest {
             )
     }
 
+    //region Pdf
     @Test
     fun `Pdf med tom verdiliste returnerer ikke en tom bytearray`() {
         // Arrange
@@ -86,9 +91,11 @@ class PdfServiceTest {
             assertTrue(pageText.contains("Side $pageNumber av ${pdfDoc.numberOfPages}"))
         }
     }
+    //endregion
 
+    //region Innholdsfortegnelse
     @Test
-    fun `Pdf har søknadstype i overskrift`(){
+    fun `Pdf har søknadstype i overskrift`() {
         // Arrange
         val feltMap = lagMedVerdiliste()
 
@@ -106,7 +113,7 @@ class PdfServiceTest {
         // Arrange
         val feltMap = lagMedFlereArbeidsforhold()
 
-        //Act
+        // Act
         val pdfDoc = opprettPdf(feltMap)
         val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
@@ -125,8 +132,8 @@ class PdfServiceTest {
         val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
-        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('");
-        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'");
+        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('")
+        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'")
     }
 
     @ParameterizedTest
@@ -138,20 +145,6 @@ class PdfServiceTest {
 
         // Assert
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-    }
-
-    @Test
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
-        // Arrange
-        val feltMap = lagMedFlereArbeidsforhold()
-
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-
-        // Assert
-        assertTrue(tekstIPdf.contains("Arbeidsforhold 1"))
-        assertTrue(tekstIPdf.contains("Arbeidsforhold 2"))
     }
 
     @ParameterizedTest
@@ -174,6 +167,97 @@ class PdfServiceTest {
             val faktiskSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(forventetSide))
             assertTrue(faktiskSideTekst.contains(label))
         }
+    }
+    //endregion
+
+    //region Tabeller
+    @Test
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        val arbeidsforhold1Index = tekstIPdf.indexOf("Arbeidsforhold 1")
+        val navnIndex = tekstIPdf.indexOf("Nav", arbeidsforhold1Index)
+        val arbeidsforhold2Index = tekstIPdf.indexOf("Arbeidsforhold 2", navnIndex)
+        val termindatoIndex = tekstIPdf.indexOf("Bekk", arbeidsforhold2Index)
+
+        assertTrue(arbeidsforhold1Index != -1)
+        assertTrue(navnIndex != -1)
+        assertTrue(arbeidsforhold2Index != -1)
+        assertTrue(termindatoIndex != -1)
+        assertTrue(arbeidsforhold1Index < navnIndex)
+        assertTrue(navnIndex < arbeidsforhold2Index)
+        assertTrue(arbeidsforhold2Index < termindatoIndex)
+    }
+
+    @Test
+    fun `Tabeller får inn en liste av objekter som tegnes som tabeller`() {
+        // Act
+        val feltMap = lagMedBarneTabell()
+
+        // Assert
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        val barn1Index = tekstIPdf.indexOf("Barn 1")
+        val navnIndex = tekstIPdf.indexOf("Navn", barn1Index)
+        val barn2Index = tekstIPdf.indexOf("Barn 2", navnIndex)
+        val termindatoIndex = tekstIPdf.indexOf("Termindato", barn2Index)
+
+        assertTrue(barn1Index != -1)
+        assertTrue(navnIndex != -1)
+        assertTrue(barn2Index != -1)
+        assertTrue(termindatoIndex != -1)
+        assertTrue(barn1Index < navnIndex)
+        assertTrue(navnIndex < barn2Index)
+        assertTrue(barn2Index < termindatoIndex)
+    }
+
+    @Test
+    fun `Tom verdi i tabell skal ikke krasje pdf-opprettelsen`() {
+        // Arrange
+        val feltMap = lagMedBarneTabell()
+
+        // Act
+        val pdfDoc = pdfOppretterService.opprettPdf(feltMap)
+
+        // Assert
+        assertTrue(pdfDoc.isNotEmpty(), "Pdf-opprettelsen feilet, tom byteArray")
+    }
+    //endregion
+
+    @Test
+    fun `Pdf lager forside uten innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagUteninnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertFalse(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
+
+    @Test
+    fun `Pdf lager forside med innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagMedInnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
     }
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {

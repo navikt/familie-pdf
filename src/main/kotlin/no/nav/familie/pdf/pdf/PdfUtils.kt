@@ -33,13 +33,11 @@ import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
+import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
-import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -56,16 +54,6 @@ object PdfUtils {
                 PdfOutputIntent("Custom", "", null, "sRGB IEC61966-2.1", inputStream),
             )
         pdfADokument.setTagged()
-        pdfADokument.addAssociatedFile(
-            "TestFile",
-            createEmbeddedFileSpec(
-                pdfADokument,
-                javaClass.getResourceAsStream("/test.pdf")?.readAllBytes(),
-                "This is a description",
-                "test.pdf",
-                null,
-            ),
-        )
 
         return pdfADokument
     }
@@ -74,21 +62,26 @@ object PdfUtils {
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
     ) {
+        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
-        val sideantallInnholdsfortegnelse = kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse)
+        val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
 
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
         Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
+
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
                 pdfADokument,
                 sideantallInnholdsfortegnelse,
             )
-            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
-            leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
+            if (harInnholdsfortegnelse) {
+                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
+                leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
+            }
+
             leggTilSidevisning(pdfADokument)
             close()
         }
@@ -97,7 +90,6 @@ object PdfUtils {
     private fun kalkulerSideantallInnholdsfortegnelse(
         feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
-        sideAntallInnholdsfortegnelse: Int = 0,
     ): Int {
         val midlertidigPdfADokument = lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
@@ -106,7 +98,6 @@ object PdfUtils {
                 feltMap,
                 innholdsfortegnelse,
                 midlertidigPdfADokument,
-                sideAntallInnholdsfortegnelse,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
@@ -123,16 +114,22 @@ object PdfUtils {
         pdfADokument: PdfADocument,
         sideAntallInnholdsfortegnelse: Int = 0,
     ) {
+        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
+        if (!harInnholdsfortegnelse) {
+            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label)
+        }
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
                 val navigeringDestinasjon = element.label
                 add(lagSeksjon(element, navigeringDestinasjon))
-                innholdsfortegnelse.add(
-                    InnholdsfortegnelseOppføringer(
-                        element.label,
-                        pdfADokument.numberOfPages + sideAntallInnholdsfortegnelse,
-                    ),
-                )
+                if (harInnholdsfortegnelse) {
+                    innholdsfortegnelse.add(
+                        InnholdsfortegnelseOppføringer(
+                            element.label,
+                            pdfADokument.numberOfPages + sideAntallInnholdsfortegnelse,
+                        ),
+                    )
+                }
             }
         }
     }
@@ -149,7 +146,7 @@ object PdfUtils {
             )
             if (element.verdiliste != null) {
                 if (element.visningsVariant != null) {
-                    håndterVisningsvariant(element.visningsVariant, element.verdiliste, this)
+                    håndterVisningsvariant(element.visningsVariant, element, this)
                 } else {
                     håndterRekursivVerdiliste(element.verdiliste, this)
                 }
@@ -157,41 +154,7 @@ object PdfUtils {
             add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
 
-    private fun håndterVisningsvariant(
-        visningsVariant: String,
-        verdiliste: List<VerdilisteElement>,
-        seksjon: Div,
-    ) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL_BARN.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
-            }
-
-            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
-            }
-
-            VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdiliste, seksjon)
-            }
-        }
-    }
-
-    private fun håndterVedlegg(
-        verdiListe: List<VerdilisteElement>,
-        seksjon: Div,
-    ) {
-        verdiListe.forEach { vedlegg ->
-            val vedleggInnhold = vedlegg.verdi
-            if (vedleggInnhold == "") {
-                seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
-            } else {
-                håndterRekursivVerdiliste(verdiListe, seksjon)
-            }
-        }
-    }
-
-    private fun håndterRekursivVerdiliste(
+    fun håndterRekursivVerdiliste(
         verdiliste: List<VerdilisteElement>,
         seksjon: Div,
         rekursjonsDybde: Int = 1,
@@ -203,7 +166,7 @@ object PdfUtils {
                 if (element.visningsVariant != null) {
                     håndterVisningsvariant(
                         element.visningsVariant,
-                        element.verdiliste ?: emptyList(),
+                        element,
                         seksjon,
                     )
                 } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
@@ -232,8 +195,25 @@ object PdfUtils {
                 },
             )
         }
+
         add(lagOverskriftH2("Innholdsfortegnelse"))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
+    }
+
+    private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
+        overskrift: String,
+    ) {
+        val tittel = overskrift.substringBefore(" (")
+        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
+        add(lagOverskriftH1(tittel))
+        add(navLogoBilde())
+        if (søknadstype.isNotEmpty()) {
+            add(
+                Paragraph(søknadstype).apply {
+                    setMarginTop(-10f)
+                },
+            )
+        }
     }
 
     private fun leggInnholdsfortegnelsenFørst(

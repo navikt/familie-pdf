@@ -106,6 +106,9 @@ object PdfValidator {
                 // value of "pdfaid:conformance" as A. A Level
                 // B conforming file shall specify the value
                 // of "pdfaid:conformance" as B.
+                "clause=6.9 testNumber=5",
+                // PDF/A-4f krever vedlagte filer. Denne regelen fjernes fordi PDF-en
+                // kun inneholder en liste over vedlegg uten at selve filene er vedlagt.
             )
         return feiledeRegler.replace(Regex("[,{}]"), "").split("RuleId ").drop(1).filter { feiletRegel ->
             !konflikterendeRegler.any { feiletRegel.contains(it) }
