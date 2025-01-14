@@ -105,11 +105,11 @@ object PdfElementUtils {
             accessibilityProperties.role = StandardRoles.P
         }
 
-    fun lagOverskriftH1(tekst: String): Paragraph = lagOverskrift(tekst, 24f, StandardRoles.H1)
+    fun lagOverskriftH1(tekst: String): Paragraph = lagOverskrift(tekst, 20f, StandardRoles.H1)
 
-    fun lagOverskriftH2(tekst: String): Paragraph = lagOverskrift(tekst, 20f, StandardRoles.H2)
+    fun lagOverskriftH2(tekst: String): Paragraph = lagOverskrift(tekst, 16f, StandardRoles.H2)
 
-    fun lagOverskriftH3(tekst: String): Paragraph = lagOverskrift(tekst, 16f, StandardRoles.H3)
+    fun lagOverskriftH3(tekst: String): Paragraph = lagOverskrift(tekst, 14f, StandardRoles.H3)
 
     private fun lagOverskrift(
         tekst: String,

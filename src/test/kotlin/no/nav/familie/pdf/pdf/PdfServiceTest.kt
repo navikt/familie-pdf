@@ -10,10 +10,12 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjesk
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUteninnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -260,6 +262,34 @@ class PdfServiceTest {
         assertTrue(pdfDoc.isNotEmpty(), "Pdf-opprettelsen feilet, tom byteArray")
     }
     //endregion
+
+    @Test
+    fun `Pdf lager forside uten innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagUteninnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertFalse(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
+
+    @Test
+    fun `Pdf lager forside med innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagMedInnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {
         val result = pdfOppretterService.opprettPdf(feltMap)

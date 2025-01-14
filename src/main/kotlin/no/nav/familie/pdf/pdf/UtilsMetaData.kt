@@ -20,24 +20,30 @@ object UtilsMetaData {
     ) {
         val skaperAvPdf = "navikt/familie-pdf"
         val tittel = feltMap.label
+        val språk =
+            feltMap.pdfConfig
+                .språk
+                .toString()
+                .lowercase()
 
         pdfADokument.documentInfo.apply {
             this.title = tittel
             this.creator = skaperAvPdf
         }
 
-        val xmpMeta = lagXmpMeta(skaperAvPdf, tittel)
+        val xmpMeta = lagXmpMeta(skaperAvPdf, tittel, språk)
         pdfADokument.xmpMetadata = xmpMeta
 
         pdfADokument.catalog.apply {
-            put(PdfName.Lang, PdfString("no-NB")) // TODO: Gjør dynamisk
+            put(PdfName.Lang, PdfString(språk))
             viewerPreferences = PdfViewerPreferences().setDisplayDocTitle(true)
         }
     }
 
     private fun lagXmpMeta(
-        skaperAvPDF: String,
+        skaperAvPdf: String,
         tittel: String,
+        språk: String,
     ): XMPMeta {
         val xmpMeta =
             XMPMetaFactory.create().apply {
@@ -48,7 +54,8 @@ object UtilsMetaData {
                     "x-default",
                     tittel,
                 )
-                setProperty("http://purl.org/dc/elements/1.1/", "dc:creator", skaperAvPDF)
+                setProperty("http://purl.org/dc/elements/1.1/", "dc:creator", skaperAvPdf)
+                setProperty("http://purl.org/dc/elements/1.1/", "dc:language", språk)
                 // Angir delnummeret for PDF/UA-samsvar (2 for UA-2, 1 for UA-1)
                 setProperty(
                     "http://www.aiim.org/pdfua/ns/id/",
