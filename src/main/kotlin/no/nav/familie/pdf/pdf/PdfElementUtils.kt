@@ -98,10 +98,14 @@ object PdfElementUtils {
         return rensetVerdi
     }
 
-    fun lagTekstElement(tekst: String): Paragraph =
+    fun lagTekstElement(
+        tekst: String,
+        fontStil: FontStil = FontStil.REGULAR,
+    ): Paragraph =
         Paragraph().apply {
             add(Text(tekst))
             setFontSize(12f)
+            settFont(fontStil)
             accessibilityProperties.role = StandardRoles.P
         }
 
@@ -206,13 +210,8 @@ object PdfElementUtils {
         erUthevet: Boolean = false,
     ): Cell =
         Cell().apply {
-            add(
-                // Legger på non-breaking space for at iText sin movePage-funksjon ikke skal feile
-                Paragraph(tekst.ifEmpty { "\u00A0" }).apply {
-                    setFontSize(12f)
-                    if (erUthevet) settFont(FontStil.SEMIBOLD)
-                },
-            )
+            // Legger på non-breaking space for at iText sin movePage-funksjon ikke skal feile
+            add(lagTekstElement(tekst.ifEmpty { "\u00A0" }, if (erUthevet) FontStil.SEMIBOLD else FontStil.REGULAR))
             setBorder(Border.NO_BORDER)
             if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
             accessibilityProperties.role = StandardRoles.TD
