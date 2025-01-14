@@ -185,10 +185,6 @@
           "label": "Barn 2",
           "verdiliste": [
             {
-              "label": "Navn",
-              "verdi": "Ikke født enda hahaha"
-            },
-            {
               "label": "Har barnet samme adresse som deg?",
               "verdi": "Ja"
             },
