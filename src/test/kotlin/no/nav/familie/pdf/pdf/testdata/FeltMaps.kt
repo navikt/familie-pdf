@@ -8,7 +8,8 @@ import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 private val søknadsTittel = "Søknad om overgangsstønad (NAV 15-00.01)"
 
-fun lagMedTomVerdiliste(): FeltMap = FeltMap(label = søknadsTittel, verdiliste = emptyList(), pdfConfig = PdfConfig(true, språk = Språk.NB))
+//region Pdf
+fun lagMedTomVerdiliste(): FeltMap = FeltMap(søknadsTittel, emptyList(), PdfConfig(true, Språk.NB))
 
 fun lagMedVerdiliste(): FeltMap =
     FeltMap(
@@ -46,7 +47,9 @@ fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
             ),
         pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
+//endregion
 
+//region Adresse
 fun lagMedTomAdresse(): FeltMap =
     FeltMap(
         label = søknadsTittel,
@@ -94,13 +97,10 @@ fun lagAdresseMedFlereLinjeskift(): FeltMap =
             ),
         pdfConfig = PdfConfig(true, språk = Språk.NB),
     )
+//endregion
 
-fun lagToSiderInnholdsfortegnelse(): FeltMap =
-    FeltMap(
-        label = søknadsTittel,
-        verdiliste = lagGjentattInnhold(48),
-        pdfConfig = PdfConfig(true, språk = Språk.NB),
-    )
+//region Innholdsfortegnelse
+fun lagToSiderInnholdsfortegnelse(): FeltMap = FeltMap(søknadsTittel, lagGjentattInnhold(48), pdfConfig = PdfConfig(true, språk = Språk.NB))
 
 private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteElement> =
     List(antallGanger) { indeks ->
@@ -109,23 +109,80 @@ private fun lagGjentattInnhold(antallGanger: Int): List<VerdilisteElement> =
             verdiliste = emptyList(),
         )
     }
+//endregion
 
+//region Tabeller
 fun lagMedFlereArbeidsforhold(): FeltMap =
     FeltMap(
-        label = "Arbeid, utdanning og andre aktiviteter",
+        label = søknadsTittel,
         verdiliste =
             listOf(
                 VerdilisteElement(
-                    label = "Hvordan er situasjonen din?",
-                    verdi = "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)",
-                ),
-                VerdilisteElement(
-                    label = "Om arbeidsforholdet ditt",
-                    visningsVariant = VisningsVariant.TABELL_ARBEIDSFORHOLD.toString(),
+                    label = "Arbeid, utdanning og andre aktiviteter",
                     verdiliste =
                         listOf(
-                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Norge.as"),
-                            VerdilisteElement(label = "Navn på arbeidssted", verdi = "Sverige.as"),
+                            VerdilisteElement(
+                                label = "Hvordan er situasjonen din?",
+                                verdi = "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)",
+                            ),
+                            VerdilisteElement(
+                                label = "Om arbeidsforholdet ditt",
+                                visningsVariant = VisningsVariant.TABELL.toString(),
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(
+                                            label = "Arbeidsforhold 1",
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(
+                                                        label = "Navn på arbeidssted",
+                                                        verdi = "Nav",
+                                                    ),
+                                                ),
+                                        ),
+                                        VerdilisteElement(
+                                            label = "Arbeidsforhold 2",
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(
+                                                        label = "Navn på arbeidssted",
+                                                        verdi = "Bekk",
+                                                    ),
+                                                ),
+                                        ),
+                                    ),
+                            ),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
+    )
+
+fun lagMedBarneTabell(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Barna dine",
+                    visningsVariant = VisningsVariant.TABELL.toString(),
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(
+                                label = "Barn 1",
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(label = "Navn", verdi = "Kåre"),
+                                    ),
+                            ),
+                            VerdilisteElement(
+                                label = "Barn 2",
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(label = "Navn", verdi = ""),
+                                        VerdilisteElement(label = "Termindato", verdi = "2022-01-01"),
+                                    ),
+                            ),
                         ),
                 ),
             ),
@@ -153,3 +210,4 @@ fun lagMedInnholdsfortegnelse(): FeltMap =
                 språk = Språk.NB,
             ),
     )
+//endregion

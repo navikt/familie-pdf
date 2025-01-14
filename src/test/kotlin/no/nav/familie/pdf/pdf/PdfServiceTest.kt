@@ -7,6 +7,7 @@ import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
@@ -52,6 +53,7 @@ class PdfServiceTest {
             )
     }
 
+    //region Pdf
     @Test
     fun `Pdf med tom verdiliste returnerer ikke en tom bytearray`() {
         // Arrange
@@ -96,7 +98,9 @@ class PdfServiceTest {
             assertTrue(pageText.contains("Side $pageNumber av ${pdfDoc.numberOfPages}"))
         }
     }
+    //endregion
 
+    //region Innholdsfortegnelse
     @Test
     fun `Pdf har søknadstype i overskrift`() {
         // Arrange
@@ -150,20 +154,6 @@ class PdfServiceTest {
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
     }
 
-    @Test
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
-        // Arrange
-        val feltMap = lagMedFlereArbeidsforhold()
-
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-
-        // Assert
-        assertTrue(tekstIPdf.contains("Arbeidsforhold 1"))
-        assertTrue(tekstIPdf.contains("Arbeidsforhold 2"))
-    }
-
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSiderOgForventetSide")
     fun `Pdf har riktig sideantall i innholdsfortegnelsen`(
@@ -185,7 +175,9 @@ class PdfServiceTest {
             assertTrue(faktiskSideTekst.contains(label))
         }
     }
+    //endregion
 
+    //region Adresse
     @ParameterizedTest
     @MethodSource("tomAdresse")
     fun `Pdf med innhold i Adresse blir renset for tom og flere linjeskift`(feltMap: FeltMap) {
@@ -207,6 +199,69 @@ class PdfServiceTest {
         // Tror ekstra mellomrommet etter 12 er fordi pdf genereringen legger til en ekstra linje. Debuget og ser aldri hvor den blir lagt til.
         assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
     }
+    //endregion
+
+    //region Tabeller
+    @Test
+    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
+        // Arrange
+        val feltMap = lagMedFlereArbeidsforhold()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        val arbeidsforhold1Index = tekstIPdf.indexOf("Arbeidsforhold 1")
+        val navnIndex = tekstIPdf.indexOf("Nav", arbeidsforhold1Index)
+        val arbeidsforhold2Index = tekstIPdf.indexOf("Arbeidsforhold 2", navnIndex)
+        val termindatoIndex = tekstIPdf.indexOf("Bekk", arbeidsforhold2Index)
+
+        assertTrue(arbeidsforhold1Index != -1)
+        assertTrue(navnIndex != -1)
+        assertTrue(arbeidsforhold2Index != -1)
+        assertTrue(termindatoIndex != -1)
+        assertTrue(arbeidsforhold1Index < navnIndex)
+        assertTrue(navnIndex < arbeidsforhold2Index)
+        assertTrue(arbeidsforhold2Index < termindatoIndex)
+    }
+
+    @Test
+    fun `Tabeller får inn en liste av objekter som tegnes som tabeller`() {
+        // Act
+        val feltMap = lagMedBarneTabell()
+
+        // Assert
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        val barn1Index = tekstIPdf.indexOf("Barn 1")
+        val navnIndex = tekstIPdf.indexOf("Navn", barn1Index)
+        val barn2Index = tekstIPdf.indexOf("Barn 2", navnIndex)
+        val termindatoIndex = tekstIPdf.indexOf("Termindato", barn2Index)
+
+        assertTrue(barn1Index != -1)
+        assertTrue(navnIndex != -1)
+        assertTrue(barn2Index != -1)
+        assertTrue(termindatoIndex != -1)
+        assertTrue(barn1Index < navnIndex)
+        assertTrue(navnIndex < barn2Index)
+        assertTrue(barn2Index < termindatoIndex)
+    }
+
+    @Test
+    fun `Tom verdi i tabell skal ikke krasje pdf-opprettelsen`() {
+        // Arrange
+        val feltMap = lagMedBarneTabell()
+
+        // Act
+        val pdfDoc = pdfOppretterService.opprettPdf(feltMap)
+
+        // Assert
+        assertTrue(pdfDoc.isNotEmpty(), "Pdf-opprettelsen feilet, tom byteArray")
+    }
+    //endregion
 
     @Test
     fun `Pdf lager forside uten innholdsfortegnelse`() {

@@ -33,13 +33,11 @@ import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
-import no.nav.familie.pdf.pdf.TabellUtils.håndterTabellBasertPåVisningsvariant
+import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
-import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -148,7 +146,7 @@ object PdfUtils {
             )
             if (element.verdiliste != null) {
                 if (element.visningsVariant != null) {
-                    håndterVisningsvariant(element.visningsVariant, element.verdiliste, this)
+                    håndterVisningsvariant(element.visningsVariant, element, this)
                 } else {
                     håndterRekursivVerdiliste(element.verdiliste, this)
                 }
@@ -156,41 +154,7 @@ object PdfUtils {
             add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
 
-    private fun håndterVisningsvariant(
-        visningsVariant: String,
-        verdiliste: List<VerdilisteElement>,
-        seksjon: Div,
-    ) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL_BARN.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn", "Barn", seksjon)
-            }
-
-            VisningsVariant.TABELL_ARBEIDSFORHOLD.toString() -> {
-                håndterTabellBasertPåVisningsvariant(verdiliste, "Navn på arbeidssted", "Arbeidsforhold", seksjon)
-            }
-
-            VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdiliste, seksjon)
-            }
-        }
-    }
-
-    private fun håndterVedlegg(
-        verdiListe: List<VerdilisteElement>,
-        seksjon: Div,
-    ) {
-        verdiListe.forEach { vedlegg ->
-            val vedleggInnhold = vedlegg.verdi
-            if (vedleggInnhold == "") {
-                seksjon.add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) })
-            } else {
-                håndterRekursivVerdiliste(verdiListe, seksjon)
-            }
-        }
-    }
-
-    private fun håndterRekursivVerdiliste(
+    fun håndterRekursivVerdiliste(
         verdiliste: List<VerdilisteElement>,
         seksjon: Div,
         rekursjonsDybde: Int = 1,
@@ -202,7 +166,7 @@ object PdfUtils {
                 if (element.visningsVariant != null) {
                     håndterVisningsvariant(
                         element.visningsVariant,
-                        element.verdiliste ?: emptyList(),
+                        element,
                         seksjon,
                     )
                 } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
