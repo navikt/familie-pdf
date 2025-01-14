@@ -64,21 +64,26 @@ object PdfUtils {
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
     ) {
+        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
-        val sideantallInnholdsfortegnelse = kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse)
+        val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
 
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
         Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
+
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
                 innholdsfortegnelse,
                 pdfADokument,
                 sideantallInnholdsfortegnelse,
             )
-            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
-            leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
+            if (harInnholdsfortegnelse) {
+                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
+                leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
+            }
+
             leggTilSidevisning(pdfADokument)
             close()
         }
@@ -87,7 +92,6 @@ object PdfUtils {
     private fun kalkulerSideantallInnholdsfortegnelse(
         feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
-        sideAntallInnholdsfortegnelse: Int = 0,
     ): Int {
         val midlertidigPdfADokument = lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
@@ -96,7 +100,6 @@ object PdfUtils {
                 feltMap,
                 innholdsfortegnelse,
                 midlertidigPdfADokument,
-                sideAntallInnholdsfortegnelse,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
@@ -113,16 +116,22 @@ object PdfUtils {
         pdfADokument: PdfADocument,
         sideAntallInnholdsfortegnelse: Int = 0,
     ) {
+        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
+        if (!harInnholdsfortegnelse) {
+            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label)
+        }
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
                 val navigeringDestinasjon = element.label
                 add(lagSeksjon(element, navigeringDestinasjon))
-                innholdsfortegnelse.add(
-                    InnholdsfortegnelseOppføringer(
-                        element.label,
-                        pdfADokument.numberOfPages + sideAntallInnholdsfortegnelse,
-                    ),
-                )
+                if (harInnholdsfortegnelse) {
+                    innholdsfortegnelse.add(
+                        InnholdsfortegnelseOppføringer(
+                            element.label,
+                            pdfADokument.numberOfPages + sideAntallInnholdsfortegnelse,
+                        ),
+                    )
+                }
             }
         }
     }
@@ -222,8 +231,25 @@ object PdfUtils {
                 },
             )
         }
+
         add(lagOverskriftH2("Innholdsfortegnelse"))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
+    }
+
+    private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
+        overskrift: String,
+    ) {
+        val tittel = overskrift.substringBefore(" (")
+        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
+        add(lagOverskriftH1(tittel))
+        add(navLogoBilde())
+        if (søknadstype.isNotEmpty()) {
+            add(
+                Paragraph(søknadstype).apply {
+                    setMarginTop(-10f)
+                },
+            )
+        }
     }
 
     private fun leggInnholdsfortegnelsenFørst(

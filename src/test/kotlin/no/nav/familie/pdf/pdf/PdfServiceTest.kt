@@ -9,14 +9,16 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeski
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUteninnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -47,11 +49,6 @@ class PdfServiceTest {
             Stream.of(
                 lagAdresseMedBareLinjeskift(),
                 lagMedTomAdresse(),
-            )
-        @JvmStatic
-        fun flereArbeidsforhold(): Stream<FeltMap> =
-            Stream.of(
-                lagMedFlereArbeidsforhold(),
             )
     }
 
@@ -101,7 +98,7 @@ class PdfServiceTest {
     }
 
     @Test
-    fun `Pdf har søknadstype i overskrift`(){
+    fun `Pdf har søknadstype i overskrift`() {
         // Arrange
         val feltMap = lagMedVerdiliste()
 
@@ -119,7 +116,7 @@ class PdfServiceTest {
         // Arrange
         val feltMap = lagMedFlereArbeidsforhold()
 
-        //Act
+        // Act
         val pdfDoc = opprettPdf(feltMap)
         val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
@@ -138,8 +135,8 @@ class PdfServiceTest {
         val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
-        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('");
-        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'");
+        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('")
+        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'")
     }
 
     @ParameterizedTest
@@ -209,6 +206,34 @@ class PdfServiceTest {
         // Assert
         // Tror ekstra mellomrommet etter 12 er fordi pdf genereringen legger til en ekstra linje. Debuget og ser aldri hvor den blir lagt til.
         assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
+    }
+
+    @Test
+    fun `Pdf lager forside uten innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagUteninnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertFalse(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
+
+    @Test
+    fun `Pdf lager forside med innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagMedInnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
     }
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {
