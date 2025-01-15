@@ -29,6 +29,10 @@ object UtilsMetaData {
         pdfADokument.documentInfo.apply {
             this.title = tittel
             this.creator = skaperAvPdf
+            this.setCreator("Created with iText 9 under AGPL license")
+            this.setProducer("iText 9 (AGPL licensed)")
+            this.setMoreInfo("License", "GNU Affero General Public License v3.0")
+            this.setMoreInfo("iText Notice", "This document was generated using iText, licensed under AGPL v3.0. See https://www.gnu.org/licenses/agpl-3.0.html")
         }
 
         val xmpMeta = lagXmpMeta(skaperAvPdf, tittel, språk)
@@ -64,6 +68,11 @@ object UtilsMetaData {
                 )
                 // Sett revisjonsåret for samsvarsstandarden til det nåværende året
                 setProperty("http://www.aiim.org/pdfua/ns/id/", "pdfuaid:rev", getCurrentYear())
+
+                // 🔥 AGPL License Information (Added for compliance)
+                setProperty("http://creativecommons.org/ns#", "license", "https://www.gnu.org/licenses/agpl-3.0.html")
+                setProperty("http://purl.org/dc/terms/", "rights", "This document was generated using iText 9 under AGPL v3.0. See https://www.gnu.org/licenses/agpl-3.0.html")
+                setProperty("http://ns.adobe.com/xap/1.0/", "CreatorTool", "iText 9 (AGPL licensed)")
             }
         return xmpMeta
     }
