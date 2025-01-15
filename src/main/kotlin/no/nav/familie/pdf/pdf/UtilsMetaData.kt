@@ -69,7 +69,7 @@ object UtilsMetaData {
                 // Sett revisjonsåret for samsvarsstandarden til det nåværende året
                 setProperty("http://www.aiim.org/pdfua/ns/id/", "pdfuaid:rev", getCurrentYear())
 
-                // 🔥 AGPL License Information (Added for compliance)
+                // AGPL Lisens informasjon
                 setProperty("http://creativecommons.org/ns#", "license", "https://www.gnu.org/licenses/agpl-3.0.html")
                 setProperty("http://purl.org/dc/terms/", "rights", "This document was generated using iText 9 under AGPL v3.0. See https://www.gnu.org/licenses/agpl-3.0.html")
                 setProperty("http://ns.adobe.com/xap/1.0/", "CreatorTool", "iText 9 (AGPL licensed)")
