@@ -211,3 +211,39 @@ fun lagMedInnholdsfortegnelse(): FeltMap =
             ),
     )
 //endregion
+
+// region Punktliste
+fun lagMedPunktliste(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Mer om situasjonen din",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(
+                                label = "Gjelder noe av dette deg?",
+                                visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(
+                                            label = "Jeg er syk",
+                                            verdi = "Ja",
+                                        ),
+                                        VerdilisteElement(
+                                            label = "Barnet mitt er sykt",
+                                            verdi = "Ja",
+                                        ),
+                                        VerdilisteElement(
+                                            label = "Jeg har søkt om barnepass",
+                                            verdi = "Nei",
+                                        ),
+                                    ),
+                            ),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, språk = Språk.NB),
+    )
+// endregion

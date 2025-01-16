@@ -52,36 +52,17 @@ object PdfElementUtils {
 
     fun lagPunktliste(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            add(
-                Text(element.label).apply {
-                    settFont(
-                        FontStil.SEMIBOLD,
-                    )
-                },
-            )
-            element.alternativer?.takeIf { it.isNotEmpty() }?.let {
+            add(Text(element.label).apply { settFont(FontStil.SEMIBOLD) })
+            element.verdiliste?.takeIf { it.isNotEmpty() }?.forEach { alternativ ->
                 add(Text("\n"))
-                add(
-                    Text(it).apply {
-                        settFont(FontStil.ITALIC)
-                        setFontSize(10f)
-                    },
-                )
-            }
-            element.verdi?.takeIf { it.isNotEmpty() }?.let {
-                add(Text("\n\n"))
-                val valgteAlternativer = element.verdi.split("\n\n")
                 val punktListe =
                     List().apply {
                         symbolIndent = 8f
                         setListSymbol("\u2022")
                     }
-                valgteAlternativer.forEach { alternativ ->
-                    punktListe.add(ListItem(alternativ))
-                }
+                punktListe.add(ListItem(alternativ.label))
                 add(punktListe)
             }
-            setFontSize(12f)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
         }
@@ -106,6 +87,7 @@ object PdfElementUtils {
             add(Text(tekst))
             setFontSize(12f)
             settFont(fontStil)
+            isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
         }
 

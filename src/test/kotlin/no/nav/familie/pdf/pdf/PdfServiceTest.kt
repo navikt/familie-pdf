@@ -11,6 +11,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedPunktliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
@@ -175,6 +176,34 @@ class PdfServiceTest {
             assertTrue(faktiskSideTekst.contains(label))
         }
     }
+
+    @Test
+    fun `Pdf lager forside uten innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagUteninnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertFalse(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
+
+    @Test
+    fun `Pdf lager forside med innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagMedInnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
     //endregion
 
     //region Adresse
@@ -263,33 +292,20 @@ class PdfServiceTest {
     }
     //endregion
 
+    // region Punktliste
     @Test
-    fun `Pdf lager forside uten innholdsfortegnelse`() {
+    fun `Pdf lager en punktliste når visningsvarianten har PUNKTLISTE valgt`() {
         // Arrange
-        val feltMap = lagUteninnholdsfortegnelse()
+        val feltMap = lagMedPunktliste()
 
         // Act
         val pdfDoc = opprettPdf(feltMap)
-        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
 
         // Assert
-        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-        assertFalse(førsteSideTekst.contains("Innholdsfortegnelse"))
+        assertTrue(tekstIPdf.count { it == '\u2022' } == 3, "Forventet 2 punkter men fikk ${tekstIPdf.count { it == '\u2022' }}")
     }
-
-    @Test
-    fun `Pdf lager forside med innholdsfortegnelse`() {
-        // Arrange
-        val feltMap = lagMedInnholdsfortegnelse()
-
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
-
-        // Assert
-        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
-    }
+    // endregion
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {
         val result = pdfOppretterService.opprettPdf(feltMap)
