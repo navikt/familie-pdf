@@ -23,7 +23,6 @@ object UtilsMetaData {
         val språk =
             feltMap.pdfConfig
                 .språk
-                .toString()
                 .lowercase()
 
         pdfADokument.documentInfo.apply {
