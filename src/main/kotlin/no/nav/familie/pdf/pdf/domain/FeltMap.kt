@@ -16,10 +16,5 @@ data class VerdilisteElement(
 
 data class PdfConfig(
     val harInnholdsfortegnelse: Boolean,
-    val språk: Språk,
+    val språk: String,
 )
-
-enum class Språk {
-    NB,
-    EN,
-}
