@@ -198,6 +198,10 @@ object PdfElementUtils {
             add(lagTekstElement(tekst.ifEmpty { "\u00A0" }, if (erUthevet) FontStil.SEMIBOLD else FontStil.REGULAR))
             setBorder(Border.NO_BORDER)
             if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-            accessibilityProperties.role = StandardRoles.TD
+            if (erVenstreKolonne) {
+                accessibilityProperties.role = StandardRoles.TH
+            } else {
+                accessibilityProperties.role = StandardRoles.TD
+            }
         }
 }
