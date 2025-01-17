@@ -297,13 +297,13 @@ class PdfServiceTest {
     fun `Pdf lager en punktliste når visningsvarianten har PUNKTLISTE valgt`() {
         // Arrange
         val feltMap = lagMedPunktliste()
-
+        val forventetPunkter = 5
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
 
         // Assert
-        assertTrue(tekstIPdf.count { it == '\u2022' } == 3, "Forventet 2 punkter men fikk ${tekstIPdf.count { it == '\u2022' }}")
+        assertTrue(tekstIPdf.count { it == '\u2022' } == forventetPunkter, "Forventet $forventetPunkter punkter men fikk ${tekstIPdf.count { it == '\u2022' }}")
     }
     // endregion
 

@@ -50,21 +50,39 @@ object PdfElementUtils {
             accessibilityProperties.role = StandardRoles.P
         }
 
-    fun lagPunktliste(element: VerdilisteElement): Paragraph =
-        Paragraph().apply {
-            add(Text(element.label).apply { settFont(FontStil.SEMIBOLD) })
+    fun lagPunktliste(element: VerdilisteElement): Div =
+        Div().apply {
+            add(
+                Paragraph().apply {
+                    add(Text(element.label).apply { settFont(FontStil.SEMIBOLD) })
+                    accessibilityProperties.role = StandardRoles.H3
+                },
+            )
+            add(captionTittel("Svaralternativer"))
             element.verdiliste?.takeIf { it.isNotEmpty() }?.forEach { alternativ ->
-                add(Text("\n"))
-                val punktListe =
-                    List().apply {
-                        symbolIndent = 8f
-                        setListSymbol("\u2022")
-                    }
-                punktListe.add(ListItem(alternativ.label))
-                add(punktListe)
+                val liste = punktListe().apply { add(ListItem(alternativ.label)) }
+                add(liste)
+            }
+            add(captionTittel("Svar"))
+            element.verdiliste?.filter { it.verdi == "Ja" }?.forEach { alternativ ->
+                val liste = punktListe().apply { add(ListItem(alternativ.label)) }
+                add(liste)
             }
             isKeepTogether = true
-            accessibilityProperties.role = StandardRoles.P
+            accessibilityProperties.role = StandardRoles.DIV
+        }
+
+    private fun captionTittel(caption: String) =
+        Paragraph(caption).apply {
+            settFont(FontStil.SEMIBOLD)
+            setFontSize(12f)
+            accessibilityProperties.role = StandardRoles.CAPTION
+        }
+
+    private fun punktListe() =
+        List().apply {
+            symbolIndent = 8f
+            setListSymbol("\u2022")
         }
 
     private fun sjekkDobbelLinjeskift(tekst: String): String {
