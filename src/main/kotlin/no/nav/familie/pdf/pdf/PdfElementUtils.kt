@@ -52,18 +52,25 @@ object PdfElementUtils {
 
     fun lagPunktliste(element: VerdilisteElement): Div =
         Div().apply {
-            add(
-                Paragraph().apply {
-                    add(Text(element.label).apply { settFont(FontStil.SEMIBOLD) })
-                    accessibilityProperties.role = StandardRoles.H3
-                },
-            )
-            add(captionTittel("Svaralternativer"))
+            add(lagSvaralternativerDiv(element))
+            add(lagSvarDiv(element))
+            accessibilityProperties.role = StandardRoles.DIV
+        }
+
+    private fun lagSvaralternativerDiv(element: VerdilisteElement): Div =
+        Div().apply {
+            add(alternativTittel("Svaralternativer"))
             element.verdiliste?.takeIf { it.isNotEmpty() }?.forEach { alternativ ->
                 val liste = punktListe().apply { add(ListItem(alternativ.label)) }
                 add(liste)
             }
-            add(captionTittel("Svar"))
+            isKeepTogether = true
+            accessibilityProperties.role = StandardRoles.DIV
+        }
+
+    private fun lagSvarDiv(element: VerdilisteElement): Div =
+        Div().apply {
+            add(alternativTittel("Svar"))
             element.verdiliste?.filter { it.verdi == "Ja" }?.forEach { alternativ ->
                 val liste = punktListe().apply { add(ListItem(alternativ.label)) }
                 add(liste)
@@ -72,11 +79,11 @@ object PdfElementUtils {
             accessibilityProperties.role = StandardRoles.DIV
         }
 
-    private fun captionTittel(caption: String) =
-        Paragraph(caption).apply {
+    private fun alternativTittel(tittel: String) =
+        Paragraph(tittel).apply {
             settFont(FontStil.SEMIBOLD)
             setFontSize(12f)
-            accessibilityProperties.role = StandardRoles.CAPTION
+            accessibilityProperties.role = StandardRoles.H4
         }
 
     private fun punktListe() =
