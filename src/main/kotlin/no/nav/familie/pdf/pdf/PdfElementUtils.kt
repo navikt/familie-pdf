@@ -27,7 +27,7 @@ object PdfElementUtils {
 
     fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            element.label.takeIf { it.isNotEmpty() }.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
+            add(Text(element.label).apply { settFont(FontStil.SEMIBOLD) })
             add(Text("\n"))
             add(element.verdi)
             isKeepTogether = true
