@@ -30,15 +30,6 @@ object PdfElementUtils {
             (element.label)
                 .takeIf { it.isNotEmpty() }
                 ?.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
-            element.alternativer?.takeIf { it.isNotEmpty() }?.let {
-                add(Text("\n"))
-                add(
-                    Text(it).apply {
-                        settFont(FontStil.ITALIC)
-                        setFontSize(10f)
-                    },
-                )
-            }
             add(Text("\n"))
             add(element.verdi)
             setFontSize(12f)
