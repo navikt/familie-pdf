@@ -43,7 +43,7 @@ object PdfElementUtils {
 
     private fun lagSvaralternativerDiv(element: VerdilisteElement): Div =
         Div().apply {
-            add(alternativTittel("Svaralternativer"))
+            add(lagOverskriftH4("Svaralternativer"))
             element.verdiliste?.forEach { alternativ ->
                 add(punktliste().apply { add(ListItem(alternativ.label)) })
             }
@@ -53,18 +53,12 @@ object PdfElementUtils {
 
     private fun lagSvarDiv(element: VerdilisteElement): Div =
         Div().apply {
-            add(alternativTittel("Svar"))
+            add(lagOverskriftH4("Svar"))
             element.verdiliste?.filter { it.verdi == "Ja" }?.forEach { alternativ ->
                 add(punktliste().apply { add(ListItem(alternativ.label)) })
             }
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.DIV
-        }
-
-    private fun alternativTittel(tittel: String) =
-        Paragraph(tittel).apply {
-            settFont(FontStil.SEMIBOLD)
-            accessibilityProperties.role = StandardRoles.H4
         }
 
     private fun punktliste() =
@@ -90,13 +84,16 @@ object PdfElementUtils {
 
     fun lagOverskriftH3(tekst: String): Paragraph = lagOverskrift(tekst, 14f, StandardRoles.H3)
 
+    fun lagOverskriftH4(tekst: String): Paragraph = lagOverskrift(tekst, 12f, StandardRoles.H4, false)
+
     private fun lagOverskrift(
         tekst: String,
         tekstStørrelse: Float,
         rolle: String,
+        erFarget: Boolean = true,
     ): Paragraph =
         Paragraph(tekst).apply {
-            setFontColor(DeviceRgb(0, 52, 125))
+            if (erFarget) setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
             settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
