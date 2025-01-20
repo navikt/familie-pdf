@@ -197,7 +197,12 @@ object PdfElementUtils {
             // Legger på non-breaking space for at iText sin movePage-funksjon ikke skal feile
             add(lagTekstElement(tekst.ifEmpty { "\u00A0" }, if (erUthevet) FontStil.SEMIBOLD else FontStil.REGULAR))
             setBorder(Border.NO_BORDER)
-            if (erVenstreKolonne) setPaddingRight(10f) else setPaddingLeft(10f)
-            accessibilityProperties.role = StandardRoles.TD
+            if (erVenstreKolonne) {
+                setPaddingRight(10f)
+                accessibilityProperties.role = StandardRoles.TH
+            } else {
+                accessibilityProperties.role = StandardRoles.TD
+                setPaddingLeft(10f)
+            }
         }
 }
