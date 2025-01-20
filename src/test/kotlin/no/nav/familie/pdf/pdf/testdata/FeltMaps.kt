@@ -178,15 +178,15 @@ fun lagMedPunktliste(): FeltMap =
                                     listOf(
                                         VerdilisteElement(
                                             label = "Jeg er syk",
-                                            verdi = "Ja",
+                                            verdi = "true",
                                         ),
                                         VerdilisteElement(
                                             label = "Barnet mitt er sykt",
-                                            verdi = "Ja",
+                                            verdi = "true",
                                         ),
                                         VerdilisteElement(
                                             label = "Jeg har søkt om barnepass",
-                                            verdi = "Nei",
+                                            verdi = "false",
                                         ),
                                     ),
                             ),

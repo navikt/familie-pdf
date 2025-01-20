@@ -54,7 +54,7 @@ object PdfElementUtils {
     private fun lagSvarDiv(element: VerdilisteElement): Div =
         Div().apply {
             add(lagOverskriftH4("Svar"))
-            element.verdiliste?.filter { it.verdi == "Ja" }?.forEach { alternativ ->
+            element.verdiliste?.filter { it.verdi == "true" }?.forEach { alternativ ->
                 add(punktliste().apply { add(ListItem(alternativ.label)) })
             }
             isKeepTogether = true
