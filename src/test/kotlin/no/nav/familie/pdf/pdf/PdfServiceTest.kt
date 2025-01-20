@@ -5,14 +5,11 @@ import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedPunktliste
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
@@ -272,7 +269,10 @@ class PdfServiceTest {
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
 
         // Assert
-        assertTrue(tekstIPdf.count { it == '\u2022' } == forventetPunkter, "Forventet $forventetPunkter punkter men fikk ${tekstIPdf.count { it == '\u2022' }}")
+        assertTrue(
+            tekstIPdf.count { it == '\u2022' } == forventetPunkter,
+            "Forventet $forventetPunkter punkter men fikk ${tekstIPdf.count { it == '\u2022' }}",
+        )
     }
     // endregion
 

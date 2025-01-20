@@ -27,12 +27,9 @@ object PdfElementUtils {
 
     fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            (element.label)
-                .takeIf { it.isNotEmpty() }
-                ?.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
+            element.label.takeIf { it.isNotEmpty() }.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
             add(Text("\n"))
             add(element.verdi)
-            setFontSize(12f)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
         }
@@ -47,9 +44,8 @@ object PdfElementUtils {
     private fun lagSvaralternativerDiv(element: VerdilisteElement): Div =
         Div().apply {
             add(alternativTittel("Svaralternativer"))
-            element.verdiliste?.takeIf { it.isNotEmpty() }?.forEach { alternativ ->
-                val liste = punktListe().apply { add(ListItem(alternativ.label)) }
-                add(liste)
+            element.verdiliste?.forEach { alternativ ->
+                add(punktListe().apply { add(ListItem(alternativ.label)) })
             }
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.DIV
@@ -59,8 +55,7 @@ object PdfElementUtils {
         Div().apply {
             add(alternativTittel("Svar"))
             element.verdiliste?.filter { it.verdi == "Ja" }?.forEach { alternativ ->
-                val liste = punktListe().apply { add(ListItem(alternativ.label)) }
-                add(liste)
+                add(punktListe().apply { add(ListItem(alternativ.label)) })
             }
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.DIV
@@ -69,7 +64,6 @@ object PdfElementUtils {
     private fun alternativTittel(tittel: String) =
         Paragraph(tittel).apply {
             settFont(FontStil.SEMIBOLD)
-            setFontSize(12f)
             accessibilityProperties.role = StandardRoles.H4
         }
 
@@ -85,7 +79,6 @@ object PdfElementUtils {
     ): Paragraph =
         Paragraph().apply {
             add(Text(tekst))
-            setFontSize(12f)
             settFont(fontStil)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P

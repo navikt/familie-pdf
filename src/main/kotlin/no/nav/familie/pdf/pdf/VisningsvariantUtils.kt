@@ -23,9 +23,11 @@ object VisningsvariantUtils {
             VisningsVariant.TABELL.toString() -> {
                 håndterTabeller(verdilisteElement, seksjon)
             }
+
             VisningsVariant.PUNKTLISTE.toString() -> {
                 håndterPunktliste(verdilisteElement, seksjon)
             }
+
             VisningsVariant.VEDLEGG.toString() -> {
                 håndterVedlegg(verdilisteElement, seksjon)
             }
@@ -60,7 +62,15 @@ object VisningsvariantUtils {
     ) {
         verdilisteElement.verdiliste?.forEach { vedlegg ->
             vedlegg.verdi?.takeIf { it.isEmpty() }?.let {
-                seksjon.apply { add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) }) }
+                seksjon.apply {
+                    add(
+                        lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply {
+                            setMarginLeft(
+                                15f,
+                            )
+                        },
+                    )
+                }
             } ?: håndterRekursivVerdiliste(verdilisteElement.verdiliste, seksjon)
         }
     }

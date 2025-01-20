@@ -48,56 +48,6 @@ fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
     )
 //endregion
 
-//region Adresse
-fun lagMedTomAdresse(): FeltMap =
-    FeltMap(
-        label = søknadsTittel,
-        verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Søker",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Adresse", verdi = ""),
-                        ),
-                ),
-            ),
-        pdfConfig = PdfConfig(true, "nb"),
-    )
-
-fun lagAdresseMedBareLinjeskift(): FeltMap =
-    FeltMap(
-        label = søknadsTittel,
-        verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Søker",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Adresse", verdi = "\n\n\n\n"),
-                        ),
-                ),
-            ),
-        pdfConfig = PdfConfig(true, "nb"),
-    )
-
-fun lagAdresseMedFlereLinjeskift(): FeltMap =
-    FeltMap(
-        label = søknadsTittel,
-        verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Søker",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Adresse", verdi = "Adresse 12\n\n\n\n0999 Oslo"),
-                        ),
-                ),
-            ),
-        pdfConfig = PdfConfig(true, "nb"),
-    )
-//endregion
-
 //region Innholdsfortegnelse
 fun lagToSiderInnholdsfortegnelse(): FeltMap = FeltMap(søknadsTittel, lagGjentattInnhold(48), pdfConfig = PdfConfig(true, "nb"))
 
