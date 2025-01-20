@@ -244,7 +244,7 @@ object PdfUtils {
 
         innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
             val alternativTekst =
-                "${innholdsfortegnelseElement.tittel} på side ${innholdsfortegnelseElement.sideNummer}"
+                "${innholdsfortegnelseElement.tittel} på side"
             val lenke =
                 Link(
                     innholdsfortegnelseElement.tittel,
