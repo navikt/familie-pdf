@@ -195,4 +195,24 @@ fun lagMedPunktliste(): FeltMap =
             ),
         pdfConfig = PdfConfig(true, språk = "nb"),
     )
+
+fun lagMedTomPunktliste(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Mer om situasjonen din",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(
+                                label = "Gjelder noe av dette deg?",
+                                visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
+                                verdiliste = listOf(),
+                            ),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, språk = "nb"),
+    )
 // endregion

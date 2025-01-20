@@ -10,6 +10,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedPunktliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomPunktliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
@@ -263,16 +264,31 @@ class PdfServiceTest {
     fun `Pdf lager en punktliste når visningsvarianten har PUNKTLISTE valgt`() {
         // Arrange
         val feltMap = lagMedPunktliste()
-        val forventetPunkter = 5
+
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
 
         // Assert
+        val faktiskPunkter = tekstIPdf.count { it == '\u2022' }
+        val forventetPunkter = 5
         assertTrue(
-            tekstIPdf.count { it == '\u2022' } == forventetPunkter,
-            "Forventet $forventetPunkter punkter men fikk ${tekstIPdf.count { it == '\u2022' }}",
+            faktiskPunkter == forventetPunkter,
+            "Forventet $forventetPunkter punkter men fikk $faktiskPunkter",
         )
+    }
+
+    @Test
+    fun `Pdf lager ikke en punktliste når verdiliste er tom`() {
+        // Arrange
+        val feltMap = lagMedTomPunktliste()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
+
+        // Assert
+        assertFalse(tekstIPdf.contains("Gjelder noe av dette deg?"))
     }
     // endregion
 

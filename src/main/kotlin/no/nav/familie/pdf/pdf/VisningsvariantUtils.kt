@@ -15,26 +15,28 @@ object VisningsvariantUtils {
         verdilisteElement: VerdilisteElement,
         seksjon: Div,
     ) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL.toString() -> {
-                håndterTabeller(verdilisteElement, seksjon)
-            }
+        if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
+            when (visningsVariant) {
+                VisningsVariant.TABELL.toString() -> {
+                    håndterTabeller(verdilisteElement.verdiliste, seksjon)
+                }
 
-            VisningsVariant.PUNKTLISTE.toString() -> {
-                håndterPunktliste(verdilisteElement, seksjon)
-            }
+                VisningsVariant.PUNKTLISTE.toString() -> {
+                    håndterPunktliste(verdilisteElement, seksjon)
+                }
 
-            VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdilisteElement, seksjon)
+                VisningsVariant.VEDLEGG.toString() -> {
+                    håndterVedlegg(verdilisteElement.verdiliste, seksjon)
+                }
             }
         }
     }
 
     private fun håndterTabeller(
-        verdilisteElement: VerdilisteElement,
+        verdiliste: List<VerdilisteElement>,
         seksjon: Div,
-    ) = verdilisteElement.verdiliste?.forEach { verdilisteElement ->
-        verdilisteElement.verdiliste?.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
+    ) = verdiliste.forEach { verdilisteElement ->
+        verdiliste.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
     }
 
     private fun håndterPunktliste(
@@ -48,10 +50,10 @@ object VisningsvariantUtils {
     }
 
     private fun håndterVedlegg(
-        verdilisteElement: VerdilisteElement,
+        verdiliste: List<VerdilisteElement>,
         seksjon: Div,
     ) {
-        verdilisteElement.verdiliste?.forEach { vedlegg ->
+        verdiliste.forEach { vedlegg ->
             vedlegg.verdi?.takeIf { it.isEmpty() }?.let {
                 seksjon.apply {
                     add(
@@ -62,7 +64,7 @@ object VisningsvariantUtils {
                         },
                     )
                 }
-            } ?: håndterRekursivVerdiliste(verdilisteElement.verdiliste, seksjon)
+            } ?: håndterRekursivVerdiliste(verdiliste, seksjon)
         }
     }
 }
