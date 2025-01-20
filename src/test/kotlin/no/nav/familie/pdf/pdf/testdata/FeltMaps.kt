@@ -243,6 +243,6 @@ fun lagMedPunktliste(): FeltMap =
                         ),
                 ),
             ),
-        pdfConfig = PdfConfig(true, språk = Språk.NB),
+        pdfConfig = PdfConfig(true, språk = "nb"),
     )
 // endregion
