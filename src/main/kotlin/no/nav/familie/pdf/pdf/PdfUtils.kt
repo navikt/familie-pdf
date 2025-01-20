@@ -14,7 +14,6 @@ import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.WriterProperties
 import com.itextpdf.kernel.pdf.action.PdfAction
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine
-import com.itextpdf.kernel.pdf.filespec.PdfFileSpec.createEmbeddedFileSpec
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.AreaBreak
@@ -245,7 +244,7 @@ object PdfUtils {
 
         innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
             val alternativTekst =
-                "Naviger til ${innholdsfortegnelseElement.tittel} på side ${innholdsfortegnelseElement.sideNummer}"
+                "${innholdsfortegnelseElement.tittel} på side"
             val lenke =
                 Link(
                     innholdsfortegnelseElement.tittel,
