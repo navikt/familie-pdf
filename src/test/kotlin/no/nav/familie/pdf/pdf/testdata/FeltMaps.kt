@@ -196,7 +196,7 @@ fun lagMedPunktliste(): FeltMap =
         pdfConfig = PdfConfig(true, språk = "nb"),
     )
 
-fun lagMedTomPunktliste(): FeltMap =
+fun lagMedTomPunktliste(punktliste: List<VerdilisteElement>? = null): FeltMap =
     FeltMap(
         label = søknadsTittel,
         verdiliste =
@@ -208,7 +208,7 @@ fun lagMedTomPunktliste(): FeltMap =
                             VerdilisteElement(
                                 label = "Gjelder noe av dette deg?",
                                 visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
-                                verdiliste = listOf(),
+                                verdiliste = punktliste,
                             ),
                         ),
                 ),

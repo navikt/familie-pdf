@@ -43,6 +43,13 @@ class PdfServiceTest {
                 lagMedVerdiliste(),
                 lagToSiderInnholdsfortegnelse(),
             )
+
+        @JvmStatic
+        fun tomPunktliste(): Stream<FeltMap> =
+            Stream.of(
+                lagMedTomPunktliste(),
+                lagMedTomPunktliste(listOf()),
+            )
     }
 
     //region Pdf
@@ -278,7 +285,8 @@ class PdfServiceTest {
         )
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("tomPunktliste")
     fun `Pdf lager ikke en punktliste når verdiliste er tom`() {
         // Arrange
         val feltMap = lagMedTomPunktliste()
