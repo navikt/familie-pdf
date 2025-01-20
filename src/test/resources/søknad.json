@@ -27,7 +27,7 @@
         },
         {
           "label": "Adresse",
-          "verdi": "Charlies vei 13 b\n0575 Oslo\n"
+          "verdi": "Charlies vei 13 b\n0575 Oslo"
         },
         {
           "label": "Sivilstatus",
@@ -376,6 +376,6 @@
   ],
   "pdfConfig": {
     "harInnholdsfortegnelse": true,
-    "språk": "NB"
+    "språk": "nb"
   }
 }
