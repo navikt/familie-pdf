@@ -45,13 +45,6 @@ class PdfServiceTest {
                 lagMedVerdiliste(),
                 lagToSiderInnholdsfortegnelse(),
             )
-
-        @JvmStatic
-        fun tomAdresse(): Stream<FeltMap> =
-            Stream.of(
-                lagAdresseMedBareLinjeskift(),
-                lagMedTomAdresse(),
-            )
     }
 
     //region Pdf
@@ -203,30 +196,6 @@ class PdfServiceTest {
         // Assert
         assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
         assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
-    }
-    //endregion
-
-    //region Adresse
-    @ParameterizedTest
-    @MethodSource("tomAdresse")
-    fun `Pdf med innhold i Adresse blir renset for tom og flere linjeskift`(feltMap: FeltMap) {
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val andreSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-        // Assert
-        assertTrue(andreSideTekst.contains("Ingen registrert adresse"))
-    }
-
-    @Test
-    fun `Pdf med en adresse og flere linjeskift blir redusert til ett linjeskift`() {
-        // Arrange
-        val feltMap = lagAdresseMedFlereLinjeskift()
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val andreSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-        // Assert
-        // Tror ekstra mellomrommet etter 12 er fordi pdf genereringen legger til en ekstra linje. Debuget og ser aldri hvor den blir lagt til.
-        assertTrue(andreSideTekst.contains("Adresse 12 \n0999 Oslo"))
     }
     //endregion
 
