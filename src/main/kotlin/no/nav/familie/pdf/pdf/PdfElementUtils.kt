@@ -45,7 +45,7 @@ object PdfElementUtils {
         Div().apply {
             add(alternativTittel("Svaralternativer"))
             element.verdiliste?.forEach { alternativ ->
-                add(punktListe().apply { add(ListItem(alternativ.label)) })
+                add(punktliste().apply { add(ListItem(alternativ.label)) })
             }
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.DIV
@@ -55,7 +55,7 @@ object PdfElementUtils {
         Div().apply {
             add(alternativTittel("Svar"))
             element.verdiliste?.filter { it.verdi == "Ja" }?.forEach { alternativ ->
-                add(punktListe().apply { add(ListItem(alternativ.label)) })
+                add(punktliste().apply { add(ListItem(alternativ.label)) })
             }
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.DIV
@@ -67,7 +67,7 @@ object PdfElementUtils {
             accessibilityProperties.role = StandardRoles.H4
         }
 
-    private fun punktListe() =
+    private fun punktliste() =
         List().apply {
             symbolIndent = 8f
             setListSymbol("\u2022")
