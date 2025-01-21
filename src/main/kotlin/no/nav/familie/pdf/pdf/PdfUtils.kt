@@ -185,12 +185,7 @@ object PdfUtils {
     ) {
         val tittel = overskrift.substringBefore(" (")
         val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
-        val søknadstypeTekst =
-            when {
-                søknadstype.isNotEmpty() && språk == "nb" -> "Søknadstype: "
-                språk == "en" -> "Application type"
-                else -> ""
-            }
+        val søknadstypeTekst = getSøknadstypeTekst(søknadstype, språk)
 
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
@@ -213,12 +208,7 @@ object PdfUtils {
     ) {
         val tittel = overskrift.substringBefore(" (")
         val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
-        val søknadstypeTekst =
-            when {
-                søknadstype.isNotEmpty() && språk == "nb" -> "Søknadstype: "
-                språk == "en" -> "Application type"
-                else -> ""
-            }
+        val søknadstypeTekst = getSøknadstypeTekst(søknadstype, språk)
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
         if (søknadstype.isNotEmpty()) {
@@ -323,4 +313,14 @@ object PdfUtils {
         SEMIBOLD,
         ITALIC,
     }
+
+    private fun getSøknadstypeTekst(
+        søknadstype: String,
+        språk: String,
+    ): String =
+        when {
+            søknadstype.isNotEmpty() && språk == "nb" -> "Søknadstype: "
+            språk == "en" -> "Application type: "
+            else -> ""
+        }
 }
