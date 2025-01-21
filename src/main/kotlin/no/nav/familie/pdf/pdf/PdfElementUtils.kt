@@ -15,6 +15,8 @@ import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.PdfUtils.FontStil
 import no.nav.familie.pdf.pdf.PdfUtils.settFont
+import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.domain.Konfigurasjon
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
 object PdfElementUtils {
@@ -135,8 +137,20 @@ object PdfElementUtils {
                 )
             }
         tabell.caption = captionDiv
-        tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
-        tabell.addCell(lagTabellOverskriftscelle("Svar", false))
+        val spørsmål: String =
+            when (brukSpråk()) {
+                "nn" -> "Spørsmål"
+                "en" -> "Questions"
+                else -> "Spørsmål"
+            }
+        val svar: String =
+            when (brukSpråk()) {
+                "nn" -> "Svar"
+                "en" -> "Answer"
+                else -> "Svar"
+            }
+        tabell.addCell(lagTabellOverskriftscelle(spørsmål))
+        tabell.addCell(lagTabellOverskriftscelle(svar, false))
         lagTabellRekursivt(tabellData.verdiliste, tabell)
         return tabell
     }
@@ -187,6 +201,12 @@ object PdfElementUtils {
         }
         return mørkBakgrunn
     }
+
+    fun oppdaterSpråk(feltMap: FeltMap) {
+        Konfigurasjon.språk = feltMap.pdfConfig.språk
+    }
+
+    fun brukSpråk(): String = (Konfigurasjon.språk)
 
     private fun lagTabellInformasjonscelle(
         tekst: String,

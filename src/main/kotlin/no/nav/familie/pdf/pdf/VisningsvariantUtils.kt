@@ -47,9 +47,15 @@ object VisningsvariantUtils {
         verdilisteElement: VerdilisteElement,
         seksjon: Div,
     ) {
+        val ingenVedlegg: String =
+            when (PdfElementUtils.brukSpråk()) {
+                "nn" -> "Ingen vedlegg lasta opp i denne søknaden"
+                "en" -> "No attachments uploaded in this application"
+                else -> "Ingen vedlegg lastet opp i denne søknaden"
+            }
         verdilisteElement.verdiliste?.forEach { vedlegg ->
             vedlegg.verdi?.takeIf { it.isEmpty() }?.let {
-                seksjon.apply { add(lagTekstElement("Ingen vedlegg lastet opp i denne søknaden").apply { setMarginLeft(15f) }) }
+                seksjon.apply { add(lagTekstElement(ingenVedlegg).apply { setMarginLeft(15f) }) }
             } ?: håndterRekursivVerdiliste(verdilisteElement.verdiliste, seksjon)
         }
     }

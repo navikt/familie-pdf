@@ -18,3 +18,7 @@ data class PdfConfig(
     val harInnholdsfortegnelse: Boolean,
     val språk: String,
 )
+
+object Konfigurasjon {
+    var språk: String = "nb"
+}

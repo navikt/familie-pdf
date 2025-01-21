@@ -29,11 +29,13 @@ import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
+import no.nav.familie.pdf.pdf.PdfElementUtils.brukSpråk
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
+import no.nav.familie.pdf.pdf.PdfElementUtils.oppdaterSpråk
 import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
@@ -63,9 +65,12 @@ object PdfUtils {
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
-        val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
+        val sideantallInnholdsfortegnelse =
+            if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
 
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
+
+        oppdaterSpråk(feltMap)
 
         Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
@@ -195,7 +200,14 @@ object PdfUtils {
             )
         }
 
-        add(lagOverskriftH2("Innholdsfortegnelse"))
+        val innholdsfortegnelse: String =
+            when (brukSpråk()) {
+                "nn" -> "Innhaldsliste"
+                "en" -> "Table of Contents"
+                else -> "Innholdsfortegnelse"
+            }
+
+        add(lagOverskriftH2(innholdsfortegnelse))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
 
@@ -226,7 +238,19 @@ object PdfUtils {
 
     private fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
         for (sidetall in 1..pdfADokument.numberOfPages) {
-            val bunntekst = Paragraph().add("Side $sidetall av ${pdfADokument.numberOfPages}")
+            val side: String =
+                when (brukSpråk()) {
+                    "nn" -> "Side"
+                    "en" -> "Page"
+                    else -> "Side"
+                }
+            val av: String =
+                when (brukSpråk()) {
+                    "nn" -> "av"
+                    "en" -> "of"
+                    else -> "av"
+                }
+            val bunntekst = Paragraph().add("$side $sidetall $av ${pdfADokument.numberOfPages}")
             showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
         }
     }
