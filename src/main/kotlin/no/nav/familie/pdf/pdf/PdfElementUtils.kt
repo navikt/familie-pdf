@@ -29,7 +29,13 @@ object PdfElementUtils {
         Paragraph().apply {
             (element.label)
                 .takeIf { it.isNotEmpty() }
-                ?.let { add(Text(it).apply { settFont(FontStil.SEMIBOLD) }) }
+                ?.let {
+                    add(
+                        Text(leggTilKolon(it)).apply {
+                            settFont(FontStil.SEMIBOLD)
+                        },
+                    )
+                }
             element.alternativer?.takeIf { it.isNotEmpty() }?.let {
                 add(Text("\n"))
                 add(
@@ -44,6 +50,14 @@ object PdfElementUtils {
             setFontSize(12f)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
+        }
+
+    // Kun dersom streng ikke har tegn bakerst
+    private fun leggTilKolon(tekst: String): String =
+        if (tekst.lastOrNull()?.let { it !in setOf('?', ':', '.', '!', ';') } == true) {
+            "$tekst:"
+        } else {
+            tekst
         }
 
     fun lagPunktliste(element: VerdilisteElement): Paragraph =
