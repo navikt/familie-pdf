@@ -77,7 +77,7 @@ object PdfUtils {
                 sideantallInnholdsfortegnelse,
             )
             if (harInnholdsfortegnelse) {
-                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
+                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.pdfConfig.språk)
                 leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
             }
 
@@ -115,7 +115,7 @@ object PdfUtils {
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         if (!harInnholdsfortegnelse) {
-            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label)
+            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label, feltMap.pdfConfig.språk)
         }
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
@@ -181,15 +181,23 @@ object PdfUtils {
     private fun Document.leggTilForsideMedInnholdsfortegnelse(
         overskrift: String,
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
+        språk: String = "nb",
     ) {
         val tittel = overskrift.substringBefore(" (")
         val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
+        val søknadstypeTekst =
+            when {
+                søknadstype.isNotEmpty() && språk == "nb" -> "Søknadstype: "
+                språk == "en" -> "Application type"
+                else -> ""
+            }
+
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
         if (søknadstype.isNotEmpty()) {
             add(
-                Paragraph(søknadstype).apply {
+                Paragraph(søknadstypeTekst + søknadstype).apply {
                     setMarginTop(-10f)
                 },
             )
@@ -201,14 +209,21 @@ object PdfUtils {
 
     private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
         overskrift: String,
+        språk: String = "nb",
     ) {
         val tittel = overskrift.substringBefore(" (")
         val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
+        val søknadstypeTekst =
+            when {
+                søknadstype.isNotEmpty() && språk == "nb" -> "Søknadstype: "
+                språk == "en" -> "Application type"
+                else -> ""
+            }
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
         if (søknadstype.isNotEmpty()) {
             add(
-                Paragraph(søknadstype).apply {
+                Paragraph(søknadstypeTekst + søknadstype).apply {
                     setMarginTop(-10f)
                 },
             )
