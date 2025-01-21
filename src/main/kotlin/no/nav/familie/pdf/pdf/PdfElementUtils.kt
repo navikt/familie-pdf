@@ -54,7 +54,7 @@ object PdfElementUtils {
 
     // Kun dersom streng ikke har tegn bakerst
     private fun leggTilKolon(tekst: String): String =
-        if (tekst.lastOrNull()?.let { it !in setOf('?', ':', '.', '!', ';') } == true) {
+        if (tekst.last() !in setOf('?', ':', '.', '!', ';')) {
             "$tekst:"
         } else {
             tekst
