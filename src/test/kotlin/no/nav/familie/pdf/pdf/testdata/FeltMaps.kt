@@ -217,16 +217,7 @@ fun lagMedTomBrevkode(): FeltMap =
     FeltMap(
         label = søknadsTittel,
         verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Innsendingsdetaljer",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Navn", verdi = "Kåre"),
-                            VerdilisteElement(label = "Født", verdi = "Ja"),
-                        ),
-                ),
-            ),
+            listOf(innsendingsdetaljer),
         pdfConfig = PdfConfig(true, "nb"),
         brevkode = "",
     )
@@ -235,15 +226,17 @@ fun lagUtenBrevkode(): FeltMap =
     FeltMap(
         label = søknadsTittel,
         verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Innsendingsdetaljer",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Navn", verdi = "Kåre"),
-                            VerdilisteElement(label = "Født", verdi = "Ja"),
-                        ),
-                ),
-            ),
+            listOf(innsendingsdetaljer),
         pdfConfig = PdfConfig(true, "nb"),
+        brevkode = null,
+    )
+
+val innsendingsdetaljer =
+    VerdilisteElement(
+        label = "Innsendingsdetaljer",
+        verdiliste =
+            listOf(
+                VerdilisteElement(label = "Navn", verdi = "Kåre"),
+                VerdilisteElement(label = "Født", verdi = "Ja"),
+            ),
     )
