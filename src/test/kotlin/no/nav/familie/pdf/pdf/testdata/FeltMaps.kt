@@ -25,6 +25,7 @@ fun lagMedVerdiliste(): FeltMap =
                 ),
             ),
         pdfConfig = PdfConfig(true, "nb"),
+        brevkode = "Brevkode: NAV 15-00.01",
     )
 
 fun lagMedForskjelligLabelIVerdiliste(): FeltMap =

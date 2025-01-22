@@ -63,7 +63,8 @@ object PdfUtils {
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
-        val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
+        val brevkode = feltMap.brevkode
+        val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse, brevkode) else 0
 
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
@@ -77,7 +78,7 @@ object PdfUtils {
                 sideantallInnholdsfortegnelse,
             )
             if (harInnholdsfortegnelse) {
-                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
+                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, brevkode)
                 leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
             }
 
@@ -89,6 +90,7 @@ object PdfUtils {
     private fun kalkulerSideantallInnholdsfortegnelse(
         feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
+        brevkode: String?,
     ): Int {
         val midlertidigPdfADokument = lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
@@ -99,7 +101,7 @@ object PdfUtils {
                 midlertidigPdfADokument,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
-            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
+            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, brevkode)
             val sideAntallEtterInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             close()
             innholdsfortegnelse.clear()
@@ -115,7 +117,7 @@ object PdfUtils {
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         if (!harInnholdsfortegnelse) {
-            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label)
+            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label, feltMap.brevkode)
         }
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
@@ -181,15 +183,15 @@ object PdfUtils {
     private fun Document.leggTilForsideMedInnholdsfortegnelse(
         overskrift: String,
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
+        brevkode: String?,
     ) {
         val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        if (søknadstype.isNotEmpty()) {
+        if (!brevkode.isNullOrEmpty()) {
             add(
-                Paragraph(søknadstype).apply {
+                Paragraph(brevkode).apply {
                     setMarginTop(-10f)
                 },
             )
@@ -201,14 +203,14 @@ object PdfUtils {
 
     private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
         overskrift: String,
+        brevkode: String?,
     ) {
         val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        if (søknadstype.isNotEmpty()) {
+        if (!brevkode.isNullOrEmpty()) {
             add(
-                Paragraph(søknadstype).apply {
+                Paragraph(brevkode).apply {
                     setMarginTop(-10f)
                 },
             )
