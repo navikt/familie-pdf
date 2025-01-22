@@ -188,13 +188,7 @@ object PdfUtils {
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        if (!brevkode.isNullOrEmpty()) {
-            add(
-                Paragraph(brevkode).apply {
-                    setMarginTop(-10f)
-                },
-            )
-        }
+        setBrevkode(this, brevkode)
 
         add(lagOverskriftH2("Innholdsfortegnelse"))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
@@ -207,13 +201,7 @@ object PdfUtils {
         val tittel = overskrift.substringBefore(" (")
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        if (!brevkode.isNullOrEmpty()) {
-            add(
-                Paragraph(brevkode).apply {
-                    setMarginTop(-10f)
-                },
-            )
-        }
+        setBrevkode(this, brevkode)
     }
 
     private fun leggInnholdsfortegnelsenFørst(
@@ -308,5 +296,18 @@ object PdfUtils {
         REGULAR,
         SEMIBOLD,
         ITALIC,
+    }
+
+    private fun setBrevkode(
+        document: Document,
+        brevkode: String?,
+    ) {
+        if (!brevkode.isNullOrEmpty()) {
+            document.add(
+                Paragraph(brevkode).apply {
+                    setMarginTop(-10f)
+                },
+            )
+        }
     }
 }
