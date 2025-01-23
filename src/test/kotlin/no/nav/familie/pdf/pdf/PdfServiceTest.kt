@@ -9,11 +9,11 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomBrevkode
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomtSkjemanummer
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUtenBrevkode
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUtenSkjemanummer
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUteninnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
@@ -45,10 +45,10 @@ class PdfServiceTest {
             )
 
         @JvmStatic
-        fun underOverskriftUtenBrevkode(): Stream<FeltMap> =
+        fun underOverskriftUtenSkjemanummer(): Stream<FeltMap> =
             Stream.of(
-                lagMedTomBrevkode(),
-                lagUtenBrevkode(),
+                lagMedTomtSkjemanummer(),
+                lagUtenSkjemanummer(),
             )
     }
 
@@ -101,7 +101,7 @@ class PdfServiceTest {
 
     //region Innholdsfortegnelse
     @Test
-    fun `Pdf har brevkode i under-overskriften`() {
+    fun `Pdf har skjemanummer i under-overskriften`() {
         // Arrange
         val feltMap = lagMedVerdiliste()
 
@@ -111,18 +111,18 @@ class PdfServiceTest {
 
         // Assert
         assertTrue(førsteSidePdf.contains("Søknad om overgangsstønad"))
-        assertTrue(førsteSidePdf.contains("Brevkode: NAV 15-00.01"))
+        assertTrue(førsteSidePdf.contains("Skjemanummer: NAV 15-00.01"))
     }
 
     @ParameterizedTest
-    @MethodSource("underOverskriftUtenBrevkode")
-    fun `Pdf har ikke brevkode i overskrift`(feltMap: FeltMap) {
+    @MethodSource("underOverskriftUtenSkjemanummer")
+    fun `Pdf har ikke skjemanummer i overskrift`(feltMap: FeltMap) {
         // Act
         val pdfDoc = opprettPdf(feltMap)
         val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
 
         // Assert
-        assertFalse(førsteSidePdf.contains("Brevkode: NAV 15-00.01"))
+        assertFalse(førsteSidePdf.contains("Skjemanummer: NAV 15-00.01"))
     }
 
     @Test

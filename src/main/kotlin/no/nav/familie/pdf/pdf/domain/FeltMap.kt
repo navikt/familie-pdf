@@ -4,7 +4,7 @@ data class FeltMap(
     val label: String,
     val verdiliste: List<VerdilisteElement>,
     val pdfConfig: PdfConfig,
-    val brevkode: String? = null,
+    val skjemanummer: String? = null,
 )
 
 data class VerdilisteElement(

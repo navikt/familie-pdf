@@ -78,7 +78,7 @@ object PdfUtils {
                 sideantallInnholdsfortegnelse,
             )
             if (harInnholdsfortegnelse) {
-                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.brevkode)
+                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
                 leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
             }
 
@@ -100,7 +100,7 @@ object PdfUtils {
                 midlertidigPdfADokument,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
-            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.brevkode)
+            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
             val sideAntallEtterInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             close()
             innholdsfortegnelse.clear()
@@ -116,7 +116,7 @@ object PdfUtils {
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         if (!harInnholdsfortegnelse) {
-            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label, feltMap.brevkode)
+            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label, feltMap.skjemanummer)
         }
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
@@ -182,13 +182,13 @@ object PdfUtils {
     private fun Document.leggTilForsideMedInnholdsfortegnelse(
         overskrift: String,
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
-        brevkode: String?,
+        skjemanummer: String?,
     ) {
         val tittel = overskrift.substringBefore(" (")
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        setBrevkode(this, brevkode)
+        setSkjemanummer(this, skjemanummer)
 
         add(lagOverskriftH2("Innholdsfortegnelse"))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
@@ -196,12 +196,12 @@ object PdfUtils {
 
     private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
         overskrift: String,
-        brevkode: String?,
+        skjemanummer: String?,
     ) {
         val tittel = overskrift.substringBefore(" (")
         add(lagOverskriftH1(tittel))
         add(navLogoBilde())
-        setBrevkode(this, brevkode)
+        setSkjemanummer(this, skjemanummer)
     }
 
     private fun leggInnholdsfortegnelsenFørst(
@@ -298,13 +298,13 @@ object PdfUtils {
         ITALIC,
     }
 
-    private fun setBrevkode(
+    private fun setSkjemanummer(
         document: Document,
-        brevkode: String?,
+        skjemanummer: String?,
     ) {
-        if (!brevkode.isNullOrEmpty()) {
+        if (!skjemanummer.isNullOrEmpty()) {
             document.add(
-                Paragraph(brevkode).apply {
+                Paragraph(skjemanummer).apply {
                     setMarginTop(-10f)
                 },
             )

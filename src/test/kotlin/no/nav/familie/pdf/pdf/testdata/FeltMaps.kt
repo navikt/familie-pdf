@@ -25,7 +25,7 @@ fun lagMedVerdiliste(): FeltMap =
                 ),
             ),
         pdfConfig = PdfConfig(true, "nb"),
-        brevkode = "Brevkode: NAV 15-00.01",
+        skjemanummer = "Skjemanummer: NAV 15-00.01",
     )
 
 fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
@@ -212,23 +212,23 @@ fun lagMedInnholdsfortegnelse(): FeltMap =
     )
 //endregion
 
-//region brevKode
-fun lagMedTomBrevkode(): FeltMap =
+//region Skjemanummer
+fun lagMedTomtSkjemanummer(): FeltMap =
     FeltMap(
         label = søknadsTittel,
         verdiliste =
             listOf(innsendingsdetaljer),
         pdfConfig = PdfConfig(true, "nb"),
-        brevkode = "",
+        skjemanummer = "",
     )
 
-fun lagUtenBrevkode(): FeltMap =
+fun lagUtenSkjemanummer(): FeltMap =
     FeltMap(
         label = søknadsTittel,
         verdiliste =
             listOf(innsendingsdetaljer),
         pdfConfig = PdfConfig(true, "nb"),
-        brevkode = null,
+        skjemanummer = null,
     )
 
 val innsendingsdetaljer =
