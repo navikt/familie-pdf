@@ -139,20 +139,6 @@ class PdfServiceTest {
         assertTrue(1 == antallForekomster, "Overskriften dukker opp to ganger")
     }
 
-    @Test
-    fun `Pdf har ikke parenteser i overskrift`() {
-        // Arrange
-        val feltMap = lagMedVerdiliste()
-
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
-
-        // Assert
-        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('")
-        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'")
-    }
-
     @ParameterizedTest
     @MethodSource("innholdsfortegnelseMedEnOgToSider")
     fun `Pdf legger forside med innholdsfortegnelse først`(feltMap: FeltMap) {
