@@ -160,9 +160,9 @@ object PdfUtils {
         rekursjonsDybde: Int = 1,
     ) {
         verdiliste.forEach { element ->
-            val marginVenstre = 15f * rekursjonsDybde
-            Div().apply {
-                if (element.label.isNotEmpty()) {
+            if (element.label.isNotEmpty()) {
+                val marginVenstre = 15f * rekursjonsDybde
+                Div().apply {
                     isKeepTogether = true
                     if (element.visningsVariant != null) {
                         håndterVisningsvariant(
