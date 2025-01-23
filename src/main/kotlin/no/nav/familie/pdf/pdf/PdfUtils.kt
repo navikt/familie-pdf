@@ -160,20 +160,22 @@ object PdfUtils {
         rekursjonsDybde: Int = 1,
     ) {
         verdiliste.forEach { element ->
-            val marginVenstre = 15f * rekursjonsDybde
-            Div().apply {
-                isKeepTogether = true
-                if (element.visningsVariant != null) {
-                    håndterVisningsvariant(
-                        element.visningsVariant,
-                        element,
-                        seksjon,
-                    )
-                } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
-                    seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
-                    håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
-                } else if (element.verdi != null) {
-                    seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+            if (element.label.isNotEmpty()) {
+                val marginVenstre = 15f * rekursjonsDybde
+                Div().apply {
+                    isKeepTogether = true
+                    if (element.visningsVariant != null) {
+                        håndterVisningsvariant(
+                            element.visningsVariant,
+                            element,
+                            seksjon,
+                        )
+                    } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
+                        seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
+                        håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
+                    } else if (element.verdi != null) {
+                        seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+                    }
                 }
             }
         }
