@@ -16,6 +16,7 @@ import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.PdfUtils.FontStil
 import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.språkContext.SpråkContext
 
 object PdfElementUtils {
     fun navLogoBilde(): Image =
@@ -149,8 +150,20 @@ object PdfElementUtils {
                 )
             }
         tabell.caption = captionDiv
-        tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
-        tabell.addCell(lagTabellOverskriftscelle("Svar", false))
+        val spørsmål: String =
+            when (SpråkContext.brukSpråk()) {
+                "nn" -> "Spørsmål"
+                "en" -> "Questions"
+                else -> "Spørsmål"
+            }
+        val svar: String =
+            when (SpråkContext.brukSpråk()) {
+                "nn" -> "Svar"
+                "en" -> "Answer"
+                else -> "Svar"
+            }
+        tabell.addCell(lagTabellOverskriftscelle(spørsmål))
+        tabell.addCell(lagTabellOverskriftscelle(svar, false))
         lagTabellRekursivt(tabellData.verdiliste, tabell)
         return tabell
     }
