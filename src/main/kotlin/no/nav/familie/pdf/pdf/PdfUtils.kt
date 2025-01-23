@@ -184,9 +184,8 @@ object PdfUtils {
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
         skjemanummer: String?,
     ) {
-        val tittel = overskrift.substringBefore(" (")
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
-        add(lagOverskriftH1(tittel))
+        add(lagOverskriftH1(overskrift))
         add(navLogoBilde())
         setSkjemanummer(this, skjemanummer)
 
@@ -198,8 +197,7 @@ object PdfUtils {
         overskrift: String,
         skjemanummer: String?,
     ) {
-        val tittel = overskrift.substringBefore(" (")
-        add(lagOverskriftH1(tittel))
+        add(lagOverskriftH1(overskrift))
         add(navLogoBilde())
         setSkjemanummer(this, skjemanummer)
     }
