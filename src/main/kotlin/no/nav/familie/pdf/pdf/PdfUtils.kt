@@ -65,7 +65,8 @@ object PdfUtils {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
 
-        val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
+        val sideantallInnholdsfortegnelse =
+            if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
 
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
@@ -189,7 +190,12 @@ object PdfUtils {
         add(lagOverskriftH1(overskrift))
         add(navLogoBilde())
         setSkjemanummer(this, skjemanummer)
-
+        val innholdsfortegnelse: String =
+            when (SpråkContext.brukSpråk()) {
+                "nn" -> "Innhaldsliste"
+                "en" -> "Table of Contents"
+                else -> "Innholdsfortegnelse"
+            }
         add(lagOverskriftH2(innholdsfortegnelse))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
@@ -243,8 +249,13 @@ object PdfUtils {
             }
 
         innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
-            val alternativTekst =
-                "${innholdsfortegnelseElement.tittel} på side"
+            val påSide: String =
+                when (SpråkContext.brukSpråk()) {
+                    "nn" -> "på side"
+                    "en" -> "on page"
+                    else -> "på side"
+                }
+            val alternativTekst = "${innholdsfortegnelseElement.tittel} $påSide"
             val lenke =
                 Link(
                     innholdsfortegnelseElement.tittel,
@@ -272,12 +283,6 @@ object PdfUtils {
 
             innholdsfortegnelseWrapper.add(oppføring)
         }
-        val innholdsfortegnelse: String =
-            when (SpråkContext.brukSpråk()) {
-                "nn" -> "Innhaldsliste"
-                "en" -> "Table of Contents"
-                else -> "Innholdsfortegnelse"
-            }
 
         return innholdsfortegnelseWrapper
     }
