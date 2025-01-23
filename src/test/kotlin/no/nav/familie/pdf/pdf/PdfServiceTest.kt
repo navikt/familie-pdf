@@ -5,16 +5,15 @@ import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedBareLinjeskift
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagAdresseMedFlereLinjeskift
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomAdresse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomtSkjemanummer
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUtenSkjemanummer
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUteninnholdsfortegnelse
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
@@ -43,6 +42,13 @@ class PdfServiceTest {
             Stream.of(
                 lagMedVerdiliste(),
                 lagToSiderInnholdsfortegnelse(),
+            )
+
+        @JvmStatic
+        fun underOverskriftUtenSkjemanummer(): Stream<FeltMap> =
+            Stream.of(
+                lagMedTomtSkjemanummer(),
+                lagUtenSkjemanummer(),
             )
     }
 
@@ -95,7 +101,7 @@ class PdfServiceTest {
 
     //region Innholdsfortegnelse
     @Test
-    fun `Pdf har søknadstype i overskrift`() {
+    fun `Pdf har skjemanummer i under-overskriften`() {
         // Arrange
         val feltMap = lagMedVerdiliste()
 
@@ -105,7 +111,18 @@ class PdfServiceTest {
 
         // Assert
         assertTrue(førsteSidePdf.contains("Søknad om overgangsstønad"))
-        assertTrue(førsteSidePdf.contains("NAV 15-00.01"))
+        assertTrue(førsteSidePdf.contains("Skjemanummer: NAV 15-00.01"))
+    }
+
+    @ParameterizedTest
+    @MethodSource("underOverskriftUtenSkjemanummer")
+    fun `Pdf har ikke skjemanummer i overskrift`(feltMap: FeltMap) {
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertFalse(førsteSidePdf.contains("Skjemanummer: NAV 15-00.01"))
     }
 
     @Test
@@ -120,20 +137,6 @@ class PdfServiceTest {
         // Assert
         val antallForekomster = Regex("Arbeid, utdanning og andre aktiviteter").findAll(førsteSidePdf).count()
         assertTrue(1 == antallForekomster, "Overskriften dukker opp to ganger")
-    }
-
-    @Test
-    fun `Pdf har ikke parenteser i overskrift`() {
-        // Arrange
-        val feltMap = lagMedVerdiliste()
-
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
-
-        // Assert
-        assertFalse(førsteSidePdf.contains("("), "Overskriften inneholder '('")
-        assertFalse(førsteSidePdf.contains(")"), "Overskriften inneholder ')'")
     }
 
     @ParameterizedTest
