@@ -37,6 +37,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.språkContext.SpråkContext
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -189,7 +190,7 @@ object PdfUtils {
         add(navLogoBilde())
         setSkjemanummer(this, skjemanummer)
 
-        add(lagOverskriftH2("Innholdsfortegnelse"))
+        add(lagOverskriftH2(innholdsfortegnelse))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
 
@@ -213,7 +214,19 @@ object PdfUtils {
 
     private fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
         for (sidetall in 1..pdfADokument.numberOfPages) {
-            val bunntekst = Paragraph().add("Side $sidetall av ${pdfADokument.numberOfPages}")
+            val side: String =
+                when (SpråkContext.brukSpråk()) {
+                    "nn" -> "Side"
+                    "en" -> "Page"
+                    else -> "Side"
+                }
+            val av: String =
+                when (SpråkContext.brukSpråk()) {
+                    "nn" -> "av"
+                    "en" -> "of"
+                    else -> "av"
+                }
+            val bunntekst = Paragraph().add("$side $sidetall $av ${pdfADokument.numberOfPages}")
             showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
         }
     }
@@ -259,6 +272,12 @@ object PdfUtils {
 
             innholdsfortegnelseWrapper.add(oppføring)
         }
+        val innholdsfortegnelse: String =
+            when (SpråkContext.brukSpråk()) {
+                "nn" -> "Innhaldsliste"
+                "en" -> "Table of Contents"
+                else -> "Innholdsfortegnelse"
+            }
 
         return innholdsfortegnelseWrapper
     }
