@@ -1,10 +1,15 @@
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.mockkObject
+import io.mockk.unmockkObject
+import io.mockk.verify
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkAvlyttingskomponent
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockHttpServletRequest
@@ -25,6 +30,11 @@ class SpråkAvlyttingskomponentTest {
         språkAvlyttingskomponent = SpråkAvlyttingskomponent(objektMapper)
     }
 
+    @AfterEach
+    fun tilbakestill() {
+        unmockkObject(SpråkKontekst)
+    }
+
     @Test
     fun `preHandle setter språk korrekt`() {
         // Mocking av SpråkContext for å verifisere interaksjon
@@ -43,9 +53,6 @@ class SpråkAvlyttingskomponentTest {
         // Verifiser at riktig språk blir satt i SpråkContext
         verify { SpråkKontekst.settSpråk("en") }
         assertEquals(true, resultat)
-
-        // Unmock SpråkContext etter bruk
-        unmockkObject(SpråkKontekst)
     }
 
     @Test
@@ -66,9 +73,6 @@ class SpråkAvlyttingskomponentTest {
         // Verifiser at språket settes til standard "nb"
         verify { SpråkKontekst.settSpråk("nb") }
         assertEquals(true, resultat)
-
-        // Unmock SpråkContext etter bruk
-        unmockkObject(SpråkKontekst)
     }
 
     @Test
@@ -85,9 +89,6 @@ class SpråkAvlyttingskomponentTest {
         // Verifiser at språket settes til standard "nb"
         verify { SpråkKontekst.settSpråk("nb") }
         assertEquals(true, resultat)
-
-        // Unmock SpråkContext etter bruk
-        unmockkObject(SpråkKontekst)
     }
 
     @Test
@@ -100,8 +101,5 @@ class SpråkAvlyttingskomponentTest {
 
         // Verifiser at språket blir fjernet
         verify { SpråkKontekst.tilbakestillSpråk() }
-
-        // Unmock SpråkContext etter bruk
-        unmockkObject(SpråkKontekst)
     }
 }

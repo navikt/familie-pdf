@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test
 
 class SpråkKontekstTest {
     @BeforeEach
-    fun setup() {
+    fun settOpp() {
         SpråkKontekst.tilbakestillSpråk()
     }
 
     @AfterEach
-    fun cleanup() {
+    fun tilbakestill() {
         SpråkKontekst.tilbakestillSpråk()
     }
 
