@@ -42,28 +42,10 @@ object PdfElementUtils {
             tekst
         }
 
-    fun lagPunktliste(element: VerdilisteElement): Div =
+    fun lagPunktliste(punkter: kotlin.collections.List<VerdilisteElement>): Div =
         Div().apply {
-            add(lagSvaralternativerDiv(element))
-            add(lagSvarDiv(element))
-            accessibilityProperties.role = StandardRoles.DIV
-        }
-
-    private fun lagSvaralternativerDiv(element: VerdilisteElement): Div =
-        Div().apply {
-            add(lagOverskriftH4("Svaralternativer"))
-            element.verdiliste?.forEach { alternativ ->
-                add(punktliste().apply { add(ListItem(alternativ.label)) })
-            }
-            isKeepTogether = true
-            accessibilityProperties.role = StandardRoles.DIV
-        }
-
-    private fun lagSvarDiv(element: VerdilisteElement): Div =
-        Div().apply {
-            add(lagOverskriftH4("Svar"))
-            element.verdiliste?.filter { it.verdi == "true" }?.forEach { alternativ ->
-                add(punktliste().apply { add(ListItem(alternativ.label)) })
+            punkter.forEach { punkt ->
+                add(punktliste().apply { add(ListItem(punkt.label)) })
             }
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.DIV

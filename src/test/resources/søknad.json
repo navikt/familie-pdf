@@ -310,27 +310,42 @@
       "verdiliste": [
         {
           "label": "Gjelder noe av dette deg?",
-          "visningsVariant": "PUNKTLISTE",
           "verdiliste": [
             {
-              "label": "Jeg er syk",
-              "verdi": "true"
+              "label": "Svaralternativer",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "Jeg er syk"
+                },
+                {
+                  "label": "Barnet mitt er sykt"
+                },
+                {
+                  "label": "Jeg har søkt om barnepass, men ikke fått plass enda"
+                },
+                {
+                  "label": "Jeg har barn som trenger særlig tilsyn på grunn av fysiske, psykiske eller store sosiale problemer"
+                },
+                {
+                  "label": "Nei"
+                }
+              ]
             },
             {
-              "label": "Barnet mitt er sykt",
-              "verdi": "true"
-            },
-            {
-              "label": "Jeg har søkt om barnepass, men ikke fått plass enda",
-              "verdi": "false"
-            },
-            {
-              "label": "Jeg har barn som trenger særlig tilsyn på grunn av fysiske, psykiske eller store sosiale problemer",
-              "verdi": "false"
-            },
-            {
-              "label": "Nei",
-              "verdi": "true"
+              "label": "Svar",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "Jeg er syk"
+                },
+                {
+                  "label": "Barnet mitt er sykt"
+                },
+                {
+                  "label": "Nei"
+                }
+              ]
             }
           ]
         },

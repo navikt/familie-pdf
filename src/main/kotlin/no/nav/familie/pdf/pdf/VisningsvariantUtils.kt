@@ -1,7 +1,7 @@
 package no.nav.familie.pdf.pdf
 
 import com.itextpdf.layout.element.Div
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH4
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagPunktliste
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTabell
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
@@ -43,9 +43,11 @@ object VisningsvariantUtils {
         verdi: VerdilisteElement,
         seksjon: Div,
     ) {
-        seksjon.apply {
-            add(lagOverskriftH3(verdi.label))
-            add(lagPunktliste(verdi))
+        if (verdi.verdiliste?.isNotEmpty() == true) {
+            seksjon.apply {
+                add(lagOverskriftH4(verdi.label).apply { setMarginLeft(30f) })
+                add(lagPunktliste(verdi.verdiliste).apply { setMarginLeft(30f) })
+            }
         }
     }
 

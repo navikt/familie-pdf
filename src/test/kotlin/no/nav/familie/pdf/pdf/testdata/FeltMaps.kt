@@ -204,20 +204,36 @@ fun lagMedPunktliste(): FeltMap =
                         listOf(
                             VerdilisteElement(
                                 label = "Gjelder noe av dette deg?",
-                                visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
                                 verdiliste =
                                     listOf(
                                         VerdilisteElement(
-                                            label = "Jeg er syk",
-                                            verdi = "true",
+                                            label = "Svaralternativer",
+                                            visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(
+                                                        label = "Jeg er syk",
+                                                    ),
+                                                    VerdilisteElement(
+                                                        label = "Barnet mitt er sykt",
+                                                    ),
+                                                    VerdilisteElement(
+                                                        label = "Jeg har søkt om barnepass",
+                                                    ),
+                                                ),
                                         ),
                                         VerdilisteElement(
-                                            label = "Barnet mitt er sykt",
-                                            verdi = "true",
-                                        ),
-                                        VerdilisteElement(
-                                            label = "Jeg har søkt om barnepass",
-                                            verdi = "false",
+                                            label = "Svar",
+                                            visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(
+                                                        label = "Jeg er syk",
+                                                    ),
+                                                    VerdilisteElement(
+                                                        label = "Barnet mitt er sykt",
+                                                    ),
+                                                ),
                                         ),
                                     ),
                             ),
