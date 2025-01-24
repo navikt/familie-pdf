@@ -27,11 +27,19 @@ object PdfElementUtils {
 
     fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            add(Text(element.label).apply { settFont(FontStil.SEMIBOLD) })
+            add(Text(leggTilKolon(element.label)).apply { settFont(FontStil.SEMIBOLD) })
             add(Text("\n"))
             add(element.verdi)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
+        }
+
+    // Kun dersom streng ikke har tegn bakerst
+    private fun leggTilKolon(tekst: String): String =
+        if (tekst.last() !in setOf('?', ':', '.', '!', ';')) {
+            "$tekst:"
+        } else {
+            tekst
         }
 
     fun lagPunktliste(element: VerdilisteElement): Div =

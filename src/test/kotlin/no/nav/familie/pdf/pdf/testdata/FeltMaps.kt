@@ -25,6 +25,7 @@ fun lagMedVerdiliste(): FeltMap =
                 ),
             ),
         pdfConfig = PdfConfig(true, "nb"),
+        skjemanummer = "Skjemanummer: NAV 15-00.01",
     )
 
 fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
@@ -157,6 +158,36 @@ fun lagMedInnholdsfortegnelse(): FeltMap =
             PdfConfig(
                 harInnholdsfortegnelse = true,
                 "nb",
+            ),
+    )
+//endregion
+
+//region Skjemanummer
+fun lagMedTomtSkjemanummer(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(innsendingsdetaljer),
+        pdfConfig = PdfConfig(true, "nb"),
+        skjemanummer = "",
+    )
+
+fun lagUtenSkjemanummer(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(innsendingsdetaljer),
+        pdfConfig = PdfConfig(true, "nb"),
+        skjemanummer = null,
+    )
+
+val innsendingsdetaljer =
+    VerdilisteElement(
+        label = "Innsendingsdetaljer",
+        verdiliste =
+            listOf(
+                VerdilisteElement(label = "Navn", verdi = "Kåre"),
+                VerdilisteElement(label = "Født", verdi = "Ja"),
             ),
     )
 //endregion

@@ -63,6 +63,7 @@ object PdfUtils {
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
+
         val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
 
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
@@ -77,7 +78,7 @@ object PdfUtils {
                 sideantallInnholdsfortegnelse,
             )
             if (harInnholdsfortegnelse) {
-                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
+                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
                 leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
             }
 
@@ -99,7 +100,7 @@ object PdfUtils {
                 midlertidigPdfADokument,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
-            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse)
+            leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
             val sideAntallEtterInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             close()
             innholdsfortegnelse.clear()
@@ -115,7 +116,7 @@ object PdfUtils {
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         if (!harInnholdsfortegnelse) {
-            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label)
+            leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(feltMap.label, feltMap.skjemanummer)
         }
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
@@ -159,20 +160,22 @@ object PdfUtils {
         rekursjonsDybde: Int = 1,
     ) {
         verdiliste.forEach { element ->
-            val marginVenstre = 15f * rekursjonsDybde
-            Div().apply {
-                isKeepTogether = true
-                if (element.visningsVariant != null) {
-                    håndterVisningsvariant(
-                        element.visningsVariant,
-                        element,
-                        seksjon,
-                    )
-                } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
-                    seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
-                    håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
-                } else if (element.verdi != null) {
-                    seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+            if (element.label.isNotEmpty()) {
+                val marginVenstre = 15f * rekursjonsDybde
+                Div().apply {
+                    isKeepTogether = true
+                    if (element.visningsVariant != null) {
+                        håndterVisningsvariant(
+                            element.visningsVariant,
+                            element,
+                            seksjon,
+                        )
+                    } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
+                        seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
+                        håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
+                    } else if (element.verdi != null) {
+                        seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+                    }
                 }
             }
         }
@@ -181,19 +184,12 @@ object PdfUtils {
     private fun Document.leggTilForsideMedInnholdsfortegnelse(
         overskrift: String,
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
+        skjemanummer: String?,
     ) {
-        val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
         add(AreaBreak(AreaBreakType.NEXT_PAGE))
-        add(lagOverskriftH1(tittel))
+        add(lagOverskriftH1(overskrift))
         add(navLogoBilde())
-        if (søknadstype.isNotEmpty()) {
-            add(
-                Paragraph(søknadstype).apply {
-                    setMarginTop(-10f)
-                },
-            )
-        }
+        setSkjemanummer(this, skjemanummer)
 
         add(lagOverskriftH2("Innholdsfortegnelse"))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
@@ -201,18 +197,11 @@ object PdfUtils {
 
     private fun Document.leggTilForsideOgSeksjonerUtenInnholdsfortegnelse(
         overskrift: String,
+        skjemanummer: String?,
     ) {
-        val tittel = overskrift.substringBefore(" (")
-        val søknadstype = overskrift.substringAfter(" (", "").trimEnd(')')
-        add(lagOverskriftH1(tittel))
+        add(lagOverskriftH1(overskrift))
         add(navLogoBilde())
-        if (søknadstype.isNotEmpty()) {
-            add(
-                Paragraph(søknadstype).apply {
-                    setMarginTop(-10f)
-                },
-            )
-        }
+        setSkjemanummer(this, skjemanummer)
     }
 
     private fun leggInnholdsfortegnelsenFørst(
@@ -244,7 +233,7 @@ object PdfUtils {
 
         innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
             val alternativTekst =
-                "Naviger til ${innholdsfortegnelseElement.tittel} på side ${innholdsfortegnelseElement.sideNummer}"
+                "${innholdsfortegnelseElement.tittel} på side"
             val lenke =
                 Link(
                     innholdsfortegnelseElement.tittel,
@@ -307,5 +296,18 @@ object PdfUtils {
         REGULAR,
         SEMIBOLD,
         ITALIC,
+    }
+
+    private fun setSkjemanummer(
+        document: Document,
+        skjemanummer: String?,
+    ) {
+        if (!skjemanummer.isNullOrEmpty()) {
+            document.add(
+                Paragraph(skjemanummer).apply {
+                    setMarginTop(-10f)
+                },
+            )
+        }
     }
 }

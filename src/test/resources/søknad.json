@@ -376,6 +376,7 @@
   ],
   "pdfConfig": {
     "harInnholdsfortegnelse": true,
-    "språk": "nb"
-  }
+    "språk": "NB"
+  },
+  "skjemanummer": "Skjemanummer: NAV 15-00.01"
 }
