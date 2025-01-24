@@ -5,10 +5,10 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class WebConfig(
-    private val språkInterceptor: SpråkInterceptor,
+class WebKonfigurasjon(
+    private val språkAvlyttingskomponent: SpråkAvlyttingskomponent,
 ) : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
-        registry.addInterceptor(språkInterceptor)
+        registry.addInterceptor(språkAvlyttingskomponent)
     }
 }

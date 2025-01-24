@@ -1,15 +1,15 @@
 package no.nav.familie.pdf.pdf.språkKonfigurasjon
 
 object SpråkKontekst {
-    private val språk = ThreadLocal.withInitial { "nb" }
+    private val aktivtSpråk = ThreadLocal.withInitial { "nb" }
 
-    fun brukSpråk(): String = språk.get()
+    fun brukSpråk(): String = aktivtSpråk.get()
 
-    fun setSpråk(språk: String) {
-        this.språk.set(språk)
+    fun settSpråk(språk: String) {
+        this.aktivtSpråk.set(språk)
     }
 
-    fun fjernSpråk() {
-        språk.remove()
+    fun tilbakestillSpråk() {
+        aktivtSpråk.remove()
     }
 }

@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test
 class SpråkKontekstTest {
     @BeforeEach
     fun setup() {
-        SpråkKontekst.fjernSpråk()
+        SpråkKontekst.tilbakestillSpråk()
     }
 
     @AfterEach
     fun cleanup() {
-        SpråkKontekst.fjernSpråk()
+        SpråkKontekst.tilbakestillSpråk()
     }
 
     @Test
@@ -24,14 +24,14 @@ class SpråkKontekstTest {
 
     @Test
     fun `kan sette og hente språk`() {
-        SpråkKontekst.setSpråk("en")
+        SpråkKontekst.settSpråk("en")
         assertEquals("en", SpråkKontekst.brukSpråk())
     }
 
     @Test
     fun `fjernSpråk setter tilbake til standard nb`() {
-        SpråkKontekst.setSpråk("fr")
-        SpråkKontekst.fjernSpråk()
+        SpråkKontekst.settSpråk("fr")
+        SpråkKontekst.tilbakestillSpråk()
         assertEquals("nb", SpråkKontekst.brukSpråk())
     }
 }

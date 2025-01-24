@@ -3,7 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.*
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkInterceptor
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkAvlyttingskomponent
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -11,8 +11,8 @@ import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import kotlin.test.assertEquals
 
-class SpråkInterceptorTest {
-    private lateinit var språkInterceptor: SpråkInterceptor
+class SpråkAvlyttingskomponentTest {
+    private lateinit var språkAvlyttingskomponent: SpråkAvlyttingskomponent
     private lateinit var objektMapper: ObjectMapper
     private lateinit var forespørsel: HttpServletRequest
     private lateinit var respons: HttpServletResponse
@@ -22,7 +22,7 @@ class SpråkInterceptorTest {
         objektMapper = mockk()
         forespørsel = MockHttpServletRequest()
         respons = MockHttpServletResponse()
-        språkInterceptor = SpråkInterceptor(objektMapper)
+        språkAvlyttingskomponent = SpråkAvlyttingskomponent(objektMapper)
     }
 
     @Test
@@ -38,10 +38,10 @@ class SpråkInterceptorTest {
         every { objektMapper.readTree(forespørsel.inputStream) } returns mockJsonNode
 
         // Kall preHandle
-        val resultat = språkInterceptor.preHandle(forespørsel, respons, Any())
+        val resultat = språkAvlyttingskomponent.preHandle(forespørsel, respons, Any())
 
         // Verifiser at riktig språk blir satt i SpråkContext
-        verify { SpråkKontekst.setSpråk("en") }
+        verify { SpråkKontekst.settSpråk("en") }
         assertEquals(true, resultat)
 
         // Unmock SpråkContext etter bruk
@@ -61,10 +61,10 @@ class SpråkInterceptorTest {
         every { objektMapper.readTree(forespørsel.inputStream) } returns mockJsonNode
 
         // Kall preHandle
-        val resultat = språkInterceptor.preHandle(forespørsel, respons, Any())
+        val resultat = språkAvlyttingskomponent.preHandle(forespørsel, respons, Any())
 
         // Verifiser at språket settes til standard "nb"
-        verify { SpråkKontekst.setSpråk("nb") }
+        verify { SpråkKontekst.settSpråk("nb") }
         assertEquals(true, resultat)
 
         // Unmock SpråkContext etter bruk
@@ -80,10 +80,10 @@ class SpråkInterceptorTest {
         every { objektMapper.readTree(forespørsel.inputStream) } throws Exception("Ugyldig JSON")
 
         // Kall preHandle
-        val resultat = språkInterceptor.preHandle(forespørsel, respons, Any())
+        val resultat = språkAvlyttingskomponent.preHandle(forespørsel, respons, Any())
 
         // Verifiser at språket settes til standard "nb"
-        verify { SpråkKontekst.setSpråk("nb") }
+        verify { SpråkKontekst.settSpråk("nb") }
         assertEquals(true, resultat)
 
         // Unmock SpråkContext etter bruk
@@ -96,10 +96,10 @@ class SpråkInterceptorTest {
         mockkObject(SpråkKontekst)
 
         // Kall afterCompletion
-        språkInterceptor.afterCompletion(forespørsel, respons, Any(), null)
+        språkAvlyttingskomponent.afterCompletion(forespørsel, respons, Any(), null)
 
         // Verifiser at språket blir fjernet
-        verify { SpråkKontekst.fjernSpråk() }
+        verify { SpråkKontekst.tilbakestillSpråk() }
 
         // Unmock SpråkContext etter bruk
         unmockkObject(SpråkKontekst)

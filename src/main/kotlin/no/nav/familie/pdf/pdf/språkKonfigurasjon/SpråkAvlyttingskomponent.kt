@@ -7,33 +7,33 @@ import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 
 @Component
-class SpråkInterceptor(
+class SpråkAvlyttingskomponent(
     private val objectMapper: ObjectMapper,
 ) : HandlerInterceptor {
     @Throws(Exception::class)
     override fun preHandle(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        handler: Any,
+        forespørsel: HttpServletRequest,
+        respons: HttpServletResponse,
+        håndterer: Any,
     ): Boolean {
-        val språk = extractLanguageFromBody(request) ?: "nb"
-        SpråkKontekst.setSpråk(språk)
+        val språk = hentSpråkFraBody(forespørsel) ?: "nb"
+        SpråkKontekst.settSpråk(språk)
         return true
     }
 
     @Throws(Exception::class)
     override fun afterCompletion(
-        request: HttpServletRequest,
-        response: HttpServletResponse,
-        handler: Any,
-        ex: Exception?,
+        forespørsel: HttpServletRequest,
+        respons: HttpServletResponse,
+        håndterer: Any,
+        unntak: Exception?,
     ) {
-        SpråkKontekst.fjernSpråk()
+        SpråkKontekst.tilbakestillSpråk()
     }
 
-    private fun extractLanguageFromBody(request: HttpServletRequest): String? =
+    private fun hentSpråkFraBody(forespørsel: HttpServletRequest): String? =
         try {
-            val jsonNode = objectMapper.readTree(request.inputStream)
+            val jsonNode = objectMapper.readTree(forespørsel.inputStream)
             jsonNode.get("pdfConfig")?.get("språk")?.asText()
         } catch (e: Exception) {
             null
