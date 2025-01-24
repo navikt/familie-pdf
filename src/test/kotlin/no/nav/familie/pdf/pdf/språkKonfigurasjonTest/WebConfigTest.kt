@@ -1,7 +1,7 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.språkContextTest
 import io.mockk.*
-import no.nav.familie.pdf.pdf.språkContext.SpråkInterceptor
-import no.nav.familie.pdf.pdf.språkContext.WebConfig
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkInterceptor
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.WebConfig
 import org.junit.jupiter.api.Test
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 

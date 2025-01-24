@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.pdf.språkContext
+package no.nav.familie.pdf.pdf.språkKonfigurasjon
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest

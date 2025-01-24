@@ -3,8 +3,8 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.*
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import no.nav.familie.pdf.pdf.språkContext.SpråkContext
-import no.nav.familie.pdf.pdf.språkContext.SpråkInterceptor
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkInterceptor
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.mock.web.MockHttpServletRequest

@@ -1,6 +1,6 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.språkContextTest
 
-import no.nav.familie.pdf.pdf.språkContext.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach

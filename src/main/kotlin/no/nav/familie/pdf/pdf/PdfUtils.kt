@@ -37,7 +37,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
-import no.nav.familie.pdf.pdf.språkContext.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {

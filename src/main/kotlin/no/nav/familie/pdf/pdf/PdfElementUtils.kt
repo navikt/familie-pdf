@@ -16,7 +16,7 @@ import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.PdfUtils.FontStil
 import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
-import no.nav.familie.pdf.pdf.språkContext.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
 
 object PdfElementUtils {
     fun navLogoBilde(): Image =

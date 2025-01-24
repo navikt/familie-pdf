@@ -7,7 +7,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfUtils.håndterRekursivVerdiliste
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
-import no.nav.familie.pdf.pdf.språkContext.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
 
 object VisningsvariantUtils {
     fun håndterVisningsvariant(

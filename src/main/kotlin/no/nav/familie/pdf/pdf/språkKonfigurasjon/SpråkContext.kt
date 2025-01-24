@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.pdf.språkContext
+package no.nav.familie.pdf.pdf.språkKonfigurasjon
 
 object SpråkContext {
     private val språk = ThreadLocal.withInitial { "nb" }
