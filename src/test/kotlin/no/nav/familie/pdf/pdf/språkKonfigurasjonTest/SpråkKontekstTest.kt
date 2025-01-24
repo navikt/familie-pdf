@@ -1,37 +1,37 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.språkContextTest
 
-import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class SpråkContextTest {
+class SpråkKontekstTest {
     @BeforeEach
     fun setup() {
-        SpråkContext.fjernSpråk()
+        SpråkKontekst.fjernSpråk()
     }
 
     @AfterEach
     fun cleanup() {
-        SpråkContext.fjernSpråk()
+        SpråkKontekst.fjernSpråk()
     }
 
     @Test
     fun `standard språk er norsk bokmål`() {
-        assertEquals("nb", SpråkContext.brukSpråk())
+        assertEquals("nb", SpråkKontekst.brukSpråk())
     }
 
     @Test
     fun `kan sette og hente språk`() {
-        SpråkContext.setSpråk("en")
-        assertEquals("en", SpråkContext.brukSpråk())
+        SpråkKontekst.setSpråk("en")
+        assertEquals("en", SpråkKontekst.brukSpråk())
     }
 
     @Test
     fun `fjernSpråk setter tilbake til standard nb`() {
-        SpråkContext.setSpråk("fr")
-        SpråkContext.fjernSpråk()
-        assertEquals("nb", SpråkContext.brukSpråk())
+        SpråkKontekst.setSpråk("fr")
+        SpråkKontekst.fjernSpråk()
+        assertEquals("nb", SpråkKontekst.brukSpråk())
     }
 }

@@ -17,7 +17,7 @@ class SpråkInterceptor(
         handler: Any,
     ): Boolean {
         val språk = extractLanguageFromBody(request) ?: "nb"
-        SpråkContext.setSpråk(språk)
+        SpråkKontekst.setSpråk(språk)
         return true
     }
 
@@ -28,7 +28,7 @@ class SpråkInterceptor(
         handler: Any,
         ex: Exception?,
     ) {
-        SpråkContext.fjernSpråk()
+        SpråkKontekst.fjernSpråk()
     }
 
     private fun extractLanguageFromBody(request: HttpServletRequest): String? =

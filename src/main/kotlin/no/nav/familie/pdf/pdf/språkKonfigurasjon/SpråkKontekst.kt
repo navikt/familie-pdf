@@ -1,6 +1,6 @@
 package no.nav.familie.pdf.pdf.språkKonfigurasjon
 
-object SpråkContext {
+object SpråkKontekst {
     private val språk = ThreadLocal.withInitial { "nb" }
 
     fun brukSpråk(): String = språk.get()

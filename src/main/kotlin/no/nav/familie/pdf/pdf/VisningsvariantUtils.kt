@@ -7,7 +7,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
 import no.nav.familie.pdf.pdf.PdfUtils.håndterRekursivVerdiliste
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
-import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 
 object VisningsvariantUtils {
     fun håndterVisningsvariant(
@@ -49,7 +49,7 @@ object VisningsvariantUtils {
         seksjon: Div,
     ) {
         val ingenVedlegg: String =
-            when (SpråkContext.brukSpråk()) {
+            when (SpråkKontekst.brukSpråk()) {
                 "nn" -> "Ingen vedlegg lasta opp i denne søknaden"
                 "en" -> "No attachments uploaded in this application"
                 else -> "Ingen vedlegg lastet opp i denne søknaden"

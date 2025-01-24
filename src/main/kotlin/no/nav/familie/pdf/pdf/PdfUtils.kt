@@ -37,7 +37,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
-import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkContext
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -191,7 +191,7 @@ object PdfUtils {
         add(navLogoBilde())
         setSkjemanummer(this, skjemanummer)
         val innholdsfortegnelse: String =
-            when (SpråkContext.brukSpråk()) {
+            when (SpråkKontekst.brukSpråk()) {
                 "nn" -> "Innhaldsliste"
                 "en" -> "Table of Contents"
                 else -> "Innholdsfortegnelse"
@@ -221,13 +221,13 @@ object PdfUtils {
     private fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
         for (sidetall in 1..pdfADokument.numberOfPages) {
             val side: String =
-                when (SpråkContext.brukSpråk()) {
+                when (SpråkKontekst.brukSpråk()) {
                     "nn" -> "Side"
                     "en" -> "Page"
                     else -> "Side"
                 }
             val av: String =
-                when (SpråkContext.brukSpråk()) {
+                when (SpråkKontekst.brukSpråk()) {
                     "nn" -> "av"
                     "en" -> "of"
                     else -> "av"
@@ -250,7 +250,7 @@ object PdfUtils {
 
         innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
             val påSide: String =
-                when (SpråkContext.brukSpråk()) {
+                when (SpråkKontekst.brukSpråk()) {
                     "nn" -> "på side"
                     "en" -> "on page"
                     else -> "på side"
