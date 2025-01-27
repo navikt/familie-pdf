@@ -49,56 +49,6 @@ fun lagMedForskjelligLabelIVerdiliste(): FeltMap =
     )
 //endregion
 
-//region Adresse
-fun lagMedTomAdresse(): FeltMap =
-    FeltMap(
-        label = søknadsTittel,
-        verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Søker",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Adresse", verdi = ""),
-                        ),
-                ),
-            ),
-        pdfConfig = PdfConfig(true, "nb"),
-    )
-
-fun lagAdresseMedBareLinjeskift(): FeltMap =
-    FeltMap(
-        label = søknadsTittel,
-        verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Søker",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Adresse", verdi = "\n\n\n\n"),
-                        ),
-                ),
-            ),
-        pdfConfig = PdfConfig(true, "nb"),
-    )
-
-fun lagAdresseMedFlereLinjeskift(): FeltMap =
-    FeltMap(
-        label = søknadsTittel,
-        verdiliste =
-            listOf(
-                VerdilisteElement(
-                    label = "Søker",
-                    verdiliste =
-                        listOf(
-                            VerdilisteElement(label = "Adresse", verdi = "Adresse 12\n\n\n\n0999 Oslo"),
-                        ),
-                ),
-            ),
-        pdfConfig = PdfConfig(true, "nb"),
-    )
-//endregion
-
 //region Innholdsfortegnelse
 fun lagToSiderInnholdsfortegnelse(): FeltMap = FeltMap(søknadsTittel, lagGjentattInnhold(48), pdfConfig = PdfConfig(true, "nb"))
 
@@ -240,3 +190,76 @@ val innsendingsdetaljer =
                 VerdilisteElement(label = "Født", verdi = "Ja"),
             ),
     )
+//endregion
+
+// region Punktliste
+fun lagMedPunktliste(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Mer om situasjonen din",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(
+                                label = "Gjelder noe av dette deg?",
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(
+                                            label = "Svaralternativer",
+                                            visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(
+                                                        label = "Jeg er syk",
+                                                    ),
+                                                    VerdilisteElement(
+                                                        label = "Barnet mitt er sykt",
+                                                    ),
+                                                    VerdilisteElement(
+                                                        label = "Jeg har søkt om barnepass",
+                                                    ),
+                                                ),
+                                        ),
+                                        VerdilisteElement(
+                                            label = "Svar",
+                                            visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(
+                                                        label = "Jeg er syk",
+                                                    ),
+                                                    VerdilisteElement(
+                                                        label = "Barnet mitt er sykt",
+                                                    ),
+                                                ),
+                                        ),
+                                    ),
+                            ),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, språk = "nb"),
+    )
+
+fun lagMedTomPunktliste(punktliste: List<VerdilisteElement>? = null): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Mer om situasjonen din",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(
+                                label = "Gjelder noe av dette deg?",
+                                visningsVariant = VisningsVariant.PUNKTLISTE.toString(),
+                                verdiliste = punktliste,
+                            ),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, språk = "nb"),
+    )
+// endregion
