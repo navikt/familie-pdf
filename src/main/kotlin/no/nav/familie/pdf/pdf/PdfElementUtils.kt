@@ -14,6 +14,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.PdfUtils.FontStil
+import no.nav.familie.pdf.pdf.PdfUtils.hentOversettelse
 import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
@@ -113,8 +114,21 @@ object PdfElementUtils {
                 )
             }
         tabell.caption = captionDiv
-        tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
-        tabell.addCell(lagTabellOverskriftscelle("Svar", false))
+        val spørsmål: String =
+            hentOversettelse(
+                bokmål = "Spørsmål",
+                nynorsk = "Spørsmål",
+                engelsk = "Questions",
+            )
+
+        val svar: String =
+            hentOversettelse(
+                bokmål = "Svar",
+                nynorsk = "Svar",
+                engelsk = "Answer",
+            )
+        tabell.addCell(lagTabellOverskriftscelle(spørsmål))
+        tabell.addCell(lagTabellOverskriftscelle(svar, false))
         lagTabellRekursivt(tabellData.verdiliste, tabell)
         return tabell
     }

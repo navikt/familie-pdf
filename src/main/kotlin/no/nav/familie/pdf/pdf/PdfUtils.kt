@@ -37,6 +37,7 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 
 object PdfUtils {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -64,7 +65,8 @@ object PdfUtils {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
 
-        val sideantallInnholdsfortegnelse = if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
+        val sideantallInnholdsfortegnelse =
+            if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
 
         UtilsMetaData.leggtilMetaData(pdfADokument, feltMap)
 
@@ -190,8 +192,13 @@ object PdfUtils {
         add(lagOverskriftH1(overskrift))
         add(navLogoBilde())
         setSkjemanummer(this, skjemanummer)
-
-        add(lagOverskriftH2("Innholdsfortegnelse"))
+        val innholdsfortegnelse: String =
+            hentOversettelse(
+                bokmål = "Innholdsfortegnelse",
+                nynorsk = "Innhaldsliste",
+                engelsk = "Table of Contents",
+            )
+        add(lagOverskriftH2(innholdsfortegnelse))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
 
@@ -215,7 +222,14 @@ object PdfUtils {
 
     private fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
         for (sidetall in 1..pdfADokument.numberOfPages) {
-            val bunntekst = Paragraph().add("Side $sidetall av ${pdfADokument.numberOfPages}")
+            val bunntekst =
+                Paragraph().add(
+                    hentOversettelse(
+                        bokmål = "Side $sidetall av ${pdfADokument.numberOfPages}",
+                        nynorsk = "Side $sidetall av ${pdfADokument.numberOfPages}",
+                        engelsk = "Page $sidetall of ${pdfADokument.numberOfPages}",
+                    ),
+                )
             showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
         }
     }
@@ -232,8 +246,13 @@ object PdfUtils {
             }
 
         innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
-            val alternativTekst =
-                "${innholdsfortegnelseElement.tittel} på side"
+            val påSide: String =
+                hentOversettelse(
+                    bokmål = "på side",
+                    nynorsk = "på side",
+                    engelsk = "on page",
+                )
+            val alternativTekst = "${innholdsfortegnelseElement.tittel} $påSide"
             val lenke =
                 Link(
                     innholdsfortegnelseElement.tittel,
@@ -279,6 +298,17 @@ object PdfUtils {
             PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
         )
     }
+
+    fun hentOversettelse(
+        bokmål: String,
+        nynorsk: String,
+        engelsk: String,
+    ): String =
+        when (SpråkKontekst.brukSpråk()) {
+            "nn" -> nynorsk
+            "en" -> engelsk
+            else -> bokmål
+        }
 
     fun Paragraph.settFont(stil: FontStil) {
         this.setFont(bestemFont(stil))
