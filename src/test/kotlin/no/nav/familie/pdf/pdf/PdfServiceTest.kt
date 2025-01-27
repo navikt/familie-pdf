@@ -9,6 +9,8 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedPunktliste
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomPunktliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomtSkjemanummer
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
@@ -42,6 +44,13 @@ class PdfServiceTest {
             Stream.of(
                 lagMedVerdiliste(),
                 lagToSiderInnholdsfortegnelse(),
+            )
+
+        @JvmStatic
+        fun tomPunktliste(): Stream<FeltMap> =
+            Stream.of(
+                lagMedTomPunktliste(),
+                lagMedTomPunktliste(listOf()),
             )
 
         @JvmStatic
@@ -171,6 +180,34 @@ class PdfServiceTest {
             assertTrue(faktiskSideTekst.contains(label))
         }
     }
+
+    @Test
+    fun `Pdf lager forside uten innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagUteninnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertFalse(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
+
+    @Test
+    fun `Pdf lager forside med innholdsfortegnelse`() {
+        // Arrange
+        val feltMap = lagMedInnholdsfortegnelse()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
+        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
+    }
     //endregion
 
     //region Tabeller
@@ -235,33 +272,39 @@ class PdfServiceTest {
     }
     //endregion
 
+    // region Punktliste
     @Test
-    fun `Pdf lager forside uten innholdsfortegnelse`() {
+    fun `Pdf lager en punktliste når visningsvarianten har PUNKTLISTE valgt`() {
         // Arrange
-        val feltMap = lagUteninnholdsfortegnelse()
+        val feltMap = lagMedPunktliste()
 
         // Act
         val pdfDoc = opprettPdf(feltMap)
-        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
 
         // Assert
-        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-        assertFalse(førsteSideTekst.contains("Innholdsfortegnelse"))
+        val faktiskPunkter = tekstIPdf.count { it == '\u2022' }
+        val forventetPunkter = 5
+        assertTrue(
+            faktiskPunkter == forventetPunkter,
+            "Forventet $forventetPunkter punkter men fikk $faktiskPunkter",
+        )
     }
 
-    @Test
-    fun `Pdf lager forside med innholdsfortegnelse`() {
+    @ParameterizedTest
+    @MethodSource("tomPunktliste")
+    fun `Pdf lager ikke en punktliste når verdiliste er tom`() {
         // Arrange
-        val feltMap = lagMedInnholdsfortegnelse()
+        val feltMap = lagMedTomPunktliste()
 
         // Act
         val pdfDoc = opprettPdf(feltMap)
-        val førsteSideTekst = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
 
         // Assert
-        assertTrue(førsteSideTekst.contains("Søknad om overgangsstønad"))
-        assertTrue(førsteSideTekst.contains("Innholdsfortegnelse"))
+        assertFalse(tekstIPdf.contains("Gjelder noe av dette deg?"))
     }
+    // endregion
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {
         val result = pdfOppretterService.opprettPdf(feltMap)

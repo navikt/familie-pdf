@@ -1,6 +1,7 @@
 package no.nav.familie.pdf.pdf
 
 import com.itextpdf.layout.element.Div
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH4
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagPunktliste
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTabell
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
@@ -15,37 +16,44 @@ object VisningsvariantUtils {
         verdilisteElement: VerdilisteElement,
         seksjon: Div,
     ) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL.toString() -> {
-                håndterTabeller(verdilisteElement, seksjon)
-            }
-            VisningsVariant.PUNKTLISTE.toString() -> {
-                håndterPunktliste(verdilisteElement, seksjon)
-            }
-            VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdilisteElement, seksjon)
+        if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
+            when (visningsVariant) {
+                VisningsVariant.TABELL.toString() -> {
+                    håndterTabeller(verdilisteElement.verdiliste, seksjon)
+                }
+
+                VisningsVariant.PUNKTLISTE.toString() -> {
+                    håndterPunktliste(verdilisteElement, seksjon)
+                }
+
+                VisningsVariant.VEDLEGG.toString() -> {
+                    håndterVedlegg(verdilisteElement.verdiliste, seksjon)
+                }
             }
         }
     }
 
     private fun håndterTabeller(
-        verdilisteElement: VerdilisteElement,
+        verdiliste: List<VerdilisteElement>,
         seksjon: Div,
-    ) = verdilisteElement.verdiliste?.forEach { verdilisteElement ->
-        verdilisteElement.verdiliste?.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
+    ) = verdiliste.forEach { verdilisteElement ->
+        verdiliste.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
     }
 
     private fun håndterPunktliste(
         verdi: VerdilisteElement,
         seksjon: Div,
     ) {
-        seksjon.apply {
-            add(lagPunktliste(verdi))
+        if (verdi.verdiliste?.isNotEmpty() == true) {
+            seksjon.apply {
+                add(lagOverskriftH4(verdi.label).apply { setMarginLeft(30f) })
+                add(lagPunktliste(verdi.verdiliste).apply { setMarginLeft(30f) })
+            }
         }
     }
 
     private fun håndterVedlegg(
-        verdilisteElement: VerdilisteElement,
+        verdiliste: List<VerdilisteElement>,
         seksjon: Div,
     ) {
         val ingenVedlegg: String =
@@ -54,10 +62,18 @@ object VisningsvariantUtils {
                 "en" -> "No attachments uploaded in this application"
                 else -> "Ingen vedlegg lastet opp i denne søknaden"
             }
-        verdilisteElement.verdiliste?.forEach { vedlegg ->
+        verdiliste.forEach { vedlegg ->
             vedlegg.verdi?.takeIf { it.isEmpty() }?.let {
-                seksjon.apply { add(lagTekstElement(ingenVedlegg).apply { setMarginLeft(15f) }) }
-            } ?: håndterRekursivVerdiliste(verdilisteElement.verdiliste, seksjon)
+                seksjon.apply {
+                    add(
+                        lagTekstElement(ingenVedlegg).apply {
+                            setMarginLeft(
+                                15f,
+                            )
+                        },
+                    )
+                }
+            } ?: håndterRekursivVerdiliste(verdiliste, seksjon)
         }
     }
 }
