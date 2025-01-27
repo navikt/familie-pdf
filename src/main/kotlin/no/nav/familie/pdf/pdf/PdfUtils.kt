@@ -151,7 +151,9 @@ object PdfUtils {
                     håndterRekursivVerdiliste(element.verdiliste, this)
                 }
             }
-            add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
+            add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) })).apply {
+                setMarginBottom(10f)
+            }
         }
 
     fun håndterRekursivVerdiliste(
