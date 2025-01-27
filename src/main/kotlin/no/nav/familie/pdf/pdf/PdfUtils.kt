@@ -193,11 +193,11 @@ object PdfUtils {
         add(navLogoBilde())
         setSkjemanummer(this, skjemanummer)
         val innholdsfortegnelse: String =
-            when (SpråkKontekst.brukSpråk()) {
-                "nn" -> "Innhaldsliste"
-                "en" -> "Table of Contents"
-                else -> "Innholdsfortegnelse"
-            }
+            hentOversettelse(
+                bokmål = "Innholdsfortegnelse",
+                nynorsk = "Innhaldsliste",
+                engelsk = "Table of Contents",
+            )
         add(lagOverskriftH2(innholdsfortegnelse))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
     }
@@ -224,11 +224,11 @@ object PdfUtils {
         for (sidetall in 1..pdfADokument.numberOfPages) {
             val bunntekst =
                 Paragraph().add(
-                    when (SpråkKontekst.brukSpråk()) {
-                        "nn" -> "Side $sidetall av ${pdfADokument.numberOfPages}"
-                        "en" -> "Page $sidetall of ${pdfADokument.numberOfPages}"
-                        else -> "Side $sidetall av ${pdfADokument.numberOfPages}"
-                    },
+                    hentOversettelse(
+                        bokmål = "Side $sidetall av ${pdfADokument.numberOfPages}",
+                        nynorsk = "Side $sidetall av ${pdfADokument.numberOfPages}",
+                        engelsk = "Page $sidetall of ${pdfADokument.numberOfPages}",
+                    ),
                 )
             showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
         }
@@ -247,11 +247,11 @@ object PdfUtils {
 
         innholdsfortegnelse.forEach { innholdsfortegnelseElement ->
             val påSide: String =
-                when (SpråkKontekst.brukSpråk()) {
-                    "nn" -> "på side"
-                    "en" -> "on page"
-                    else -> "på side"
-                }
+                hentOversettelse(
+                    bokmål = "på side",
+                    nynorsk = "på side",
+                    engelsk = "on page",
+                )
             val alternativTekst = "${innholdsfortegnelseElement.tittel} $påSide"
             val lenke =
                 Link(
@@ -298,6 +298,17 @@ object PdfUtils {
             PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
         )
     }
+
+    fun hentOversettelse(
+        bokmål: String,
+        nynorsk: String,
+        engelsk: String,
+    ): String =
+        when (SpråkKontekst.brukSpråk()) {
+            "nn" -> nynorsk
+            "en" -> engelsk
+            else -> bokmål
+        }
 
     fun Paragraph.settFont(stil: FontStil) {
         this.setFont(bestemFont(stil))

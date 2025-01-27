@@ -5,10 +5,10 @@ import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH4
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagPunktliste
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTabell
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTekstElement
+import no.nav.familie.pdf.pdf.PdfUtils.hentOversettelse
 import no.nav.familie.pdf.pdf.PdfUtils.håndterRekursivVerdiliste
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
-import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 
 object VisningsvariantUtils {
     fun håndterVisningsvariant(
@@ -57,11 +57,11 @@ object VisningsvariantUtils {
         seksjon: Div,
     ) {
         val ingenVedlegg: String =
-            when (SpråkKontekst.brukSpråk()) {
-                "nn" -> "Ingen vedlegg lasta opp i denne søknaden"
-                "en" -> "No attachments uploaded in this application"
-                else -> "Ingen vedlegg lastet opp i denne søknaden"
-            }
+            hentOversettelse(
+                bokmål = "Ingen vedlegg lastet opp i denne søknaden",
+                nynorsk = "Ingen vedlegg lasta opp i denne søknaden",
+                engelsk = "No attachments uploaded in this application",
+            )
         verdiliste.forEach { vedlegg ->
             vedlegg.verdi?.takeIf { it.isEmpty() }?.let {
                 seksjon.apply {
