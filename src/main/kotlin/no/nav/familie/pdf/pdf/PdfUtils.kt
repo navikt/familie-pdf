@@ -222,19 +222,14 @@ object PdfUtils {
 
     private fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
         for (sidetall in 1..pdfADokument.numberOfPages) {
-            val side: String =
-                when (SpråkKontekst.brukSpråk()) {
-                    "nn" -> "Side"
-                    "en" -> "Page"
-                    else -> "Side"
-                }
-            val av: String =
-                when (SpråkKontekst.brukSpråk()) {
-                    "nn" -> "av"
-                    "en" -> "of"
-                    else -> "av"
-                }
-            val bunntekst = Paragraph().add("$side $sidetall $av ${pdfADokument.numberOfPages}")
+            val bunntekst =
+                Paragraph().add(
+                    when (SpråkKontekst.brukSpråk()) {
+                        "nn" -> "Side $sidetall av ${pdfADokument.numberOfPages}"
+                        "en" -> "Page $sidetall of ${pdfADokument.numberOfPages}"
+                        else -> "Side $sidetall av ${pdfADokument.numberOfPages}"
+                    },
+                )
             showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
         }
     }
