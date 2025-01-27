@@ -70,6 +70,7 @@ object PdfUtils {
 
         Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
+            setMargins(36f, 36f, 44f, 36f)
 
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
@@ -151,9 +152,7 @@ object PdfUtils {
                     håndterRekursivVerdiliste(element.verdiliste, this)
                 }
             }
-            add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) })).apply {
-                setMarginBottom(10f)
-            }
+            add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
         }
 
     fun håndterRekursivVerdiliste(
