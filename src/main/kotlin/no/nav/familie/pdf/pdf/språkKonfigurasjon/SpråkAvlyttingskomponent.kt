@@ -3,6 +3,8 @@ package no.nav.familie.pdf.pdf.språkKonfigurasjon
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.HandlerInterceptor
 
@@ -10,6 +12,8 @@ import org.springframework.web.servlet.HandlerInterceptor
 class SpråkAvlyttingskomponent(
     private val objectMapper: ObjectMapper,
 ) : HandlerInterceptor {
+    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+
     @Throws(Exception::class)
     override fun preHandle(
         forespørsel: HttpServletRequest,
@@ -36,6 +40,7 @@ class SpråkAvlyttingskomponent(
             val jsonNode = objectMapper.readTree(forespørsel.inputStream)
             jsonNode.get("pdfConfig")?.get("språk")?.asText()
         } catch (e: Exception) {
+            logger.warn("Kunne ikke sette språk fra request body", e)
             null
         }
 }
