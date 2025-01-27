@@ -5,11 +5,7 @@ object SpråkKontekst {
 
     fun brukSpråk(): String = aktivtSpråk.get()
 
-    fun settSpråk(språk: String) {
-        this.aktivtSpråk.set(språk)
-    }
+    fun settSpråk(språk: String) = this.aktivtSpråk.set(språk)
 
-    fun tilbakestillSpråk() {
-        aktivtSpråk.remove()
-    }
+    fun tilbakestillSpråk() = aktivtSpråk.remove()
 }
