@@ -12,7 +12,6 @@ data class VerdilisteElement(
     val verdi: String? = null,
     val visningsVariant: String? = null,
     val verdiliste: List<VerdilisteElement>? = null,
-    val alternativer: String? = null,
 )
 
 data class PdfConfig(
