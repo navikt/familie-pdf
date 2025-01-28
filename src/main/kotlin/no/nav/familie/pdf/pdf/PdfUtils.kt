@@ -72,6 +72,7 @@ object PdfUtils {
 
         Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
+            setMargins(36f, 36f, 44f, 36f)
 
             leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
                 feltMap,
