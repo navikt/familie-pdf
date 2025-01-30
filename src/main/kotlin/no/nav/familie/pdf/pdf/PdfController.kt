@@ -1,6 +1,7 @@
 package no.nav.familie.pdf.pdf
 
 import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 import no.nav.security.token.support.core.api.ProtectedWithClaims
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,5 +19,15 @@ class PdfController {
     @PostMapping("/opprett-pdf")
     fun opprettPdf(
         @RequestBody søknad: FeltMap,
-    ): ByteArray = pdfService.opprettPdf(søknad)
+    ): ByteArray {
+
+        try {
+            SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
+            val returverdi = pdfService.opprettPdf(søknad)
+            return returverdi
+        } finally {
+            SpråkKontekst.tilbakestillSpråk()
+        }
+
+    }
 }
