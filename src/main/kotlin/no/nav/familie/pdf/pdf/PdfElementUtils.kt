@@ -14,6 +14,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.UnitValue
 import no.nav.familie.pdf.pdf.PdfUtils.FontStil
+import no.nav.familie.pdf.pdf.PdfUtils.hentOversettelse
 import no.nav.familie.pdf.pdf.PdfUtils.settFont
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
@@ -27,27 +28,9 @@ object PdfElementUtils {
 
     fun lagVerdiElement(element: VerdilisteElement): Paragraph =
         Paragraph().apply {
-            (element.label)
-                .takeIf { it.isNotEmpty() }
-                ?.let {
-                    add(
-                        Text(leggTilKolon(it)).apply {
-                            settFont(FontStil.SEMIBOLD)
-                        },
-                    )
-                }
-            element.alternativer?.takeIf { it.isNotEmpty() }?.let {
-                add(Text("\n"))
-                add(
-                    Text(it).apply {
-                        settFont(FontStil.ITALIC)
-                        setFontSize(10f)
-                    },
-                )
-            }
+            add(Text(leggTilKolon(element.label)).apply { settFont(FontStil.SEMIBOLD) })
             add(Text("\n"))
             add(element.verdi)
-            setFontSize(12f)
             isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
         }
@@ -60,40 +43,19 @@ object PdfElementUtils {
             tekst
         }
 
-    fun lagPunktliste(element: VerdilisteElement): Paragraph =
-        Paragraph().apply {
-            add(
-                Text(element.label).apply {
-                    settFont(
-                        FontStil.SEMIBOLD,
-                    )
-                },
-            )
-            element.alternativer?.takeIf { it.isNotEmpty() }?.let {
-                add(Text("\n"))
-                add(
-                    Text(it).apply {
-                        settFont(FontStil.ITALIC)
-                        setFontSize(10f)
-                    },
-                )
+    fun lagPunktliste(punkter: kotlin.collections.List<VerdilisteElement>): Div =
+        Div().apply {
+            punkter.forEach { punkt ->
+                add(punktliste().apply { add(ListItem(punkt.label)) })
             }
-            element.verdi?.takeIf { it.isNotEmpty() }?.let {
-                add(Text("\n\n"))
-                val valgteAlternativer = element.verdi.split("\n\n")
-                val punktListe =
-                    List().apply {
-                        symbolIndent = 8f
-                        setListSymbol("\u2022")
-                    }
-                valgteAlternativer.forEach { alternativ ->
-                    punktListe.add(ListItem(alternativ))
-                }
-                add(punktListe)
-            }
-            setFontSize(12f)
             isKeepTogether = true
-            accessibilityProperties.role = StandardRoles.P
+            accessibilityProperties.role = StandardRoles.DIV
+        }
+
+    private fun punktliste() =
+        List().apply {
+            symbolIndent = 8f
+            setListSymbol("\u2022")
         }
 
     fun lagTekstElement(
@@ -102,8 +64,8 @@ object PdfElementUtils {
     ): Paragraph =
         Paragraph().apply {
             add(Text(tekst))
-            setFontSize(12f)
             settFont(fontStil)
+            isKeepTogether = true
             accessibilityProperties.role = StandardRoles.P
         }
 
@@ -113,13 +75,16 @@ object PdfElementUtils {
 
     fun lagOverskriftH3(tekst: String): Paragraph = lagOverskrift(tekst, 14f, StandardRoles.H3)
 
+    fun lagOverskriftH4(tekst: String): Paragraph = lagOverskrift(tekst, 12f, StandardRoles.H4, false)
+
     private fun lagOverskrift(
         tekst: String,
         tekstStørrelse: Float,
         rolle: String,
+        erFarget: Boolean = true,
     ): Paragraph =
         Paragraph(tekst).apply {
-            setFontColor(DeviceRgb(0, 52, 125))
+            if (erFarget) setFontColor(DeviceRgb(0, 52, 125))
             setFontSize(tekstStørrelse)
             settFont(FontStil.SEMIBOLD)
             accessibilityProperties.role = rolle
@@ -149,8 +114,21 @@ object PdfElementUtils {
                 )
             }
         tabell.caption = captionDiv
-        tabell.addCell(lagTabellOverskriftscelle("Spørsmål"))
-        tabell.addCell(lagTabellOverskriftscelle("Svar", false))
+        val spørsmål: String =
+            hentOversettelse(
+                bokmål = "Spørsmål",
+                nynorsk = "Spørsmål",
+                engelsk = "Questions",
+            )
+
+        val svar: String =
+            hentOversettelse(
+                bokmål = "Svar",
+                nynorsk = "Svar",
+                engelsk = "Answer",
+            )
+        tabell.addCell(lagTabellOverskriftscelle(spørsmål))
+        tabell.addCell(lagTabellOverskriftscelle(svar, false))
         lagTabellRekursivt(tabellData.verdiliste, tabell)
         return tabell
     }
