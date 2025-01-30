@@ -15,7 +15,7 @@ import java.util.UUID
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [ApplicationLocalConfig::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("integrationtest")
+@ActiveProfiles("integrasjonstest")
 @EnableMockOAuth2Server
 abstract class IntegrasjonSpringRunnerTest {
     protected val headers = HttpHeaders()
