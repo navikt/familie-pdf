@@ -47,4 +47,9 @@ Vi bruker vera-pdf software til å se om pdf-ene vi lager er validert. Dessuten 
 [Du kan laste det ned her](https://verapdf.org/home/) Velg `PDF/A Validation` og last ned dette. Du starter programmet med å kjøre `verapdf-gui` som er inne i `verapdf`-mappen etter installasjon. Deretter laster du opp pdf-en du vil validere og `execute`. Deretter kan du se feilene ved å trykke på `View HTML`.
 Vi har også endepunkt og tester for validering av standardene under `TestPdfController` og `PdfValidatorTest`.
 
-
+## Feilsøking
+### Hvorfor får jeg en `NullPointerException` i `iText` sin `movePage`?
+#### Problem
+Hvis loggene viser 500 feil på /opprett-pdf med en \[no body\] og feil ved `movepage` så er ikke payloaden tom, men det er en tom- eller nullverdi i `feltMap` som ikke blir håndtert  i `PdfUtils.lagDokument`. 
+#### Løsningsforslag
+Logg, print eller debug body i applikasjonen som sender til endepunktet i Familie-pdf. Start opp denne appen sammen med `spire-pdf-kvittering`, kjør lokalt og undersøk derfra.
