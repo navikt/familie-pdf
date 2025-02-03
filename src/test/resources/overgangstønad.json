@@ -1,0 +1,277 @@
+{
+  "label": "Søknad om overgangsstønad",
+  "verdiliste": [
+    {
+      "label": "Innsendingsdetaljer",
+      "verdiliste": [
+        {
+          "label": "Dato mottatt",
+          "verdi": "03.02.2025 11:15:57"
+        }
+      ]
+    },
+    {
+      "label": "Søker",
+      "verdiliste": [
+        {
+          "label": "Fødselsnummer",
+          "verdi": "31458931375"
+        },
+        {
+          "label": "Navn",
+          "verdi": "Fornavn mellomnavn Etternavn"
+        },
+        {
+          "label": "Statsborgerskap",
+          "verdi": "Norge, Norge"
+        },
+        {
+          "label": "Adresse",
+          "verdi": "Charlies vei 13 b 0575 Oslo"
+        },
+        {
+          "label": "Sivilstatus",
+          "verdi": "SKILT"
+        }
+      ]
+    },
+    {
+      "label": "Opplysninger om adresse",
+      "verdiliste": [
+        {
+          "label": "Bor du på denne adressen?",
+          "verdi": "Ja"
+        }
+      ]
+    },
+    {
+      "label": "Årsak til alene med barn",
+      "verdiliste": [
+        {
+          "label": "Er du gift uten at det er registrert i folkeregisteret i Norge?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Dokumentasjon på inngått ekteskap",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Er du separert eller skilt uten at dette er registrert i folkeregisteret i Norge?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Dokumentasjon på separasjon eller skilsmisse",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Hvorfor er du alene med barn?",
+          "verdi": "Endring i omsorgen for barn"
+        },
+        {
+          "label": "Når skjedde endringen / når skal endringen skje?",
+          "verdi": "06.02.2025"
+        }
+      ]
+    },
+    {
+      "label": "Opphold i Norge",
+      "verdiliste": [
+        {
+          "label": "Oppholder du og barnet/barna dere i Norge?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Har du oppholdt deg i Norge de siste 5 årene?",
+          "verdi": "Ja"
+        }
+      ]
+    },
+    {
+      "label": "Bosituasjonen din",
+      "verdiliste": [
+        {
+          "label": "Deler du bolig med andre voksne?",
+          "verdi": "Nei, jeg bor alene med barn eller jeg er gravid og bor alene"
+        }
+      ]
+    },
+    {
+      "label": "Fremtidsplaner",
+      "verdiliste": [
+        {
+          "label": "Har du konkrete planer om å gifte deg eller bli samboer?",
+          "verdi": "Nei"
+        }
+      ]
+    },
+    {
+      "label": "Barna dine",
+      "visningsVariant": "TABELL",
+      "verdiliste": [
+        {
+          "label": "Barn 1",
+          "verdiliste": [
+            {
+              "label": "Navn",
+              "verdi": "Hei På Deg"
+            },
+            {
+              "label": "Fødselsnummer eller d-nummer",
+              "verdi": "28021078036"
+            },
+            {
+              "label": "Har barnet samme adresse som deg?",
+              "verdi": "Ja"
+            },
+            {
+              "label": "Fødselsdato",
+              "verdi": "03.08.2024"
+            },
+            {
+              "label": "Barnets andre forelder",
+              "verdiliste": [
+                {
+                  "label": "Persondata",
+                  "verdiliste": [
+                    {
+                      "label": "Navn på den andre forelderen",
+                      "verdi": "Bjørn Borg Borgersen"
+                    },
+                    {
+                      "label": "Fødselsnummer eller d-nummer",
+                      "verdi": "17059906968"
+                    }
+                  ]
+                },
+                {
+                  "label": "Bor Hei På Degs andre forelder i Norge?",
+                  "verdi": "Ja"
+                }
+              ]
+            },
+            {
+              "label": "Samvær",
+              "verdiliste": [
+                {
+                  "label": "Har den andre forelderen samvær med Hei På Deg?",
+                  "verdi": "Nei, den andre forelderen har ikke samvær med barnet"
+                },
+                {
+                  "label": "Bor du og den andre forelderen til Hei På Deg i samme hus, blokk, gårdstun, kvartal eller vei/gate?",
+                  "verdi": "Jeg vet ikke hvor den andre forelderen bor"
+                },
+                {
+                  "label": "Har du bodd sammen med den andre forelderen til Hei På Deg før?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "Hvor mye er du sammen med den andre forelderen til Hei På Deg?",
+                  "verdi": "Vi møtes ikke"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Arbeid, utdanning og andre aktiviteter",
+      "verdiliste": [
+        {
+          "label": "Hvordan er situasjonen din?",
+          "verdi": "Jeg er hjemme med barn under 1 år  Jeg er ikke i arbeid, utdanning eller arbeidssøker"
+        }
+      ]
+    },
+    {
+      "label": "Mer om situasjonen din",
+      "verdiliste": [
+        {
+          "label": "Gjelder noe av dette deg?",
+          "verdiliste": [
+            {
+              "label": "Svaralternativ",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "Jeg er syk"
+                },
+                {
+                  "label": "Barnet mitt er sykt"
+                },
+                {
+                  "label": "Jeg har søkt om barnepass, men ikke fått plass enda"
+                },
+                {
+                  "label": "Jeg har barn som trenger særlig tilsyn på grunn av fysiske, psykiske eller store sosiale problemer"
+                },
+                {
+                  "label": "Nei"
+                }
+              ]
+            },
+            {
+              "label": "Svar",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "Jeg er syk"
+                },
+                {
+                  "label": "Nei"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Dokumentasjon på at du er syk",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Har du sagt opp jobben eller redusert arbeidstiden de siste 6 månedene?",
+          "verdi": "Nei"
+        }
+      ]
+    },
+    {
+      "label": "Når søker du stønad fra?",
+      "verdiliste": [
+        {
+          "label": "Søker du overgangsstønad fra en bestemt måned?",
+          "verdi": "Nei"
+        }
+      ]
+    },
+    {
+      "label": "Vedlegg",
+      "visningsVariant": "VEDLEGG",
+      "verdiliste": [
+        {
+          "label": "Vedlegg",
+          "verdi": ""
+        }
+      ]
+    }
+  ],
+  "pdfConfig": {
+    "harInnholdsfortegnelse": true,
+    "språk": "nb"
+  },
+  "skjemanummer": "Skjemanummer: NAV 15-00.01"
+}
