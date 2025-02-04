@@ -46,6 +46,9 @@ spec:
         - application: familie-ef-mottak
           namespace: teamfamilie
           cluster: dev-gcp
+        - application: k9-brukerdialog-prosessering
+          namespace: dusseldorf
+          cluster: dev-gcp
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: dev
