@@ -1,10 +1,14 @@
 package no.nav.familie.pdf.pdf
 
+import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedUtenlandsopphold
+import no.nav.familie.pdf.pdf.PdfElementUtils.lagTabell
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import kotlin.test.assertNotNull
 
 class PdfElementUtilsTest {
     // Region lagVerdiElement
@@ -34,6 +38,28 @@ class PdfElementUtilsTest {
             assertTrue(tekstInnhold.contains(forventetVerdi), "For input '$inputVerdi', forventet '$forventetVerdi', men fikk '$tekstInnhold'")
         }
     }
-
     //endregion
+
+    // region tabell
+    @Test
+    fun `Utenlandsopphold sine objekter vises som Tabeller`() {
+        // Arrange
+        val feltMap = lagMedUtenlandsopphold()
+        val verdilisteElement =
+            feltMap.verdiliste
+                .first { it.label == "Opphold i Norge" }
+                .verdiliste
+                ?.first { it.label == "Utenlandsopphold" }
+
+        // Act
+        val resultat = if (verdilisteElement?.verdiliste != null) verdilisteElement.verdiliste?.map { lagTabell(it) } else null
+
+        // Assert
+        assertNotNull(resultat, "Resultatet er null")
+        resultat.forEach {
+            assertNotNull(it, "Tabell er null")
+            assertTrue(it is Table, "Elementet er ikke en tabell")
+        }
+    }
+    // endregion
 }

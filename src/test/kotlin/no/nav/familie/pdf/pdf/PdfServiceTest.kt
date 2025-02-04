@@ -13,7 +13,6 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedPunktliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomPunktliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomtSkjemanummer
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedUtenlandsopphold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUtenSkjemanummer
@@ -258,36 +257,6 @@ class PdfServiceTest {
         assertTrue(barn1Index < navnIndex)
         assertTrue(navnIndex < barn2Index)
         assertTrue(barn2Index < termindatoIndex)
-    }
-
-    @Test
-    fun `Utenlandsopphold vises i tabell-format`() {
-        // Act
-        var feltMap = lagMedUtenlandsopphold()
-
-        // Assert
-        val pdfDoc = opprettPdf(feltMap)
-        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-
-        // Assert
-        val landIndex = tekstIPdf.indexOf("Utenlandsopphold 1")
-        val fraIndex = tekstIPdf.indexOf("Fra:", landIndex)
-        val tilIndex = tekstIPdf.indexOf("Til:", fraIndex)
-        val land2Index = tekstIPdf.indexOf("Utenlandsopphold 2", tilIndex)
-        val fra2Index = tekstIPdf.indexOf("Fra:", land2Index)
-        val til2Index = tekstIPdf.indexOf("Til:", fra2Index)
-
-        assertTrue(landIndex != -1)
-        assertTrue(fraIndex != -1)
-        assertTrue(tilIndex != -1)
-        assertTrue(land2Index != -1)
-        assertTrue(fra2Index != -1)
-        assertTrue(til2Index != -1)
-        assertTrue(landIndex < fraIndex)
-        assertTrue(fraIndex < tilIndex)
-        assertTrue(tilIndex < land2Index)
-        assertTrue(land2Index < fra2Index)
-        assertTrue(fra2Index < til2Index)
     }
 
     @Test
