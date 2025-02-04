@@ -1,0 +1,305 @@
+{
+  "label": "Søknad om stønad til barnetilsyn",
+  "verdiliste": [
+    {
+      "label": "Innsendingsdetaljer",
+      "verdiliste": [
+        {
+          "label": "Dato mottatt",
+          "verdi": "03.02.2025 13:59:31"
+        }
+      ]
+    },
+    {
+      "label": "Søker",
+      "verdiliste": [
+        {
+          "label": "Fødselsnummer",
+          "verdi": "31458931375"
+        },
+        {
+          "label": "Navn",
+          "verdi": "Fornavn mellomnavn Etternavn"
+        },
+        {
+          "label": "Statsborgerskap",
+          "verdi": "Norge, Norge"
+        },
+        {
+          "label": "Adresse",
+          "verdi": "Charlies vei 13 b\n0575 Oslo"
+        },
+        {
+          "label": "Sivilstatus",
+          "verdi": "SKILT"
+        }
+      ]
+    },
+    {
+      "label": "Opplysninger om adresse",
+      "verdiliste": [
+        {
+          "label": "Bor du på denne adressen?",
+          "verdi": "Ja"
+        }
+      ]
+    },
+    {
+      "label": "Årsak til alene med barn",
+      "verdiliste": [
+        {
+          "label": "Er du gift uten at det er registrert i folkeregisteret i Norge?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Dokumentasjon på inngått ekteskap",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Er du separert eller skilt uten at dette er registrert i folkeregisteret i Norge?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Dokumentasjon på separasjon eller skilsmisse",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Hvorfor er du alene med barn?",
+          "verdi": "Jeg er alene med barn på grunn av dødsfall"
+        }
+      ]
+    },
+    {
+      "label": "Opphold i Norge",
+      "verdiliste": [
+        {
+          "label": "Oppholder du og barnet/barna dere i Norge?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Har du oppholdt deg i Norge de siste 5 årene?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Utenlandsopphold",
+          "verdiliste": []
+        }
+      ]
+    },
+    {
+      "label": "Bosituasjonen din",
+      "verdiliste": [
+        {
+          "label": "Deler du bolig med andre voksne?",
+          "verdi": "Nei, jeg bor alene med barn eller jeg er gravid og bor alene"
+        }
+      ]
+    },
+    {
+      "label": "Fremtidsplaner",
+      "verdiliste": [
+        {
+          "label": "Har du konkrete planer om å gifte deg eller bli samboer?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Når skal dette skje?",
+          "verdi": "01.03.2025"
+        },
+        {
+          "label": "Om samboeren din",
+          "verdiliste": [
+            {
+              "label": "Navn",
+              "verdi": "Ola Nordmann"
+            },
+            {
+              "label": "Fødselsdato",
+              "verdi": "08.01.2025"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Barna dine",
+      "visningsVariant": "TABELL",
+      "verdiliste": [
+        {
+          "label": "Barn 1",
+          "verdiliste": [
+            {
+              "label": "Navn",
+              "verdi": "Hei På Deg"
+            },
+            {
+              "label": "Fødselsnummer",
+              "verdi": "28021078036"
+            },
+            {
+              "label": "Har barnet samme adresse som deg?",
+              "verdi": "Ja"
+            },
+            {
+              "label": "Fødselsdato",
+              "verdi": "03.08.2024"
+            },
+            {
+              "label": "Barnets andre forelder",
+              "verdiliste": [
+                {
+                  "label": "Persondata",
+                  "verdiliste": [
+                    {
+                      "label": "Navn",
+                      "verdi": "Bjørn Borg Borgersen"
+                    },
+                    {
+                      "label": "Fødselsnummer eller d-nummer",
+                      "verdi": "17059906968"
+                    }
+                  ]
+                },
+                {
+                  "label": "Bor Hei På Degs andre forelder i Norge?",
+                  "verdi": "Ja"
+                }
+              ]
+            },
+            {
+              "label": "Samvær",
+              "verdiliste": [
+                {
+                  "label": "Har den andre forelderen samvær med Hei På Deg?",
+                  "verdi": "Nei, den andre forelderen har ikke samvær med barnet"
+                },
+                {
+                  "label": "Bor du og den andre forelderen til Hei På Deg i samme hus, blokk, gårdstun, kvartal eller vei/gate?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "Har du bodd sammen med den andre forelderen til Hei På Deg før?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "Hvor mye er du sammen med den andre forelderen til Hei På Deg?",
+                  "verdi": "Vi møtes ikke"
+                }
+              ]
+            },
+            {
+              "label": "Søk om stønad til barnetilsyn for barnet",
+              "verdi": "Ja"
+            },
+            {
+              "label": "Om barnepassordningen",
+              "verdiliste": [
+                {
+                  "label": "Barnepassordninger",
+                  "verdiliste": [
+                    {
+                      "label": "Hva slags barnepassordning har Hei På Deg?",
+                      "verdi": "Dagmamma eller annen privat ordning"
+                    },
+                    {
+                      "label": "Navn på barnepassordningen eller personen som passer Hei På Deg",
+                      "verdi": "Dagmamma AS"
+                    },
+                    {
+                      "label": "I hvilken periode har Hei På Deg denne barnepassordningen?",
+                      "verdi": "Fra 08.02.2025 til 01.06.2025"
+                    },
+                    {
+                      "label": "Beløp pr måned (ikke inkludert kost)",
+                      "verdi": "12345,00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Arbeid, utdanning og andre aktiviteter",
+      "verdiliste": [
+        {
+          "label": "Hva er din arbeidssituasjon?",
+          "verdiliste": [
+            {
+              "label": "Svaralternativ",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)"
+                },
+                {
+                  "label": "Jeg er selvstendig næringsdrivende eller frilanser med enkeltpersonforetak"
+                },
+                {
+                  "label": "Jeg er selvstendig næringsdrivende og ansatt i mitt eget aksjeselskap (AS)"
+                },
+                {
+                  "label": "Jeg etablerer egen virksomhet"
+                }
+              ]
+            },
+            {
+              "label": "Svar",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": []
+            }
+          ]
+        },
+        {
+          "label": "Er du i arbeid?",
+          "verdi": "Nei, jeg er ikke i arbeid fordi jeg er syk"
+        }
+      ]
+    },
+    {
+      "label": "Når søker du stønad fra?",
+      "verdiliste": [
+        {
+          "label": "Søker du om stønad til barnetilsyn fra en bestemt måned?",
+          "verdi": "Nei"
+        }
+      ]
+    },
+    {
+      "label": "Avtalen du har med barnepasseren",
+      "verdiliste": [
+        {
+          "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+          "verdi": "Ja"
+        }
+      ]
+    },
+    {
+      "label": "Vedlegg",
+      "visningsVariant": "VEDLEGG",
+      "verdiliste": [
+        {
+          "label": "Vedlegg",
+          "verdi": ""
+        }
+      ]
+    }
+  ],
+  "pdfConfig": {
+    "harInnholdsfortegnelse": true,
+    "språk": "nb"
+  },
+  "skjemanummer": "Skjemanummer: NAV 15-00.02"
+}

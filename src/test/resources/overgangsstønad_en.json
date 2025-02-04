@@ -1,0 +1,315 @@
+{
+  "label": "Søknad om overgangsstønad",
+  "verdiliste": [
+    {
+      "label": "Submission details",
+      "verdiliste": [
+        {
+          "label": "Date received",
+          "verdi": "03.02.2025 13:42:29"
+        }
+      ]
+    },
+    {
+      "label": "Applicant",
+      "verdiliste": [
+        {
+          "label": "National identity number or D number",
+          "verdi": "31458931375"
+        },
+        {
+          "label": "Name",
+          "verdi": "Fornavn mellomnavn Etternavn"
+        },
+        {
+          "label": "Nationality",
+          "verdi": "Norge, Norge"
+        },
+        {
+          "label": "Address",
+          "verdi": "Charlies vei 13 b\n0575 Oslo"
+        },
+        {
+          "label": "Marital status",
+          "verdi": "SKILT"
+        }
+      ]
+    },
+    {
+      "label": "Information about address",
+      "verdiliste": [
+        {
+          "label": "Do you live at this address?",
+          "verdi": "Ja"
+        }
+      ]
+    },
+    {
+      "label": "Reason for being sole caregiver",
+      "verdiliste": [
+        {
+          "label": "Are you married without this having been registered in the Norwegian National Registry?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Documentation of your marriage",
+          "verdiliste": [
+            {
+              "label": "I have already submitted this documentation to Nav in the past",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Are you separated or divorced without this having been registered in the Norwegian National Registry?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Documentation of your separation or divorce",
+          "verdiliste": [
+            {
+              "label": "I have already submitted this documentation to Nav in the past",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Why are you a sole caregiver?",
+          "verdi": "I am the sole caregiver due to death"
+        }
+      ]
+    },
+    {
+      "label": "Presence in Norway",
+      "verdiliste": [
+        {
+          "label": "Are you and the child/children currently present in Norway?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Have you lived in Norway for the past five years?",
+          "verdi": "Ja"
+        },
+        {
+          "label": "Time abroad",
+          "verdiliste": []
+        }
+      ]
+    },
+    {
+      "label": "Your living situation",
+      "verdiliste": [
+        {
+          "label": "Do you share your home with other adults?",
+          "verdi": "No, I live alone with my child(ren) or I am pregnant and live alone"
+        }
+      ]
+    },
+    {
+      "label": "Future plans",
+      "verdiliste": [
+        {
+          "label": "Do you have concrete plans to marry or move in with your partner?",
+          "verdi": "Nei"
+        }
+      ]
+    },
+    {
+      "label": "Your children",
+      "visningsVariant": "TABELL",
+      "verdiliste": [
+        {
+          "label": "Child 1",
+          "verdiliste": [
+            {
+              "label": "Navn",
+              "verdi": "Hei På Deg"
+            },
+            {
+              "label": "Fødselsnummer eller d-nummer",
+              "verdi": "28021078036"
+            },
+            {
+              "label": "Har barnet samme adresse som deg?",
+              "verdi": "Ja"
+            },
+            {
+              "label": "Fødselsdato",
+              "verdi": "03.08.2024"
+            },
+            {
+              "label": "Barnets andre forelder",
+              "verdiliste": [
+                {
+                  "label": "Person",
+                  "verdiliste": [
+                    {
+                      "label": "Navn på den andre forelderen",
+                      "verdi": "Bjørn Borg Borgersen"
+                    },
+                    {
+                      "label": "Fødselsnummer eller d-nummer",
+                      "verdi": "17059906968"
+                    }
+                  ]
+                },
+                {
+                  "label": "Does Hei På Deg’s other parent live in Norway?",
+                  "verdi": "Ja"
+                }
+              ]
+            },
+            {
+              "label": "Access/Contact",
+              "verdiliste": [
+                {
+                  "label": "Does the other parent have contact with Hei På Deg?",
+                  "verdi": "Yes, more than one afternoon a week with overnight stay and every other weekend or similar"
+                },
+                {
+                  "label": "Do you have a written child access agreement for Hei På Deg?",
+                  "verdi": "Yes, but it does not describe when the child will spend time with each parent"
+                },
+                {
+                  "label": "Child access agreement",
+                  "verdiliste": [
+                    {
+                      "label": "I have already submitted this documentation to Nav in the past",
+                      "verdi": "Ja"
+                    }
+                  ]
+                },
+                {
+                  "label": "How does access take place in practice?",
+                  "verdi": "Lorem ipsum"
+                },
+                {
+                  "label": "Do you and Hei På Deg’s other parent live in the same building, block, neighbourhood or road?",
+                  "verdi": "I don’t know where the other parent lives"
+                },
+                {
+                  "label": "Have you lived with Hei På Deg’s other parent in the past?",
+                  "verdi": "Nei"
+                },
+                {
+                  "label": "How much time do you spend with Hei På Deg’s other parent?",
+                  "verdi": "We do not meet"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Work, education and other activities",
+      "verdiliste": [
+        {
+          "label": "What is your work situation?",
+          "verdi": "I am not in work, education or a job seeker\n\nI am employed in my own limited liability company (AS)\n\nI am at home with children under the age of 1 year"
+        },
+        {
+          "label": "About your limited liability company",
+          "verdiliste": [
+            {
+              "label": "Name of your limited liability company",
+              "verdi": "Norge AS"
+            },
+            {
+              "label": "How much do you work?",
+              "verdi": "67"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Your situation in more detail",
+      "verdiliste": [
+        {
+          "label": "Does any of the following apply to you?",
+          "verdiliste": [
+            {
+              "label": "Answer options",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "Jeg er syk"
+                },
+                {
+                  "label": "Barnet mitt er sykt"
+                },
+                {
+                  "label": "Jeg har søkt om barnepass, men ikke fått plass enda"
+                },
+                {
+                  "label": "Jeg har barn som trenger særlig tilsyn på grunn av fysiske, psykiske eller store sosiale problemer"
+                },
+                {
+                  "label": "Nei"
+                }
+              ]
+            },
+            {
+              "label": "Answer",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "I am ill"
+                },
+                {
+                  "label": "No"
+                },
+                {
+                  "label": "I have applied for child minding, but have not got a place yet"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Documentation confirming that you are ill",
+          "verdiliste": [
+            {
+              "label": "I have already submitted this documentation to Nav in the past",
+              "verdi": "Ja"
+            }
+          ]
+        },
+        {
+          "label": "Documentation confirming that you do not have child minding.",
+          "verdiliste": [
+            {
+              "label": "I have already submitted this documentation to Nav in the past",
+              "verdi": "Ja"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "When are you applying for benefit from?",
+      "verdiliste": [
+        {
+          "label": "Are you applying for transitional benefit from a specific month?",
+          "verdi": "Nei"
+        }
+      ]
+    },
+    {
+      "label": "Vedlegg",
+      "visningsVariant": "VEDLEGG",
+      "verdiliste": [
+        {
+          "label": "Vedlegg",
+          "verdi": ""
+        }
+      ]
+    }
+  ],
+  "pdfConfig": {
+    "harInnholdsfortegnelse": true,
+    "språk": "en"
+  },
+  "skjemanummer": "Application number: NAV 15-00.01"
+}

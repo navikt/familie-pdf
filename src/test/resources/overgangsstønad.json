@@ -27,7 +27,7 @@
         },
         {
           "label": "Adresse",
-          "verdi": "Charlies vei 13 b\n0575 Oslo"
+          "verdi": "Charlies vei 13 b 0575 Oslo"
         },
         {
           "label": "Sivilstatus",
@@ -49,15 +49,37 @@
       "verdiliste": [
         {
           "label": "Er du gift uten at det er registrert i folkeregisteret i Norge?",
-          "verdi": "Nei"
+          "verdi": "Ja"
+        },
+        {
+          "label": "Dokumentasjon på inngått ekteskap",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+              "verdi": "Ja"
+            }
+          ]
         },
         {
           "label": "Er du separert eller skilt uten at dette er registrert i folkeregisteret i Norge?",
-          "verdi": "Nei"
+          "verdi": "Ja"
+        },
+        {
+          "label": "Dokumentasjon på separasjon eller skilsmisse",
+          "verdiliste": [
+            {
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
+              "verdi": "Ja"
+            }
+          ]
         },
         {
           "label": "Hvorfor er du alene med barn?",
-          "verdi": "Jeg er alene med barn på grunn av dødsfall"
+          "verdi": "Endring i omsorgen for barn"
+        },
+        {
+          "label": "Når skjedde endringen / når skal endringen skje?",
+          "verdi": "06.02.2025"
         }
       ]
     },
@@ -71,10 +93,6 @@
         {
           "label": "Har du oppholdt deg i Norge de siste 5 årene?",
           "verdi": "Ja"
-        },
-        {
-          "label": "Utenlandsopphold",
-          "verdiliste": []
         }
       ]
     },
@@ -116,41 +134,28 @@
               "verdi": "Ja"
             },
             {
-              "label": "Født",
-              "verdi": "Ja"
-            },
-            {
               "label": "Fødselsdato",
-              "verdi": "09.04.2024"
-            },
-            {
-              "label": "Terminbekreftelse",
-              "verdiliste": [
-                {
-                  "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
-                  "verdi": "Ja"
-                }
-              ]
+              "verdi": "03.08.2024"
             },
             {
               "label": "Barnets andre forelder",
               "verdiliste": [
                 {
-                  "label": "Bor Hei På Degs andre forelder i Norge?",
-                  "verdi": "Ja"
-                },
-                {
                   "label": "Persondata",
                   "verdiliste": [
                     {
-                      "label": "Navn",
-                      "verdi": "Bjørn Borg 11111111"
+                      "label": "Navn på den andre forelderen",
+                      "verdi": "Bjørn Borg Borgersen"
                     },
                     {
                       "label": "Fødselsnummer eller d-nummer",
-                      "verdi": "23019936597"
+                      "verdi": "17059906968"
                     }
                   ]
+                },
+                {
+                  "label": "Bor Hei På Degs andre forelder i Norge?",
+                  "verdi": "Ja"
                 }
               ]
             },
@@ -158,16 +163,12 @@
               "label": "Samvær",
               "verdiliste": [
                 {
-                  "label": "Har du og den andre forelderen skriftlig avtale om delt fast bosted for Hei På Deg?",
-                  "verdi": "Nei"
-                },
-                {
                   "label": "Har den andre forelderen samvær med Hei På Deg?",
                   "verdi": "Nei, den andre forelderen har ikke samvær med barnet"
                 },
                 {
                   "label": "Bor du og den andre forelderen til Hei På Deg i samme hus, blokk, gårdstun, kvartal eller vei/gate?",
-                  "verdi": "Nei"
+                  "verdi": "Jeg vet ikke hvor den andre forelderen bor"
                 },
                 {
                   "label": "Har du bodd sammen med den andre forelderen til Hei På Deg før?",
@@ -175,79 +176,6 @@
                 },
                 {
                   "label": "Hvor mye er du sammen med den andre forelderen til Hei På Deg?",
-                  "verdi": "Vi møtes ikke"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "label": "Barn 2",
-          "verdiliste": [
-            {
-              "label": "Har barnet samme adresse som deg?",
-              "verdi": "Ja"
-            },
-            {
-              "label": "Er barnet født?",
-              "verdi": "Nei"
-            },
-            {
-              "label": "Termindato",
-              "verdi": "24.10.2024"
-            },
-            {
-              "label": "Terminbekreftelse",
-              "verdiliste": [
-                {
-                  "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
-                  "verdi": "Ja"
-                }
-              ]
-            },
-            {
-              "label": "Barnets andre forelder",
-              "verdiliste": [
-                {
-                  "label": "Bor barnets andre forelder i Norge?",
-                  "verdi": "Ja"
-                },
-                {
-                  "label": "Persondata",
-                  "verdiliste": [
-                    {
-                      "label": "Navn",
-                      "verdi": "Bjørn Borg Borgersen"
-                    },
-                    {
-                      "label": "Fødselsnummer eller d-nummer",
-                      "verdi": "23019936597"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "label": "Samvær",
-              "verdiliste": [
-                {
-                  "label": "Skal du og den andre forelderen ha skriftlig avtale om delt fast bosted for barnet?",
-                  "verdi": "Nei"
-                },
-                {
-                  "label": "Skal den andre forelderen ha samvær med barnet?",
-                  "verdi": "Nei, den andre forelderen skal ikke ha samvær med barnet"
-                },
-                {
-                  "label": "Bor du og den andre forelderen til barnet i samme hus, blokk, gårdstun, kvartal eller vei/gate?",
-                  "verdi": "Nei"
-                },
-                {
-                  "label": "Har du bodd sammen med den andre forelderen til barnet før?",
-                  "verdi": "Nei"
-                },
-                {
-                  "label": "Hvor mye er du sammen med den andre forelderen til barnet?",
                   "verdi": "Vi møtes ikke"
                 }
               ]
@@ -261,47 +189,7 @@
       "verdiliste": [
         {
           "label": "Hvordan er situasjonen din?",
-          "verdi": "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)"
-        },
-        {
-          "label": "Om arbeidsforholdet ditt",
-          "visningsVariant": "TABELL",
-          "verdiliste": [
-            {
-              "label": "Arbeidsforhold 1",
-              "verdiliste": [
-                {
-                  "label": "Navn på arbeidssted",
-                  "verdi": "Nav"
-                },
-                {
-                  "label": "Hvor mye jobber du?",
-                  "verdi": "100"
-                },
-                {
-                  "label": "Hva slags ansettelsesforhold har du?",
-                  "verdi": "Fast stilling"
-                }
-              ]
-            },
-            {
-              "label": "Arbeidsforhold 2",
-              "verdiliste": [
-                {
-                  "label": "Navn på arbeidssted",
-                  "verdi": "Bekk"
-                },
-                {
-                  "label": "Hvor mye jobber du?",
-                  "verdi": "100"
-                },
-                {
-                  "label": "Hva slags ansettelsesforhold har du?",
-                  "verdi": "Fast stilling"
-                }
-              ]
-            }
-          ]
+          "verdi": "Jeg er hjemme med barn under 1 år  Jeg er ikke i arbeid, utdanning eller arbeidssøker"
         }
       ]
     },
@@ -312,7 +200,7 @@
           "label": "Gjelder noe av dette deg?",
           "verdiliste": [
             {
-              "label": "Svaralternativer",
+              "label": "Svaralternativ",
               "visningsVariant": "PUNKTLISTE",
               "verdiliste": [
                 {
@@ -340,9 +228,6 @@
                   "label": "Jeg er syk"
                 },
                 {
-                  "label": "Barnet mitt er sykt"
-                },
-                {
                   "label": "Nei"
                 }
               ]
@@ -353,19 +238,14 @@
           "label": "Dokumentasjon på at du er syk",
           "verdiliste": [
             {
-              "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
+              "label": "Jeg har sendt inn denne dokumentasjonen til Nav tidligere",
               "verdi": "Ja"
             }
           ]
         },
         {
-          "label": "Dokumentasjon på barnets sykdom",
-          "verdiliste": [
-            {
-              "label": "Jeg har sendt inn denne dokumentasjonen til NAV tidligere",
-              "verdi": "Ja"
-            }
-          ]
+          "label": "Har du sagt opp jobben eller redusert arbeidstiden de siste 6 månedene?",
+          "verdi": "Nei"
         }
       ]
     },
