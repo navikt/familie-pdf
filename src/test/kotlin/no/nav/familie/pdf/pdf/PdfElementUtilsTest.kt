@@ -51,7 +51,10 @@ class PdfElementUtilsTest {
                     .joinToString("") { it.text }
 
             // Assert
-            assertTrue(tekstInnhold.contains(forventetVerdi), "For input '$inputVerdi', forventet '$forventetVerdi', men fikk '$tekstInnhold'")
+            assertTrue(
+                tekstInnhold.contains(forventetVerdi),
+                "For input '$inputVerdi', forventet '$forventetVerdi', men fikk '$tekstInnhold'",
+            )
         }
     }
     //endregion
@@ -59,17 +62,13 @@ class PdfElementUtilsTest {
     // region tabell
     @ParameterizedTest
     @MethodSource("tabell")
-    fun `Utenlandsopphold sine objekter vises som Tabeller`() {
+    fun `Utenlandsopphold sine objekter vises som Tabeller`(feltMap: FeltMap) {
         // Arrange
-        val feltMap = lagMedUtenlandsopphold()
-        val verdilisteElement =
-            feltMap.verdiliste
-                .first { it.label == "Opphold i Norge" }
-                .verdiliste
-                ?.first { it.label == "Utenlandsopphold" }
+        val verdilisteElement = fåFørsteElementMedTabellVariant(feltMap)
 
         // Act
-        val resultat = if (verdilisteElement?.verdiliste != null) verdilisteElement.verdiliste?.map { lagTabell(it) } else null
+        val resultat =
+            if (verdilisteElement?.verdiliste != null) verdilisteElement.verdiliste?.map { lagTabell(it) } else null
 
         // Assert
         assertNotNull(resultat, "Resultatet er null")
@@ -79,5 +78,17 @@ class PdfElementUtilsTest {
         }
     }
 
+    fun fåFørsteElementMedTabellVariant(feltMap: FeltMap): VerdilisteElement? {
+        fun traverse(verdiliste: List<VerdilisteElement>?): VerdilisteElement? {
+            verdiliste?.forEach { element ->
+                if (element.visningsVariant == "TABELL") {
+                    return element
+                }
+                traverse(element.verdiliste)?.let { return it }
+            }
+            return null
+        }
+        return traverse(feltMap.verdiliste)
+    }
     // endregion
 }
