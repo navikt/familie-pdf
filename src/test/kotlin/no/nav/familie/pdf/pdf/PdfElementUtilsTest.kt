@@ -2,15 +2,31 @@ package no.nav.familie.pdf.pdf
 
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedUtenlandsopphold
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagTabell
 import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
+import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 import kotlin.test.assertNotNull
 
 class PdfElementUtilsTest {
+    private companion object {
+        @JvmStatic
+        private fun tabell(): Stream<FeltMap> =
+            Stream.of(
+                lagMedBarneTabell(),
+                lagMedFlereArbeidsforhold(),
+                lagMedUtenlandsopphold(),
+            )
+    }
+
     // Region lagVerdiElement
     @Test
     fun `leggTilKolon legger til kolon dersom label ikke har et tegn på slutten av spørsmål`() {
@@ -41,7 +57,8 @@ class PdfElementUtilsTest {
     //endregion
 
     // region tabell
-    @Test
+    @ParameterizedTest
+    @MethodSource("tabell")
     fun `Utenlandsopphold sine objekter vises som Tabeller`() {
         // Arrange
         val feltMap = lagMedUtenlandsopphold()
@@ -61,5 +78,6 @@ class PdfElementUtilsTest {
             assertTrue(it is Table, "Elementet er ikke en tabell")
         }
     }
+
     // endregion
 }
