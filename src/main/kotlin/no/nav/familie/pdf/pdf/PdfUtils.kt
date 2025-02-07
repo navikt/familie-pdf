@@ -38,8 +38,11 @@ import no.nav.familie.pdf.pdf.VisningsvariantUtils.håndterVisningsvariant
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
+import org.slf4j.LoggerFactory
 
 object PdfUtils {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
         val pdfWriter =
             PdfWriter(
@@ -216,8 +219,12 @@ object PdfUtils {
         sideantallInnholdsfortegnelse: Int,
         pdfADokument: PdfADocument,
     ) {
-        repeat(sideantallInnholdsfortegnelse) {
-            pdfADokument.movePage(pdfADokument.numberOfPages, 1)
+        try {
+            repeat(sideantallInnholdsfortegnelse) {
+                pdfADokument.movePage(pdfADokument.numberOfPages, 1)
+            }
+        } catch (e: Exception) {
+            logger.error("MovePage feiler fordi det finnes en tom eller nullverdi som ikke blir håndtert i lagPdf.", e)
         }
     }
 

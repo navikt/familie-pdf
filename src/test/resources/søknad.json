@@ -1,5 +1,5 @@
 {
-  "label": "Søknad om overgangsstønad (NAV 15-00.01)",
+  "label": "Søknad om overgangsstønad",
   "verdiliste": [
     {
       "label": "Innsendingsdetaljer",
@@ -74,7 +74,43 @@
         },
         {
           "label": "Utenlandsopphold",
-          "verdiliste": []
+          "visningsVariant": "TABELL",
+          "verdiliste": [
+            {
+              "label": "Utenlandsopphold 1",
+              "verdiliste": [
+                {
+                  "label": "Fra dato",
+                  "verdi": "01.01.2020"
+                },
+                {
+                  "label": "Til dato",
+                  "verdi": "01.01.2021"
+                },
+                {
+                  "label": "Land",
+                  "verdi": "Sverige"
+                }
+              ]
+            },
+            {
+              "label": "Utenlandsopphold 2",
+              "verdiliste": [
+                {
+                  "label": "Fra dato",
+                  "verdi": "01.01.2021"
+                },
+                {
+                  "label": "Til dato",
+                  "verdi": "01.01.2022"
+                },
+                {
+                  "label": "Land",
+                  "verdi": "Danmark"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
