@@ -1,21 +1,20 @@
 # Familie-pdf
 
-## Hva er det?
+## Hva er Familie-pdf?
 
-Familie-PDF er en PDF-løsning som genererer PDF-er basert på strukturert data den mottar.
-Løsningen er utviklet for PO Familie og brukes til å generere oppsummeringer av søknader i et klart og lesbart format.
-Den kan imidlertid brukes av alle team hos NAV, både til søknadsrelaterte oppgaver og andre PDF-formål, så lange dataene
-er strukturerte som en FeltMap. Ønkset er også at løsningen skal være enkel å vedlikeholde og utvide, og at den skal være tilgjengelig for alle team hos NAV. Familie-PDF er derfor utviklet som en selvstendig tjeneste som kan brukes av alle team hos NAV, og som kan tilpasses etter behov.
 
+Familie-PDF er en fleksibel løsning for å generere PDF-er basert på strukturert data, utviklet for PO Familie og tilgjengelig for alle team i NAV. Løsningen brukes hovedsakelig til å lageoversiktlige oppsummeringer av søknader, men kan også brukes til andre behov, så lenge inputtet er strukturert i en FeltMap.
 
 ### Hvorfor en ny pdf-generator?
-Målet med Familie-PDF er å tilby en enkel og fleksibel løsning for å generere PDF-er basert på strukturerte data. Ønkset er også at løsningen skal være enkel å vedlikeholde og utvide, og at den skal være tilgjengelig for alle team hos NAV. Familie-PDF er derfor utviklet som en selvstendig tjeneste som kan brukes av alle team hos NAV, og som kan tilpasses etter behov.
 
+Familie-PDF ble utviklet for å møte behovet for en fleksibel og enkel løsning for generering av PDF-er. Den nye løsningen gir en mer konsistent visuell utforming av PDF-er på tvers av team i NAV, noe som bidrar til et enhetlig og profesjonelt uttrykk.
+
+I tillegg er Familie-PDF modulær og lett å tilpasse, slik at den kan dekke ulike behov uten at det går på bekostning av vedlikeholdbarhet. Dette gjør det enklere å videreutvikle løsningen og sikrer effektiv bruk for alle team som trenger PDF-generering.
 
 ## Hvordan fungerer det?
 
 ### Hva sendes inn, og hva returneres?
-Løsningen tar imot en JSON-struktur i form av en FeltMap og genererer en PDF-fil basert på denne. Du kan lese mer om FeltMap i neste seksjon. Som respons får du tilbake en byte-array som representerer den genererte PDF-filen.
+Løsningen mottar en JSON-struktur i form av en FeltMap og genererer en PDF basert på denne. Resultatet returneres som en byte-array som representerer den genererte PDF-filen. Mer informasjon om FeltMap finner du i neste seksjon.
 
 ### Feltmap strukturen
 PDF-genereringen skjer basert på dataene i FeltMap, som inneholder strukturerte json. Prosessen kan deles inn i følgende
@@ -43,7 +42,7 @@ steg:
   - Gjennomgå verdiliste rekursivt og formatere innholdet basert på visningsVariant. 
   - Legge til hver seksjon med tilhørende felt og verdier. 
   - Gjennomføre UU-justeringer for lesbarhet. 
-  - Render PDF og lagre eller returnere den som bytearray.
+  - Render PDF og returnere den som bytearray.
 4. Hvordan hierarkiet håndteres
 - Eksempel på hvordan dataene blir konvertert til en PDF-struktur:
 
@@ -65,12 +64,12 @@ steg:
       "label": "Søker",
       "verdiliste": [
         {
-          "label": "Fornavn",
-          "verdi": "Ola"
+          "label": "Navn",
+          "verdi": "Fornavn Etternavn"
         },
         {
-          "label": "Etternavn",
-          "verdi": "Nordmann"
+          "label": "Fødselsnummer",
+          "verdi": "12345678901"
         }
       ]
     }
@@ -93,16 +92,27 @@ steg:
   Fødselsnummer: 12345678901
   ```
 
-## Hvordan teste det i ut?
+## Hvordan ta det i bruk?
 Du kan enten teste løsningen ved å kjøre den lokalt eller ved å bruke preprod-miljøet. 
 
 ### Kjøre i preprod/prod
 
 For å kjøre i pre-prod må dere legge til applikasjonen deres i accessPolicy:
-_nais-dev.yaml._
+```
+nais-dev.yaml.
+```
+Deretter kan dere nå endepunktet i [PdfControllen](src/main/kotlin/no/nav/familie/pdf/pdf/PdfController.kt):
+```
+https://familie-pdf.intern.dev.nav.no/api/v1/opprett-pdf
+```
+Fra deres applikasjon kan dere sende en POST-request til dette endepunktet med en FeltMap som body. Dere vil da motta en Pdf i bytearray som response.
 
 ### Kjøre lokalt
-For å kjøre løsningen lokalt: 
+For å kjøre løsningen lokalt kan du føle instruksjonene under. Deretter kan du nå endepunktet i [PdfControllen](src/main/kotlin/no/nav/familie/pdf/pdf/PdfController.kt):
+```
+http://localhost:8094/api/v1/opprett-pdf
+```
+Fra din applikasjon kan du sende en POST-request til dette endepunktet med en FeltMap som body. Du vil da motta en Pdf i bytearray som respons.
 
 #### Installasjon
 1. Klon ned prosjektet
@@ -122,9 +132,6 @@ Et godt tips er å kjøre maven kommandoen for å rense og installere dependenci
 ```
 mvn clean install
 ```
-
-### Lag et endepunkt i deres applikasjon
-For å bruke Familie-PDF i din applikasjon, må du lage et endepunkt som sender en FeltMap til Familie-PDF og mottar en PDF-fil tilbake.
 
 
 ## Annet nyttig for lokal utvikling
