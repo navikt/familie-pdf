@@ -105,17 +105,23 @@ _nais-dev.yaml._
 For å kjøre løsningen lokalt: 
 
 #### Installasjon
-Klon ned prosjektet
+1. Klon ned prosjektet
+```
 git clone git@github.com:navikt/familie-pdf.git
-Åpne prosjektet i en foretrekkbar IDE, IntelliJ Ultimate. Deretter trenger vi å bygge prosjektet før det kan starte.
+```
+2. Åpne prosjektet i en foretrekkbar IDE, IntelliJ Ultimate. Deretter trenger vi å bygge prosjektet før det kan starte.
+3.
+2. Åpne prosjektet i en foretrekkbar IDE, IntelliJ Ultimate. Deretter trenger vi å bygge prosjektet før det kan starte.
 
-Velg File i IntelliJ, deretter Project Structure.... Under Project velg SDK 21 f.eks.coretto-21 (22 fungerer også, men 21 er Long Term Support (LTS) og anbefalt), last ned hvis du ikke har det. Velg Language level og velg 21. Apply og så OK
+3. Velg `File` i IntelliJ, deretter `Project Structure...`. Under `Project` velg `SDK 21` f.eks.`coretto-21` (22 fungerer også, men 21 er Long Term Support (LTS) og anbefalt), last ned hvis du ikke har det. Velg `Language level` og velg 21. `Apply` og så `OK`
 
-Velg App.kt og trykk på ^R for å kjøre backenden (port 8084)
+4. Velg `App.kt` og trykk på `^R` for å kjøre backenden (port 8084)
 
 Et godt tips er å kjøre maven kommandoen for å rense og installere dependenciene på nytt.
 
+```
 mvn clean install
+```
 
 ### Lag et endepunkt i deres applikasjon
 For å bruke Familie-PDF i din applikasjon, må du lage et endepunkt som sender en FeltMap til Familie-PDF og mottar en PDF-fil tilbake.
