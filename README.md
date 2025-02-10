@@ -137,5 +137,13 @@ For å sikre at PDF-filene vi genererer er i samsvar med standarder, benytter vi
 gir en detaljert oversikt over eventuelle feil og mangler i PDF-filene våre. Du kan lese mer om
 VeraPDF [her](https://verapdf.org/).
 
+## Feilsøking
+### Hvorfor får jeg en `NullPointerException` i `iText` sin `movePage`?
+#### Problem
+Hvis loggene viser 500 feil på /opprett-pdf med en \[no body\] og feil ved `movepage` så er ikke payloaden tom, men det er en tom- eller nullverdi i `feltMap` som ikke blir håndtert  i `PdfUtils.lagDokument`. 
+#### Løsningsforslag
+Logg, print eller debug body i applikasjonen som sender til endepunktet i Familie-pdf. Start opp denne appen sammen med `spire-pdf-kvittering`, kjør lokalt og undersøk derfra.
+
+
 ## Kontakt
 Har du spørsmål? Ta kontakt – vi hjelper gjerne til! 🚀
