@@ -108,7 +108,7 @@ https://familie-pdf.intern.dev.nav.no/api/v1/opprett-pdf
 Fra deres applikasjon kan dere sende en POST-request til dette endepunktet med en FeltMap som body. Dere vil da motta en Pdf i bytearray som response.
 
 ### Kjøre lokalt
-For å kjøre løsningen lokalt kan du føle instruksjonene under. Deretter kan du nå endepunktet i [PdfControllen](src/main/kotlin/no/nav/familie/pdf/pdf/PdfController.kt):
+For å kjøre løsningen lokalt kan du følge instruksjonene under. Deretter kan du nå endepunktet i [PdfControllen](src/main/kotlin/no/nav/familie/pdf/pdf/PdfController.kt):
 ```
 http://localhost:8094/api/v1/opprett-pdf
 ```
