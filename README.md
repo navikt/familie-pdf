@@ -3,7 +3,7 @@
 ## Hva er Familie-pdf?
 
 
-Familie-PDF er en fleksibel løsning for å generere PDF-er basert på strukturert data, utviklet for PO Familie og tilgjengelig for alle team i NAV. Løsningen brukes hovedsakelig til å lageoversiktlige oppsummeringer av søknader, men kan også brukes til andre behov, så lenge inputtet er strukturert i en FeltMap.
+Familie-PDF er en fleksibel løsning for å generere PDF-er basert på strukturert data, utviklet for PO Familie og tilgjengelig for alle team i NAV. Løsningen brukes hovedsakelig til å lage oversiktlige oppsummeringer av søknader, men kan også brukes til andre behov, så lenge inputdataene er strukturert etter Feltmap-formatet.
 
 ### Hvorfor en ny pdf-generator?
 
