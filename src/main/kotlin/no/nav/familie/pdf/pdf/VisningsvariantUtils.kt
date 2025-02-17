@@ -19,7 +19,7 @@ object VisningsvariantUtils {
         if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
             when (visningsVariant) {
                 VisningsVariant.TABELL.toString() -> {
-                    håndterTabeller(verdilisteElement.verdiliste, seksjon)
+                    håndterTabeller(verdilisteElement, seksjon)
                 }
 
                 VisningsVariant.PUNKTLISTE.toString() -> {
@@ -34,11 +34,9 @@ object VisningsvariantUtils {
     }
 
     private fun håndterTabeller(
-        verdiliste: List<VerdilisteElement>,
+        verdiliste: VerdilisteElement,
         seksjon: Div,
-    ) = verdiliste.forEach { verdilisteElement ->
-        verdiliste.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
-    }
+    ) = verdiliste.let { seksjon.apply { add(lagTabell(verdiliste)) } }
 
     private fun håndterPunktliste(
         verdi: VerdilisteElement,

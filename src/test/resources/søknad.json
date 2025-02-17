@@ -74,10 +74,10 @@
         },
         {
           "label": "Utenlandsopphold",
-          "visningsVariant": "TABELL",
           "verdiliste": [
             {
               "label": "Utenlandsopphold 1",
+              "visningsVariant": "TABELL",
               "verdiliste": [
                 {
                   "label": "Fra dato",
@@ -95,6 +95,7 @@
             },
             {
               "label": "Utenlandsopphold 2",
+              "visningsVariant": "TABELL",
               "verdiliste": [
                 {
                   "label": "Fra dato",
@@ -134,10 +135,10 @@
     },
     {
       "label": "Barna dine",
-      "visningsVariant": "TABELL",
       "verdiliste": [
         {
           "label": "Barn 1",
+          "visningsVariant": "TABELL",
           "verdiliste": [
             {
               "label": "Navn",
@@ -219,6 +220,7 @@
         },
         {
           "label": "Barn 2",
+          "visningsVariant": "TABELL",
           "verdiliste": [
             {
               "label": "Har barnet samme adresse som deg?",
