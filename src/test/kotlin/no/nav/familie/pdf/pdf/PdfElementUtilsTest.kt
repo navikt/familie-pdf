@@ -62,20 +62,41 @@ class PdfElementUtilsTest {
     // region tabell
     @ParameterizedTest
     @MethodSource("tabell")
-    fun `Utenlandsopphold sine objekter vises som Tabeller`(feltMap: FeltMap) {
+    fun `Utenlandsopphold, arbeidsforhold og barna dine sine objekter vises som Tabell`(feltMap: FeltMap) {
         // Arrange
-        val verdilisteElement = fåFørsteElementMedTabellVariant(feltMap)
-
+        val verdilisteElement = finnFørsteElementMedTabellVariant(feltMap.verdiliste)
         // Act
         val resultat =
-            if (verdilisteElement?.verdiliste != null) verdilisteElement.verdiliste?.map { lagTabell(it) } else null
+            if (verdilisteElement?.verdiliste != null) lagTabell(verdilisteElement) else null
 
         // Assert
-        assertNotNull(resultat, "Resultatet er null")
-        resultat.forEach {
-            assertNotNull(it, "Tabell er null")
-            assertTrue(it is Table, "Elementet er ikke en tabell")
-        }
+        assertNotNull(resultat, "Tabell er null")
+        assertTrue(resultat is Table, "Elementet er ikke en tabell")
+    }
+
+    @ParameterizedTest
+    @MethodSource("tabell")
+    fun `Tabell har riktig antall kolonner og er en tabell`(feltMap: FeltMap) {
+        // Arrange
+        val verdilisteElement = finnFørsteElementMedTabellVariant(feltMap.verdiliste)
+        // Act
+        val resultat =
+            if (verdilisteElement?.verdiliste != null) lagTabell(verdilisteElement) else null
+
+        // Assert
+        assertNotNull(resultat, "Tabell er null")
+        assertTrue(resultat is Table, "Elementet er ikke en tabell")
+
+        // Additional checks
+        val table = resultat as Table
+        val numberOfColumns = table.numberOfColumns
+        val numberOfRows = table.numberOfRows
+
+        // Check the number of columns
+        assertTrue(numberOfColumns == 2, "Tabellen skal ha 2 kolonner, men har $numberOfColumns")
+
+        // Check the number of rows
+        assertTrue(numberOfRows > 0, "Tabellen skal ha minst 1 rad, men har $numberOfRows")
     }
 
     fun fåFørsteElementMedTabellVariant(feltMap: FeltMap): VerdilisteElement? {
@@ -90,5 +111,13 @@ class PdfElementUtilsTest {
         }
         return traverse(feltMap.verdiliste)
     }
+
+    fun finnFørsteElementMedTabellVariant(verdiliste: List<VerdilisteElement>): VerdilisteElement? =
+        verdiliste.firstOrNull { it.visningsVariant == "TABELL" }
+            ?: verdiliste
+                .asSequence()
+                .mapNotNull { it.verdiliste?.let(::finnFørsteElementMedTabellVariant) }
+                .firstOrNull()
+
     // endregion
 }

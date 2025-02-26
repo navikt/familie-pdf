@@ -77,11 +77,11 @@ fun lagMedFlereArbeidsforhold(): FeltMap =
                             ),
                             VerdilisteElement(
                                 label = "Om arbeidsforholdet ditt",
-                                visningsVariant = VisningsVariant.TABELL.toString(),
                                 verdiliste =
                                     listOf(
                                         VerdilisteElement(
                                             label = "Arbeidsforhold 1",
+                                            visningsVariant = VisningsVariant.TABELL.toString(),
                                             verdiliste =
                                                 listOf(
                                                     VerdilisteElement(
@@ -92,6 +92,7 @@ fun lagMedFlereArbeidsforhold(): FeltMap =
                                         ),
                                         VerdilisteElement(
                                             label = "Arbeidsforhold 2",
+                                            visningsVariant = VisningsVariant.TABELL.toString(),
                                             verdiliste =
                                                 listOf(
                                                     VerdilisteElement(
@@ -115,11 +116,11 @@ fun lagMedBarneTabell(): FeltMap =
             listOf(
                 VerdilisteElement(
                     label = "Barna dine",
-                    visningsVariant = VisningsVariant.TABELL.toString(),
                     verdiliste =
                         listOf(
                             VerdilisteElement(
                                 label = "Barn 1",
+                                visningsVariant = VisningsVariant.TABELL.toString(),
                                 verdiliste =
                                     listOf(
                                         VerdilisteElement(label = "Navn", verdi = "Kåre"),
@@ -127,6 +128,7 @@ fun lagMedBarneTabell(): FeltMap =
                             ),
                             VerdilisteElement(
                                 label = "Barn 2",
+                                visningsVariant = VisningsVariant.TABELL.toString(),
                                 verdiliste =
                                     listOf(
                                         VerdilisteElement(label = "Navn", verdi = ""),
@@ -149,30 +151,25 @@ fun lagMedUtenlandsopphold(): FeltMap =
                     verdiliste =
                         listOf(
                             VerdilisteElement(
-                                label = "Utenlandsopphold",
+                                label = "Utenlandsopphold 1",
                                 visningsVariant = VisningsVariant.TABELL.toString(),
                                 verdiliste =
                                     listOf(
-                                        VerdilisteElement(
-                                            label = "Utenlandsopphold 1",
-                                            verdiliste =
-                                                listOf(
-                                                    VerdilisteElement(label = "Fra:", verdi = "2021-03-01"),
-                                                    VerdilisteElement(label = "Til:", verdi = "2021-04-01"),
-                                                    VerdilisteElement(label = "I hvilket land oppholdt du deg i?", verdi = "Danmark"),
-                                                    VerdilisteElement(label = "Hvorfor oppholdt du deg i Danmark?", verdi = "Ferie"),
-                                                ),
-                                        ),
-                                        VerdilisteElement(
-                                            label = "Utenlandsopphold 2",
-                                            verdiliste =
-                                                listOf(
-                                                    VerdilisteElement(label = "Fra:", verdi = "2021-04-01"),
-                                                    VerdilisteElement(label = "Til:", verdi = "2021-05-01"),
-                                                    VerdilisteElement(label = "I hvilket land oppholdt du deg i?", verdi = "Sverige"),
-                                                    VerdilisteElement(label = "Hvorfor oppholdt du deg i Sverige?", verdi = "Ferie"),
-                                                ),
-                                        ),
+                                        VerdilisteElement(label = "Fra:", verdi = "2021-03-01"),
+                                        VerdilisteElement(label = "Til:", verdi = "2021-04-01"),
+                                        VerdilisteElement(label = "I hvilket land oppholdt du deg i?", verdi = "Danmark"),
+                                        VerdilisteElement(label = "Hvorfor oppholdt du deg i Danmark?", verdi = "Ferie"),
+                                    ),
+                            ),
+                            VerdilisteElement(
+                                label = "Utenlandsopphold 2",
+                                visningsVariant = VisningsVariant.TABELL.toString(),
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(label = "Fra:", verdi = "2021-04-01"),
+                                        VerdilisteElement(label = "Til:", verdi = "2021-05-01"),
+                                        VerdilisteElement(label = "I hvilket land oppholdt du deg i?", verdi = "Sverige"),
+                                        VerdilisteElement(label = "Hvorfor oppholdt du deg i Sverige?", verdi = "Ferie"),
                                     ),
                             ),
                         ),
