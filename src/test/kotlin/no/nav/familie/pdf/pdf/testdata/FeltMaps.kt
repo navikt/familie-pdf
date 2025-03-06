@@ -139,6 +139,48 @@ fun lagMedBarneTabell(): FeltMap =
         pdfConfig = PdfConfig(true, "nb"),
     )
 
+fun lagMedUtenlandsopphold(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Opphold i Norge",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(
+                                label = "Utenlandsopphold",
+                                visningsVariant = VisningsVariant.TABELL.toString(),
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(
+                                            label = "Utenlandsopphold 1",
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(label = "Fra:", verdi = "2021-03-01"),
+                                                    VerdilisteElement(label = "Til:", verdi = "2021-04-01"),
+                                                    VerdilisteElement(label = "I hvilket land oppholdt du deg i?", verdi = "Danmark"),
+                                                    VerdilisteElement(label = "Hvorfor oppholdt du deg i Danmark?", verdi = "Ferie"),
+                                                ),
+                                        ),
+                                        VerdilisteElement(
+                                            label = "Utenlandsopphold 2",
+                                            verdiliste =
+                                                listOf(
+                                                    VerdilisteElement(label = "Fra:", verdi = "2021-04-01"),
+                                                    VerdilisteElement(label = "Til:", verdi = "2021-05-01"),
+                                                    VerdilisteElement(label = "I hvilket land oppholdt du deg i?", verdi = "Sverige"),
+                                                    VerdilisteElement(label = "Hvorfor oppholdt du deg i Sverige?", verdi = "Ferie"),
+                                                ),
+                                        ),
+                                    ),
+                            ),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, "nb"),
+    )
+
 fun lagUteninnholdsfortegnelse(): FeltMap =
     FeltMap(
         label = søknadsTittel,

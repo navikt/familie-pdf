@@ -13,6 +13,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedPunktliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomPunktliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomtSkjemanummer
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedUtenlandsopphold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUtenSkjemanummer
@@ -58,6 +59,14 @@ class PdfServiceTest {
             Stream.of(
                 lagMedTomtSkjemanummer(),
                 lagUtenSkjemanummer(),
+            )
+
+        @JvmStatic
+        fun tabell(): Stream<FeltMap> =
+            Stream.of(
+                lagMedBarneTabell(),
+                lagMedFlereArbeidsforhold(),
+                lagMedUtenlandsopphold(),
             )
     }
 
@@ -211,52 +220,19 @@ class PdfServiceTest {
     //endregion
 
     //region Tabeller
-    @Test
-    fun `Pdf lager tabell dersom du har flere arbeidsforhold`() {
-        // Arrange
-        val feltMap = lagMedFlereArbeidsforhold()
-
-        // Act
-        val pdfDoc = opprettPdf(feltMap)
-        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-
-        // Assert
-        val arbeidsforhold1Index = tekstIPdf.indexOf("Arbeidsforhold 1")
-        val navnIndex = tekstIPdf.indexOf("Nav", arbeidsforhold1Index)
-        val arbeidsforhold2Index = tekstIPdf.indexOf("Arbeidsforhold 2", navnIndex)
-        val termindatoIndex = tekstIPdf.indexOf("Bekk", arbeidsforhold2Index)
-
-        assertTrue(arbeidsforhold1Index != -1)
-        assertTrue(navnIndex != -1)
-        assertTrue(arbeidsforhold2Index != -1)
-        assertTrue(termindatoIndex != -1)
-        assertTrue(arbeidsforhold1Index < navnIndex)
-        assertTrue(navnIndex < arbeidsforhold2Index)
-        assertTrue(arbeidsforhold2Index < termindatoIndex)
-    }
-
-    @Test
-    fun `Tabeller får inn en liste av objekter som tegnes som tabeller`() {
-        // Act
-        val feltMap = lagMedBarneTabell()
-
+    @ParameterizedTest
+    @MethodSource("tabell")
+    fun `Tabeller får inn en liste av objekter som tegnes som tabeller`(feltMap: FeltMap) {
         // Assert
         val pdfDoc = opprettPdf(feltMap)
         val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
 
         // Assert
-        val barn1Index = tekstIPdf.indexOf("Barn 1")
-        val navnIndex = tekstIPdf.indexOf("Navn", barn1Index)
-        val barn2Index = tekstIPdf.indexOf("Barn 2", navnIndex)
-        val termindatoIndex = tekstIPdf.indexOf("Termindato", barn2Index)
-
-        assertTrue(barn1Index != -1)
-        assertTrue(navnIndex != -1)
-        assertTrue(barn2Index != -1)
-        assertTrue(termindatoIndex != -1)
-        assertTrue(barn1Index < navnIndex)
-        assertTrue(navnIndex < barn2Index)
-        assertTrue(barn2Index < termindatoIndex)
+        val objekt1Index = tekstIPdf.indexOf("1")
+        val objekt2Index = tekstIPdf.indexOf("2", objekt1Index)
+        assertTrue(objekt1Index != -1)
+        assertTrue(objekt2Index != -1)
+        assertTrue(objekt1Index < objekt2Index)
     }
 
     @Test

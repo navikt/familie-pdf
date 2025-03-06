@@ -82,7 +82,7 @@ private fun lagTabellRekursivt(
     var mørkBakgrunn = harMørkBakgrunn
     tabellData.forEach { element ->
         when {
-            element.verdi != null -> {
+            element.label.isNotEmpty() && !element.verdi.isNullOrEmpty() -> {
                 val labelCelle = lagTabellInformasjonscelle(element.label, erUthevet = true)
                 val verdiCelle = lagTabellInformasjonscelle(element.verdi, false)
 
@@ -96,7 +96,7 @@ private fun lagTabellRekursivt(
                 mørkBakgrunn = !mørkBakgrunn
             }
 
-            element.verdiliste != null -> {
+            !element.verdiliste.isNullOrEmpty() -> {
                 mørkBakgrunn = lagTabellRekursivt(element.verdiliste, tabell, mørkBakgrunn)
             }
         }

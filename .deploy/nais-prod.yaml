@@ -48,6 +48,9 @@ spec:
         - application: familie-ef-mottak
           namespace: teamfamilie
           cluster: prod-gcp
+        - application: k9-brukerdialog-prosessering
+          namespace: dusseldorf
+          cluster: prod-gcp
     outbound:
       rules:
         - application: familie-ef-mottak

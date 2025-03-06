@@ -10,7 +10,7 @@ class JsonLeserTest {
         // Act
         val resultat = lesSøknadJson()
         // Assert
-        assertEquals("Søknad om overgangsstønad (NAV 15-00.01)", resultat.label)
+        assertEquals("Søknad om overgangsstønad", resultat.label)
         val verdiliste = resultat.verdiliste
         assertEquals("Innsendingsdetaljer", verdiliste[0].label)
         val innsendingsdetaljer = verdiliste[0].verdiliste
