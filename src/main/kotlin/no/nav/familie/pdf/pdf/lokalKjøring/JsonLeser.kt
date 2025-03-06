@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.pdf
+package no.nav.familie.pdf.pdf.lokalKjøring
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper

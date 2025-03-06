@@ -2,13 +2,13 @@ package no.nav.familie.pdf.pdf
 
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedUtenlandsopphold
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagTabell
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.pdfElementer.lagSpørsmålOgSvar
+import no.nav.familie.pdf.pdf.visningsvarianter.lagTabell
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -44,7 +44,7 @@ class PdfElementUtilsTest {
         for ((inputVerdi, forventetVerdi) in testScenarioer) {
             // Act
             val verdilisteElement = VerdilisteElement(label = inputVerdi, verdi = "Ja")
-            val verdiElement = lagVerdiElement(verdilisteElement)
+            val verdiElement = lagSpørsmålOgSvar(verdilisteElement)
             val tekstInnhold =
                 verdiElement.children
                     .filterIsInstance<Text>()

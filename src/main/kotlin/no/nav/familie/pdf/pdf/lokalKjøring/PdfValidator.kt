@@ -1,4 +1,4 @@
-package no.nav.familie.pdf.pdf
+package no.nav.familie.pdf.pdf.lokalKjøring
 
 import no.nav.familie.pdf.pdf.domain.Standard
 import org.verapdf.gf.foundry.VeraGreenfieldFoundryProvider
