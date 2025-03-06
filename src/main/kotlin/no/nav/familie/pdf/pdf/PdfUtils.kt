@@ -9,6 +9,24 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 
+enum class FontStil {
+    REGULAR,
+    SEMIBOLD,
+    ITALIC,
+}
+
+fun Paragraph.settFont(stil: FontStil) {
+    this.setFont(bestemFont(stil))
+}
+
+fun Document.settFont(stil: FontStil) {
+    this.setFont(bestemFont(stil))
+}
+
+fun Text.settFont(stil: FontStil) {
+    this.setFont(bestemFont(stil))
+}
+
 private fun bestemFont(stil: FontStil): PdfFont {
     val skriftSti =
         when (stil) {
@@ -24,35 +42,6 @@ private fun bestemFont(stil: FontStil): PdfFont {
     )
 }
 
-fun hentOversettelse(
-    bokmål: String,
-    nynorsk: String,
-    engelsk: String,
-): String =
-    when (SpråkKontekst.brukSpråk()) {
-        "nn" -> nynorsk
-        "en" -> engelsk
-        else -> bokmål
-    }
-
-fun Paragraph.settFont(stil: FontStil) {
-    this.setFont(bestemFont(stil))
-}
-
-fun Document.settFont(stil: FontStil) {
-    this.setFont(bestemFont(stil))
-}
-
-fun Text.settFont(stil: FontStil) {
-    this.setFont(bestemFont(stil))
-}
-
-enum class FontStil {
-    REGULAR,
-    SEMIBOLD,
-    ITALIC,
-}
-
 fun setSkjemanummer(
     document: Document,
     skjemanummer: String?,
@@ -65,3 +54,14 @@ fun setSkjemanummer(
         )
     }
 }
+
+fun hentOversettelse(
+    bokmål: String,
+    nynorsk: String,
+    engelsk: String,
+): String =
+    when (SpråkKontekst.brukSpråk()) {
+        "nn" -> nynorsk
+        "en" -> engelsk
+        else -> bokmål
+    }
