@@ -1,6 +1,6 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 
-import no.nav.familie.pdf.pdf.JsonLeser.lesSøknadJson
+import no.nav.familie.pdf.pdf.lokalKjøring.JsonLeser.lesSøknadJson
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
