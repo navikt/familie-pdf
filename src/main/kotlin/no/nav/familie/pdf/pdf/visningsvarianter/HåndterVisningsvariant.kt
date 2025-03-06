@@ -1,8 +1,8 @@
 package no.nav.familie.pdf.pdf.visningsvarianter
 
 import com.itextpdf.layout.element.Div
-import no.nav.familie.pdf.pdf.PdfUtils.hentOversettelse
-import no.nav.familie.pdf.pdf.PdfUtils.håndterRekursivVerdiliste
+import no.nav.familie.pdf.pdf.Innholdsfortegnelse.hentOversettelse
+import no.nav.familie.pdf.pdf.Innholdsfortegnelse.håndterRekursivVerdiliste
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.domain.VisningsVariant
 import no.nav.familie.pdf.pdf.pdfElementer.lagOverskriftH4

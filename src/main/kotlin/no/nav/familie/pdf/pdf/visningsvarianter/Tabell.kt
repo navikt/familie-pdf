@@ -8,11 +8,11 @@ import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
-import no.nav.familie.pdf.pdf.PdfUtils.FontStil
-import no.nav.familie.pdf.pdf.PdfUtils.hentOversettelse
-import no.nav.familie.pdf.pdf.PdfUtils.settFont
+import no.nav.familie.pdf.pdf.FontStil
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.hentOversettelse
 import no.nav.familie.pdf.pdf.pdfElementer.lagTekstElement
+import no.nav.familie.pdf.pdf.settFont
 
 fun lagTabell(
     tabellData: VerdilisteElement,

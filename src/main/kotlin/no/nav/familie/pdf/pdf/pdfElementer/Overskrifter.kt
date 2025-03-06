@@ -3,8 +3,8 @@ package no.nav.familie.pdf.pdf.pdfElementer
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.element.Paragraph
-import no.nav.familie.pdf.pdf.PdfUtils.FontStil
-import no.nav.familie.pdf.pdf.PdfUtils.settFont
+import no.nav.familie.pdf.pdf.FontStil
+import no.nav.familie.pdf.pdf.settFont
 
 fun lagOverskriftH1(tekst: String): Paragraph = lagOverskrift(tekst, 20f, StandardRoles.H1)
 
