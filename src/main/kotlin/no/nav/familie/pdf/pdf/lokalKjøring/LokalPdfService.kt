@@ -1,12 +1,14 @@
-package no.nav.familie.pdf.pdf
+package no.nav.familie.pdf.pdf.lokalKjøring
 
 import no.nav.familie.pdf.pdf.JsonLeser.lesSøknadJson
+import no.nav.familie.pdf.pdf.PdfService
+import no.nav.familie.pdf.pdf.PdfValidator
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.familie.pdf.pdf.domain.PdfStandard
 import no.nav.familie.pdf.pdf.domain.Standard
 
-class TestPdfService(
+class LokalPdfService(
     private val pdfService: PdfService,
 ) {
     fun opprettTestPdfMedStandarder(): PdfMedStandarder {

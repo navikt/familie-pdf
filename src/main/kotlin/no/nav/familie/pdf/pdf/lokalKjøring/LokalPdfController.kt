@@ -1,5 +1,6 @@
-package no.nav.familie.pdf.pdf
+package no.nav.familie.pdf.pdf.lokalKjøring
 
+import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
 import no.nav.security.token.support.core.api.Unprotected
@@ -15,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("api/test-pdf")
 @Unprotected
-class TestPdfController {
+class LokalPdfController {
     private val pdfService = PdfService()
-    private val testPdfService = TestPdfService(pdfService)
+    private val lokalPdfService = LokalPdfService(pdfService)
 
     @CrossOrigin(origins = ["http://localhost:5173"])
     @GetMapping("/pdf-med-standarder")
-    fun hentPdfFraResourceMedStandarder(): PdfMedStandarder = testPdfService.opprettTestPdfMedStandarder()
+    fun hentPdfFraResourceMedStandarder(): PdfMedStandarder = lokalPdfService.opprettTestPdfMedStandarder()
 
     @CrossOrigin(origins = ["http://localhost:5173"])
     @PostMapping("/pdf-med-standarder")
     fun opprettPdfMedValidering(
         @RequestBody søknad: FeltMap,
-    ): PdfMedStandarder = testPdfService.opprettPdfMedStandarder(søknad)
+    ): PdfMedStandarder = lokalPdfService.opprettPdfMedStandarder(søknad)
 }
