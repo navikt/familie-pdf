@@ -1,8 +1,8 @@
 package no.nav.familie.pdf.pdf
 
 import com.itextpdf.io.source.ByteArrayOutputStream
-import no.nav.familie.pdf.pdf.Innholdsfortegnelse.lagDokument
-import no.nav.familie.pdf.pdf.Innholdsfortegnelse.lagPdfADocument
+import no.nav.familie.pdf.pdf.PDFdokument.lagDokument
+import no.nav.familie.pdf.pdf.PDFdokument.lagPdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
 
 class PdfService {
