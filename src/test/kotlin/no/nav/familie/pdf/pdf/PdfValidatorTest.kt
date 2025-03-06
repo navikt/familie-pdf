@@ -2,8 +2,8 @@ package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 
 import no.nav.familie.pdf.pdf.JsonLeser
 import no.nav.familie.pdf.pdf.PdfService
-import no.nav.familie.pdf.pdf.PdfValidator
 import no.nav.familie.pdf.pdf.domain.PdfStandard
+import no.nav.familie.pdf.pdf.lokalKjøring.PdfValidator
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance

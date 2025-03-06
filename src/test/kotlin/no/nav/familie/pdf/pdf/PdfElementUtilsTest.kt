@@ -1,8 +1,8 @@
 package no.nav.familie.pdf.pdf
 
 import com.itextpdf.layout.element.Text
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.pdfElementer.lagSpørsmålOgSvar
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -24,7 +24,7 @@ class PdfElementUtilsTest {
         for ((inputVerdi, forventetVerdi) in testScenarioer) {
             // Act
             val verdilisteElement = VerdilisteElement(label = inputVerdi, verdi = "Ja")
-            val verdiElement = lagVerdiElement(verdilisteElement)
+            val verdiElement = lagSpørsmålOgSvar(verdilisteElement)
             val tekstInnhold =
                 verdiElement.children
                     .filterIsInstance<Text>()

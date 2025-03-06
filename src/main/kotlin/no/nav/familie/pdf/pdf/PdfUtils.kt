@@ -29,13 +29,13 @@ import com.itextpdf.layout.properties.TabAlignment
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH1
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH2
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagOverskriftH3
-import no.nav.familie.pdf.pdf.PdfElementUtils.lagVerdiElement
-import no.nav.familie.pdf.pdf.PdfElementUtils.navLogoBilde
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.pdfElementer.NavLogo.navLogoBilde
+import no.nav.familie.pdf.pdf.pdfElementer.lagOverskriftH1
+import no.nav.familie.pdf.pdf.pdfElementer.lagOverskriftH2
+import no.nav.familie.pdf.pdf.pdfElementer.lagOverskriftH3
+import no.nav.familie.pdf.pdf.pdfElementer.lagSpørsmålOgSvar
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 import no.nav.familie.pdf.pdf.visningsvarianter.håndterVisningsvariant
 import org.slf4j.LoggerFactory
@@ -180,7 +180,7 @@ object PdfUtils {
                         seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
                         håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
                     } else if (element.verdi != null) {
-                        seksjon.add(lagVerdiElement(element).apply { setMarginLeft(marginVenstre) })
+                        seksjon.add(lagSpørsmålOgSvar(element).apply { setMarginLeft(marginVenstre) })
                     }
                 }
             }
