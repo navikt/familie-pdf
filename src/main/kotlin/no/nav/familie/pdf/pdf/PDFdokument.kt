@@ -9,12 +9,11 @@ import com.itextpdf.kernel.pdf.WriterProperties
 import com.itextpdf.layout.Document
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.InnholdsfortegnelseOppføringer
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.kalkulerSideantallInnholdsfortegnelse
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.beregnAntallSider
 import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggInnholdsfortegnelsenFørst
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilForsideMedInnholdsfortegnelse
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilSeksjonerOgOppdaterInnholdsfortegnelse
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilSidevisning
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilInnholdsfortegnelse
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilSeksjoner
+import no.nav.familie.pdf.pdf.pdfElementer.InnholdsfortegnelseOppføringer
 
 object PDFdokument {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -35,31 +34,29 @@ object PDFdokument {
         return pdfADokument
     }
 
-    fun lagDokument(
+    fun lagSøknadskvittering(
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
-    ) {
-        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
+    ): Document {
+        val skalHaInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
-
-        val sideantallInnholdsfortegnelse =
-            if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
+        val lengdeInnholdsfortegnelse = if (skalHaInnholdsfortegnelse) beregnAntallSider(feltMap, innholdsfortegnelse) else 0
 
         leggtilMetaData(pdfADokument, feltMap)
 
-        Document(pdfADokument).apply {
+        return Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
             setMargins(36f, 36f, 44f, 36f)
 
-            leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
+            leggTilSeksjoner(
                 feltMap,
                 innholdsfortegnelse,
                 pdfADokument,
-                sideantallInnholdsfortegnelse,
+                lengdeInnholdsfortegnelse,
             )
-            if (harInnholdsfortegnelse) {
-                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
-                leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
+            if (skalHaInnholdsfortegnelse) {
+                leggTilInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
+                leggInnholdsfortegnelsenFørst(lengdeInnholdsfortegnelse, pdfADokument)
             }
 
             leggTilSidevisning(pdfADokument)
