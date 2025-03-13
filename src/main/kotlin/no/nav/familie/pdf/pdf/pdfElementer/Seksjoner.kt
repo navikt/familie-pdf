@@ -9,12 +9,11 @@ import no.nav.familie.pdf.pdf.visningsvarianter.håndterVisningsvariant
 
 fun lagSeksjon(
     element: VerdilisteElement,
-    navigeringDestinasjon: String,
 ): Div =
     Div().apply {
         add(
             lagOverskriftH2(element.label).apply {
-                setDestination(navigeringDestinasjon)
+                setDestination(element.label)
             },
         )
         if (element.verdiliste != null) {

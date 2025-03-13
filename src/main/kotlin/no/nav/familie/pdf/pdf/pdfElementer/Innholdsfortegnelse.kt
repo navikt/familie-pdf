@@ -31,49 +31,40 @@ object Innholdsfortegnelse {
 
     fun beregnAntallSider(
         feltMap: FeltMap,
-        innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
+        innholdsfortegnelseTitler: List<InnholdsfortegnelseOppføringer>? = null,
     ): Int {
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
             settFont(FontStil.REGULAR)
-            leggTilSeksjoner(
-                feltMap,
-                innholdsfortegnelse,
-                midlertidigPdfADokument,
-            )
-            val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
-            leggTilInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
-            val sideAntallEtterInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
-            close()
-            innholdsfortegnelse.clear()
-            return sideAntallEtterInnholdsfortegnelse - sideAntallFørInnholdsfortegnelse
+            leggTilSeksjoner(feltMap)
+            innholdsfortegnelseTitler?.let { leggTilInnholdsfortegnelse("Vilkårlig tittel", innholdsfortegnelseTitler, "Vilkårlig skjemanummer") }
+        }
+        return midlertidigPdfADokument.numberOfPages
+    }
+
+    fun beregnAntallSiderInnholdsfortegnelse(feltMap: FeltMap): Int {
+        val innholdsfortegnelseTitler = feltMap.verdiliste.map { InnholdsfortegnelseOppføringer(it.label, 1) }
+        val antallSiderInkludertInnholdsfortegnelse = beregnAntallSider(feltMap, innholdsfortegnelseTitler)
+
+        val antallSiderKunInnhold = beregnAntallSider(feltMap)
+
+        return antallSiderInkludertInnholdsfortegnelse - antallSiderKunInnhold
+    }
+
+    fun genererInnholdsfortegnelseOppføringer(feltMap: FeltMap): List<InnholdsfortegnelseOppføringer> {
+        val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap)
+        val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
+        val document = Document(midlertidigPdfADokument).apply { settFont(FontStil.REGULAR) }
+
+        return feltMap.verdiliste.map { seksjon ->
+            document.add(lagSeksjon(seksjon))
+            InnholdsfortegnelseOppføringer(seksjon.label, midlertidigPdfADokument.numberOfPages + sidetallInnholdsfortegnelse)
         }
     }
 
-    fun Document.leggTilSeksjoner(
-        feltMap: FeltMap,
-        innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
-        pdfADokument: PdfADocument,
-        sideAntallInnholdsfortegnelse: Int = 0,
-    ) {
-        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
-
-        if (harInnholdsfortegnelse) {
-            feltMap.verdiliste.forEach { element ->
-                element.verdiliste.let {
-                    val navigeringDestinasjon = element.label
-                    add(lagSeksjon(element, navigeringDestinasjon))
-                    innholdsfortegnelse.add(InnholdsfortegnelseOppføringer(element.label, pdfADokument.numberOfPages + sideAntallInnholdsfortegnelse))
-                }
-            }
-        } else {
-            leggTilForside(feltMap.label, feltMap.skjemanummer)
-            feltMap.verdiliste.forEach { element ->
-                element.verdiliste.let {
-                    val navigeringDestinasjon = element.label
-                    add(lagSeksjon(element, navigeringDestinasjon))
-                }
-            }
+    fun Document.leggTilSeksjoner(feltMap: FeltMap) {
+        feltMap.verdiliste.forEach {
+            add(lagSeksjon(it))
         }
     }
 

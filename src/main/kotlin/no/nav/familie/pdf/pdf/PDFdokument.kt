@@ -9,11 +9,12 @@ import com.itextpdf.kernel.pdf.WriterProperties
 import com.itextpdf.layout.Document
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.beregnAntallSider
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.beregnAntallSiderInnholdsfortegnelse
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.genererInnholdsfortegnelseOppføringer
 import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggInnholdsfortegnelsenFørst
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilForside
 import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilInnholdsfortegnelse
 import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilSeksjoner
-import no.nav.familie.pdf.pdf.pdfElementer.InnholdsfortegnelseOppføringer
 
 object PDFdokument {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -38,9 +39,9 @@ object PDFdokument {
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
     ): Document {
-        val skalHaInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
-        val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
-        val lengdeInnholdsfortegnelse = if (skalHaInnholdsfortegnelse) beregnAntallSider(feltMap, innholdsfortegnelse) else 0
+        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
+        val innholdsfortegnelse = genererInnholdsfortegnelseOppføringer(feltMap)
+        val lengdeInnholdsfortegnelse = harInnholdsfortegnelse.takeIf { it }?.let { beregnAntallSiderInnholdsfortegnelse(feltMap) } ?: 0
 
         leggtilMetaData(pdfADokument, feltMap)
 
@@ -48,15 +49,13 @@ object PDFdokument {
             settFont(FontStil.REGULAR)
             setMargins(36f, 36f, 44f, 36f)
 
-            leggTilSeksjoner(
-                feltMap,
-                innholdsfortegnelse,
-                pdfADokument,
-                lengdeInnholdsfortegnelse,
-            )
-            if (skalHaInnholdsfortegnelse) {
+            if (harInnholdsfortegnelse) {
+                leggTilSeksjoner(feltMap)
                 leggTilInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
                 leggInnholdsfortegnelsenFørst(lengdeInnholdsfortegnelse, pdfADokument)
+            } else {
+                leggTilForside(feltMap.label, feltMap.skjemanummer)
+                leggTilSeksjoner(feltMap)
             }
 
             leggTilSidevisning(pdfADokument)
