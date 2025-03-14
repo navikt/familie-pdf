@@ -16,7 +16,7 @@ fun håndterVisningsvariant(
     if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
         when (visningsVariant) {
             VisningsVariant.TABELL.toString() -> {
-                håndterTabeller(verdilisteElement.verdiliste, seksjon)
+                håndterTabell(verdilisteElement, seksjon)
             }
 
             VisningsVariant.PUNKTLISTE.toString() -> {
@@ -30,12 +30,10 @@ fun håndterVisningsvariant(
     }
 }
 
-private fun håndterTabeller(
-    verdiliste: List<VerdilisteElement>,
+private fun håndterTabell(
+    verdilisteElement: VerdilisteElement,
     seksjon: Div,
-) = verdiliste.forEach { verdilisteElement ->
-    verdiliste.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
-}
+) = verdilisteElement.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
 
 private fun håndterPunktliste(
     verdi: VerdilisteElement,
