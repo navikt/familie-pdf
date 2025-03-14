@@ -37,7 +37,7 @@ class PdfServiceTest {
         fun innholdsfortegnelseMedEnOgToSiderOgForventetSide(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(lagMedVerdiliste(), 2),
-                Arguments.of(lagToSiderInnholdsfortegnelse(), 3),
+                Arguments.of(lagToSiderInnholdsfortegnelse(), 4),
             )
 
         @JvmStatic
