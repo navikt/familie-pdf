@@ -33,8 +33,7 @@ fun leggtilMetaData(
         this.setMoreInfo("License", "GNU Affero General Public License v3.0")
         this.setMoreInfo("iText Notice", "This document was generated using iText, licensed under AGPL v3.0. See https://www.gnu.org/licenses/agpl-3.0.html")
     }
-    val xmpMeta = lagXmpMeta(skaperAvPdf, tittel, språk)
-    pdfADokument.xmpMetadata = xmpMeta
+    pdfADokument.xmpMetadata = lagXmpMeta(skaperAvPdf, tittel, språk)
 
     pdfADokument.catalog.apply {
         put(PdfName.Lang, PdfString(språk))
