@@ -9,12 +9,10 @@ import com.itextpdf.kernel.pdf.WriterProperties
 import com.itextpdf.layout.Document
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.beregnAntallSiderInnholdsfortegnelse
 import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.genererInnholdsfortegnelseOppføringer
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggInnholdsfortegnelsenFørst
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilForside
 import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilInnholdsfortegnelse
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilSeksjoner
+import no.nav.familie.pdf.pdf.pdfElementer.leggTilForside
+import no.nav.familie.pdf.pdf.pdfElementer.leggTilSeksjoner
 
 object PDFdokument {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -39,26 +37,21 @@ object PDFdokument {
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
     ): Document {
-        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
-        val innholdsfortegnelse = genererInnholdsfortegnelseOppføringer(feltMap)
-        val lengdeInnholdsfortegnelse = harInnholdsfortegnelse.takeIf { it }?.let { beregnAntallSiderInnholdsfortegnelse(feltMap) } ?: 0
-
         leggtilMetaData(pdfADokument, feltMap)
 
         return Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
             setMargins(36f, 36f, 44f, 36f)
 
-            if (harInnholdsfortegnelse) {
-                leggTilSeksjoner(feltMap)
-                leggTilInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
-                leggInnholdsfortegnelsenFørst(lengdeInnholdsfortegnelse, pdfADokument)
+            if (feltMap.pdfConfig.harInnholdsfortegnelse) {
+                leggTilInnholdsfortegnelse(feltMap, genererInnholdsfortegnelseOppføringer(feltMap))
             } else {
                 leggTilForside(feltMap.label, feltMap.skjemanummer)
-                leggTilSeksjoner(feltMap)
             }
 
+            leggTilSeksjoner(feltMap)
             leggTilSidevisning(pdfADokument)
+
             close()
         }
     }

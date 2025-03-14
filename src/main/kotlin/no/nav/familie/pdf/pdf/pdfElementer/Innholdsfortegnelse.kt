@@ -12,14 +12,12 @@ import com.itextpdf.layout.element.Tab
 import com.itextpdf.layout.element.TabStop
 import com.itextpdf.layout.properties.AreaBreakType
 import com.itextpdf.layout.properties.TabAlignment
-import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.FontStil
 import no.nav.familie.pdf.pdf.PDFdokument
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.hentOversettelse
 import no.nav.familie.pdf.pdf.setSkjemanummer
 import no.nav.familie.pdf.pdf.settFont
-import org.slf4j.LoggerFactory
 
 data class InnholdsfortegnelseOppføringer(
     val tittel: String,
@@ -27,29 +25,23 @@ data class InnholdsfortegnelseOppføringer(
 )
 
 object Innholdsfortegnelse {
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
-    fun beregnAntallSider(
+    private fun beregnAntallSider(
         feltMap: FeltMap,
-        innholdsfortegnelseTitler: List<InnholdsfortegnelseOppføringer>? = null,
+        harInnholdsfortegnelse: Boolean? = null,
     ): Int {
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
             settFont(FontStil.REGULAR)
             leggTilSeksjoner(feltMap)
-            innholdsfortegnelseTitler?.let { leggTilInnholdsfortegnelse("Vilkårlig tittel", innholdsfortegnelseTitler, "Vilkårlig skjemanummer") }
+            harInnholdsfortegnelse?.let {
+                val innholdsfortegnelseTitler = feltMap.verdiliste.map { InnholdsfortegnelseOppføringer(it.label, 1) }
+                leggTilInnholdsfortegnelse(feltMap, innholdsfortegnelseTitler)
+            }
         }
         return midlertidigPdfADokument.numberOfPages
     }
 
-    fun beregnAntallSiderInnholdsfortegnelse(feltMap: FeltMap): Int {
-        val innholdsfortegnelseTitler = feltMap.verdiliste.map { InnholdsfortegnelseOppføringer(it.label, 1) }
-        val antallSiderInkludertInnholdsfortegnelse = beregnAntallSider(feltMap, innholdsfortegnelseTitler)
-
-        val antallSiderKunInnhold = beregnAntallSider(feltMap)
-
-        return antallSiderInkludertInnholdsfortegnelse - antallSiderKunInnhold
-    }
+    private fun beregnAntallSiderInnholdsfortegnelse(feltMap: FeltMap): Int = beregnAntallSider(feltMap, harInnholdsfortegnelse = true) - beregnAntallSider(feltMap)
 
     fun genererInnholdsfortegnelseOppføringer(feltMap: FeltMap): List<InnholdsfortegnelseOppføringer> {
         val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap)
@@ -62,21 +54,13 @@ object Innholdsfortegnelse {
         }
     }
 
-    fun Document.leggTilSeksjoner(feltMap: FeltMap) {
-        feltMap.verdiliste.forEach {
-            add(lagSeksjon(it))
-        }
-    }
-
     fun Document.leggTilInnholdsfortegnelse(
-        overskrift: String,
+        feltMap: FeltMap,
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
-        skjemanummer: String?,
     ) {
-        add(AreaBreak(AreaBreakType.NEXT_PAGE))
-        add(lagOverskriftH1(overskrift))
+        add(lagOverskriftH1(feltMap.label))
         add(NavLogo.navLogoBilde())
-        setSkjemanummer(this, skjemanummer)
+        setSkjemanummer(this, feltMap.skjemanummer)
         val innholdsfortegnelse: String =
             hentOversettelse(
                 bokmål = "Innholdsfortegnelse",
@@ -85,28 +69,7 @@ object Innholdsfortegnelse {
             )
         add(lagOverskriftH2(innholdsfortegnelse))
         add(lagInnholdsfortegnelse(innholdsfortegnelseOppføringer))
-    }
-
-    fun Document.leggTilForside(
-        overskrift: String,
-        skjemanummer: String?,
-    ) {
-        add(lagOverskriftH1(overskrift))
-        add(NavLogo.navLogoBilde())
-        setSkjemanummer(this, skjemanummer)
-    }
-
-    fun leggInnholdsfortegnelsenFørst(
-        sideantallInnholdsfortegnelse: Int,
-        pdfADokument: PdfADocument,
-    ) {
-        try {
-            repeat(sideantallInnholdsfortegnelse) {
-                pdfADokument.movePage(pdfADokument.numberOfPages, 1)
-            }
-        } catch (e: Exception) {
-            logger.error("MovePage feiler fordi det finnes en tom eller nullverdi som ikke blir håndtert i lagPdf.", e)
-        }
+        add(AreaBreak(AreaBreakType.NEXT_PAGE))
     }
 
     fun lagInnholdsfortegnelse(innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>): Paragraph {
