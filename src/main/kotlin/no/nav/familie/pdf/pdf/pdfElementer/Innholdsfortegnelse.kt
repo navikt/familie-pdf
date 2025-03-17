@@ -18,7 +18,6 @@ import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.hentOversettelse
 import no.nav.familie.pdf.pdf.setSkjemanummer
 import no.nav.familie.pdf.pdf.settFont
-import org.slf4j.LoggerFactory
 
 data class InnholdsfortegnelseOppføringer(
     val tittel: String,
@@ -26,8 +25,6 @@ data class InnholdsfortegnelseOppføringer(
 )
 
 object Innholdsfortegnelse {
-    private val logger = LoggerFactory.getLogger(this::class.java)
-
     private fun beregnAntallSider(
         feltMap: FeltMap,
         harInnholdsfortegnelse: Boolean? = null,
@@ -50,8 +47,6 @@ object Innholdsfortegnelse {
         val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap)
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
         val document = Document(midlertidigPdfADokument).apply { settFont(FontStil.REGULAR) }
-
-        logger.info("Feltmap: " + feltMap.toString())
 
         return feltMap.verdiliste.map { seksjon ->
             document.add(lagSeksjon(seksjon))
