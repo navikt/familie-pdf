@@ -33,7 +33,7 @@ fun håndterVisningsvariant(
 private fun håndterTabell(
     verdilisteElement: VerdilisteElement,
     seksjon: Div,
-) = verdilisteElement.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
+) = seksjon.apply { add(lagTabell(verdilisteElement)) }
 
 private fun håndterPunktliste(
     verdi: VerdilisteElement,

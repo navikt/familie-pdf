@@ -297,43 +297,38 @@
           "verdi": "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)"
         },
         {
-          "label": "Om arbeidsforholdet ditt",
+          "label": "Arbeidsforhold 1",
+          "visningsVariant": "TABELL",
           "verdiliste": [
             {
-              "label": "Arbeidsforhold 1",
-              "visningsVariant": "TABELL",
-              "verdiliste": [
-                {
-                  "label": "Navn på arbeidssted",
-                  "verdi": "Nav"
-                },
-                {
-                  "label": "Hvor mye jobber du?",
-                  "verdi": "100"
-                },
-                {
-                  "label": "Hva slags ansettelsesforhold har du?",
-                  "verdi": "Fast stilling"
-                }
-              ]
+              "label": "Navn på arbeidssted",
+              "verdi": "Nav"
             },
             {
-              "label": "Arbeidsforhold 2",
-              "visningsVariant": "TABELL",
-              "verdiliste": [
-                {
-                  "label": "Navn på arbeidssted",
-                  "verdi": "Bekk"
-                },
-                {
-                  "label": "Hvor mye jobber du?",
-                  "verdi": "100"
-                },
-                {
-                  "label": "Hva slags ansettelsesforhold har du?",
-                  "verdi": "Fast stilling"
-                }
-              ]
+              "label": "Hvor mye jobber du?",
+              "verdi": "100"
+            },
+            {
+              "label": "Hva slags ansettelsesforhold har du?",
+              "verdi": "Fast stilling"
+            }
+          ]
+        },
+        {
+          "label": "Arbeidsforhold 2",
+          "visningsVariant": "TABELL",
+          "verdiliste": [
+            {
+              "label": "Navn på arbeidssted",
+              "verdi": "Bekk"
+            },
+            {
+              "label": "Hvor mye jobber du?",
+              "verdi": "100"
+            },
+            {
+              "label": "Hva slags ansettelsesforhold har du?",
+              "verdi": "Fast stilling"
             }
           ]
         }
