@@ -51,6 +51,9 @@ spec:
         - application: k9-brukerdialog-prosessering
           namespace: dusseldorf
           cluster: prod-gcp
+        - application: familie-baks-mottak
+          namespace: teamfamilie
+          cluster: prod-gcp
     outbound:
       rules:
         - application: familie-ef-mottak
