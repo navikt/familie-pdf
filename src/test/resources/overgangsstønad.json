@@ -116,10 +116,10 @@
     },
     {
       "label": "Barna dine",
-      "visningsVariant": "TABELL",
       "verdiliste": [
         {
           "label": "Barn 1",
+          "visningsVariant": "TABELL",
           "verdiliste": [
             {
               "label": "Navn",
