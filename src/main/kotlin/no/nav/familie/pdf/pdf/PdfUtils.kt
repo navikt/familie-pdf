@@ -7,6 +7,9 @@ import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Text
+import com.itextpdf.layout.properties.TextAlignment
+import com.itextpdf.layout.properties.VerticalAlignment
+import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 
 enum class FontStil {
@@ -40,6 +43,20 @@ private fun bestemFont(stil: FontStil): PdfFont {
         PdfEncodings.MACROMAN,
         PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
     )
+}
+
+fun Document.leggTilSidevisning(pdfADokument: PdfADocument) {
+    for (sidetall in 1..pdfADokument.numberOfPages) {
+        val bunntekst =
+            Paragraph().add(
+                hentOversettelse(
+                    bokmål = "Side $sidetall av ${pdfADokument.numberOfPages}",
+                    nynorsk = "Side $sidetall av ${pdfADokument.numberOfPages}",
+                    engelsk = "Page $sidetall of ${pdfADokument.numberOfPages}",
+                ),
+            )
+        showTextAligned(bunntekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
+    }
 }
 
 fun setSkjemanummer(

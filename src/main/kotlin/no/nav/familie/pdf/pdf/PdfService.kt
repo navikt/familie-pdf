@@ -1,8 +1,8 @@
 package no.nav.familie.pdf.pdf
 
 import com.itextpdf.io.source.ByteArrayOutputStream
-import no.nav.familie.pdf.pdf.PDFdokument.lagDokument
 import no.nav.familie.pdf.pdf.PDFdokument.lagPdfADocument
+import no.nav.familie.pdf.pdf.PDFdokument.lagSøknadskvittering
 import no.nav.familie.pdf.pdf.domain.FeltMap
 
 class PdfService {
@@ -12,9 +12,8 @@ class PdfService {
     ): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val pdfADokument = lagPdfADocument(byteArrayOutputStream)
-        lagDokument(pdfADokument, feltMap, v2)
+        lagSøknadskvittering(pdfADokument, feltMap,v2)
+
         return byteArrayOutputStream.toByteArray()
     }
 }
-
-// yhei

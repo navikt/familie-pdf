@@ -9,12 +9,10 @@ import com.itextpdf.kernel.pdf.WriterProperties
 import com.itextpdf.layout.Document
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.InnholdsfortegnelseOppføringer
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.kalkulerSideantallInnholdsfortegnelse
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggInnholdsfortegnelsenFørst
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilForsideMedInnholdsfortegnelse
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilSeksjonerOgOppdaterInnholdsfortegnelse
-import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilSidevisning
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.genererInnholdsfortegnelseOppføringer
+import no.nav.familie.pdf.pdf.pdfElementer.Innholdsfortegnelse.leggTilInnholdsfortegnelse
+import no.nav.familie.pdf.pdf.pdfElementer.leggTilForside
+import no.nav.familie.pdf.pdf.pdfElementer.leggTilSeksjoner
 
 object PDFdokument {
     fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
@@ -35,36 +33,26 @@ object PDFdokument {
         return pdfADokument
     }
 
-    fun lagDokument(
+    fun lagSøknadskvittering(
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
         v2: Boolean,
-    ) {
-        val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
-        val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
-
-        val sideantallInnholdsfortegnelse =
-            if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse, v2) else 0
-
+    ): Document {
         leggtilMetaData(pdfADokument, feltMap)
 
-        Document(pdfADokument).apply {
+        return Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
             setMargins(36f, 36f, 44f, 36f)
 
-            leggTilSeksjonerOgOppdaterInnholdsfortegnelse(
-                feltMap,
-                innholdsfortegnelse,
-                pdfADokument,
-                v2,
-                sideantallInnholdsfortegnelse,
-            )
-            if (harInnholdsfortegnelse) {
-                leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
-                leggInnholdsfortegnelsenFørst(sideantallInnholdsfortegnelse, pdfADokument)
+            if (feltMap.pdfConfig.harInnholdsfortegnelse) {
+                leggTilInnholdsfortegnelse(feltMap, genererInnholdsfortegnelseOppføringer(feltMap))
+            } else {
+                leggTilForside(feltMap.label, feltMap.skjemanummer)
             }
 
+            leggTilSeksjoner(feltMap, v2)
             leggTilSidevisning(pdfADokument)
+
             close()
         }
     }
