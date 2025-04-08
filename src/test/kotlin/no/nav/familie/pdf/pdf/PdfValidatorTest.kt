@@ -18,7 +18,7 @@ class PdfValidatorTest {
     @BeforeAll
     fun setup() {
         val feltMap = JsonLeser.lesSøknadJson()
-        pdfBytes = pdfService.opprettPdf(feltMap)
+        pdfBytes = pdfService.opprettPdf(feltMap, true)
     }
 
     @ParameterizedTest

@@ -47,3 +47,22 @@ class PdfController {
         }
     }
 }
+
+@RestController
+@RequestMapping("api/v2/pdf")
+@ProtectedWithClaims(issuer = "azuread")
+class PdfControllerV2 {
+    private val pdfService = PdfService()
+
+    @PostMapping("/opprett-pdf")
+    fun opprettPdfV2(
+        @RequestBody søknad: FeltMap,
+    ): ByteArray {
+        try {
+            SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
+            return pdfService.opprettPdf(søknad, true)
+        } finally {
+            SpråkKontekst.tilbakestillSpråk()
+        }
+    }
+}
