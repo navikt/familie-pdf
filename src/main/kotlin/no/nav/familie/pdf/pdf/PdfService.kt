@@ -6,11 +6,13 @@ import no.nav.familie.pdf.pdf.PDFdokument.lagPdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
 
 class PdfService {
-    fun opprettPdf(feltMap: FeltMap): ByteArray {
+    fun opprettPdf(
+        feltMap: FeltMap,
+        v2: Boolean = false,
+    ): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val pdfADokument = lagPdfADocument(byteArrayOutputStream)
-        lagDokument(pdfADokument, feltMap)
-
+        lagDokument(pdfADokument, feltMap, v2)
         return byteArrayOutputStream.toByteArray()
     }
 }

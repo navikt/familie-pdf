@@ -29,6 +29,7 @@ object Innholdsfortegnelse {
     fun kalkulerSideantallInnholdsfortegnelse(
         feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
+        v2: Boolean,
     ): Int {
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
@@ -37,6 +38,7 @@ object Innholdsfortegnelse {
                 feltMap,
                 innholdsfortegnelse,
                 midlertidigPdfADokument,
+                v2,
             )
             val sideAntallFørInnholdsfortegnelse = midlertidigPdfADokument.numberOfPages
             leggTilForsideMedInnholdsfortegnelse(feltMap.label, innholdsfortegnelse, feltMap.skjemanummer)
@@ -51,6 +53,7 @@ object Innholdsfortegnelse {
         feltMap: FeltMap,
         innholdsfortegnelse: MutableList<InnholdsfortegnelseOppføringer>,
         pdfADokument: PdfADocument,
+        v2: Boolean,
         sideAntallInnholdsfortegnelse: Int = 0,
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
@@ -60,7 +63,7 @@ object Innholdsfortegnelse {
         feltMap.verdiliste.forEach { element ->
             element.verdiliste.let {
                 val navigeringDestinasjon = element.label
-                add(lagSeksjon(element, navigeringDestinasjon))
+                add(lagSeksjon(element, navigeringDestinasjon, v2))
                 if (harInnholdsfortegnelse) {
                     innholdsfortegnelse.add(
                         InnholdsfortegnelseOppføringer(

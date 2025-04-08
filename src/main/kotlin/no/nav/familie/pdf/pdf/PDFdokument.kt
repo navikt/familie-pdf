@@ -38,12 +38,13 @@ object PDFdokument {
     fun lagDokument(
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
+        v2: Boolean,
     ) {
         val harInnholdsfortegnelse = feltMap.pdfConfig.harInnholdsfortegnelse
         val innholdsfortegnelse = mutableListOf<InnholdsfortegnelseOppføringer>()
 
         val sideantallInnholdsfortegnelse =
-            if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse) else 0
+            if (harInnholdsfortegnelse) kalkulerSideantallInnholdsfortegnelse(feltMap, innholdsfortegnelse, v2) else 0
 
         leggtilMetaData(pdfADokument, feltMap)
 
@@ -55,6 +56,7 @@ object PDFdokument {
                 feltMap,
                 innholdsfortegnelse,
                 pdfADokument,
+                v2,
                 sideantallInnholdsfortegnelse,
             )
             if (harInnholdsfortegnelse) {

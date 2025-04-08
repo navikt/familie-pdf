@@ -226,7 +226,7 @@ class PdfServiceTest {
         val feltMap = lagMedBarneTabell()
 
         // Act
-        val pdfDoc = pdfOppretterService.opprettPdf(feltMap)
+        val pdfDoc = pdfOppretterService.opprettPdf(feltMap, true)
 
         // Assert
         assertTrue(pdfDoc.isNotEmpty(), "Pdf-opprettelsen feilet, tom byteArray")

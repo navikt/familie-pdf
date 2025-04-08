@@ -10,6 +10,7 @@ import no.nav.familie.pdf.pdf.visningsvarianter.håndterVisningsvariant
 fun lagSeksjon(
     element: VerdilisteElement,
     navigeringDestinasjon: String,
+    v2: Boolean,
 ): Div =
     Div().apply {
         add(
@@ -19,9 +20,9 @@ fun lagSeksjon(
         )
         if (element.verdiliste != null) {
             if (element.visningsVariant != null) {
-                håndterVisningsvariant(element.visningsVariant, element, this)
+                håndterVisningsvariant(element.visningsVariant, element, v2, this)
             } else {
-                håndterRekursivVerdiliste(element.verdiliste, this)
+                håndterRekursivVerdiliste(element.verdiliste, this, v2)
             }
         }
         add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
@@ -30,6 +31,7 @@ fun lagSeksjon(
 fun håndterRekursivVerdiliste(
     verdiliste: List<VerdilisteElement>,
     seksjon: Div,
+    v2: Boolean,
     rekursjonsDybde: Int = 1,
 ) {
     verdiliste.forEach { element ->
@@ -41,11 +43,12 @@ fun håndterRekursivVerdiliste(
                     håndterVisningsvariant(
                         element.visningsVariant,
                         element,
+                        v2,
                         seksjon,
                     )
                 } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
                     seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
-                    håndterRekursivVerdiliste(element.verdiliste, seksjon, rekursjonsDybde + 1)
+                    håndterRekursivVerdiliste(element.verdiliste, seksjon, v2, rekursjonsDybde + 1)
                 } else if (element.verdi != null) {
                     seksjon.add(lagSpørsmålOgSvar(element).apply { setMarginLeft(marginVenstre) })
                 }
