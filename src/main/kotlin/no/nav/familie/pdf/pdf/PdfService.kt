@@ -11,10 +11,10 @@ class PdfService {
     fun opprettPdf(feltMap: FeltMap): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val pdfADokument = lagPdfADocument(byteArrayOutputStream)
-        val test = jacksonObjectMapper().writeValueAsString(feltMap)
-        val test2 = test.replace("\\t", "")
-        val test3 = jacksonObjectMapper().readValue(test2, FeltMap::class.java)
-        lagSøknadskvittering(pdfADokument, test3)
+        val feltMapJson = jacksonObjectMapper().writeValueAsString(feltMap)
+        val feltMapJsonUtenTabs = feltMapJson.replace("\\t", "")
+        val feltMapUtenTabs = jacksonObjectMapper().readValue(feltMapJsonUtenTabs, FeltMap::class.java)
+        lagSøknadskvittering(pdfADokument, feltMapUtenTabs)
 
         return byteArrayOutputStream.toByteArray()
     }
