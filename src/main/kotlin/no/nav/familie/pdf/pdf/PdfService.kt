@@ -11,10 +11,7 @@ class PdfService {
     fun opprettPdf(feltMap: FeltMap): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val pdfADokument = lagPdfADocument(byteArrayOutputStream)
-        val feltMapJson = jacksonObjectMapper().writeValueAsString(feltMap)
-        val feltMapJsonUtenTabs = feltMapJson.replace("\\t", "")
-        val feltMapUtenTabs = jacksonObjectMapper().readValue(feltMapJsonUtenTabs, FeltMap::class.java)
-        lagSøknadskvittering(pdfADokument, feltMapUtenTabs)
+        lagSøknadskvittering(pdfADokument, feltMap)
 
         return byteArrayOutputStream.toByteArray()
     }
