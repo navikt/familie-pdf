@@ -22,7 +22,7 @@ class PdfControllerTest : IntegrasjonSpringRunnerTest() {
 
         val response: ResponseEntity<ByteArray> =
             restTemplate.exchange(
-                localhost("/api/v1/pdf/opprett-pdf"),
+                localhost("/api/pdf/v1/opprett-pdf"),
                 HttpMethod.POST,
                 HttpEntity(feltMap, headers),
             )
