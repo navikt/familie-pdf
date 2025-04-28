@@ -27,12 +27,13 @@ data class InnholdsfortegnelseOppføringer(
 object Innholdsfortegnelse {
     private fun beregnAntallSider(
         feltMap: FeltMap,
+        v2: Boolean,
         harInnholdsfortegnelse: Boolean? = null,
     ): Int {
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
             settFont(FontStil.REGULAR)
-            leggTilSeksjoner(feltMap)
+            leggTilSeksjoner(feltMap, v2)
             harInnholdsfortegnelse?.let {
                 val innholdsfortegnelseTitler = feltMap.verdiliste.map { InnholdsfortegnelseOppføringer(it.label, 1) }
                 leggTilInnholdsfortegnelse(feltMap, innholdsfortegnelseTitler)
@@ -41,15 +42,21 @@ object Innholdsfortegnelse {
         return midlertidigPdfADokument.numberOfPages
     }
 
-    private fun beregnAntallSiderInnholdsfortegnelse(feltMap: FeltMap): Int = beregnAntallSider(feltMap, harInnholdsfortegnelse = true) - beregnAntallSider(feltMap)
+    private fun beregnAntallSiderInnholdsfortegnelse(
+        feltMap: FeltMap,
+        v2: Boolean,
+    ): Int = beregnAntallSider(feltMap, v2, harInnholdsfortegnelse = true) - beregnAntallSider(feltMap, v2)
 
-    fun genererInnholdsfortegnelseOppføringer(feltMap: FeltMap): List<InnholdsfortegnelseOppføringer> {
-        val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap)
+    fun genererInnholdsfortegnelseOppføringer(
+        feltMap: FeltMap,
+        v2: Boolean,
+    ): List<InnholdsfortegnelseOppføringer> {
+        val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap, v2)
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
         val document = Document(midlertidigPdfADokument).apply { settFont(FontStil.REGULAR) }
 
         return feltMap.verdiliste.map { seksjon ->
-            document.add(lagSeksjon(seksjon))
+            document.add(lagSeksjon(seksjon, v2))
             InnholdsfortegnelseOppføringer(seksjon.label, midlertidigPdfADokument.numberOfPages + sidetallInnholdsfortegnelse)
         }
     }

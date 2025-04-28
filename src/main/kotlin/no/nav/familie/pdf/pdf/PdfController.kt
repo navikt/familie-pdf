@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("api/v1/pdf")
+@RequestMapping("api/pdf")
 @ProtectedWithClaims(
     issuer = "azuread",
 )
@@ -21,7 +21,7 @@ class PdfController {
         val pdf: ByteArray,
     )
 
-    @PostMapping("/opprett-pdf")
+    @PostMapping("/v1/opprett-pdf")
     fun opprettPdf(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
@@ -42,6 +42,18 @@ class PdfController {
             SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
             val returverdi = pdfService.opprettPdf(søknad)
             return PdfResponse(returverdi)
+        } finally {
+            SpråkKontekst.tilbakestillSpråk()
+        }
+    }
+
+    @PostMapping("/v2/opprett-pdf")
+    fun opprettPdfV2(
+        @RequestBody søknad: FeltMap,
+    ): ByteArray {
+        try {
+            SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
+            return pdfService.opprettPdf(søknad, true)
         } finally {
             SpråkKontekst.tilbakestillSpråk()
         }

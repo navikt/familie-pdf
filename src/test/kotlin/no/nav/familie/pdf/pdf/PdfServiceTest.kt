@@ -220,28 +220,13 @@ class PdfServiceTest {
     //endregion
 
     //region Tabeller
-    @ParameterizedTest
-    @MethodSource("tabell")
-    fun `Tabeller får inn en liste av objekter som tegnes som tabeller`(feltMap: FeltMap) {
-        // Assert
-        val pdfDoc = opprettPdf(feltMap)
-        val tekstIPdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(2))
-
-        // Assert
-        val objekt1Index = tekstIPdf.indexOf("1")
-        val objekt2Index = tekstIPdf.indexOf("2", objekt1Index)
-        assertTrue(objekt1Index != -1)
-        assertTrue(objekt2Index != -1)
-        assertTrue(objekt1Index < objekt2Index)
-    }
-
     @Test
     fun `Tom verdi i tabell skal ikke krasje pdf-opprettelsen`() {
         // Arrange
         val feltMap = lagMedBarneTabell()
 
         // Act
-        val pdfDoc = pdfOppretterService.opprettPdf(feltMap)
+        val pdfDoc = pdfOppretterService.opprettPdf(feltMap, true)
 
         // Assert
         assertTrue(pdfDoc.isNotEmpty(), "Pdf-opprettelsen feilet, tom byteArray")

@@ -6,10 +6,13 @@ import no.nav.familie.pdf.pdf.PDFdokument.lagSøknadskvittering
 import no.nav.familie.pdf.pdf.domain.FeltMap
 
 class PdfService {
-    fun opprettPdf(feltMap: FeltMap): ByteArray {
+    fun opprettPdf(
+        feltMap: FeltMap,
+        v2: Boolean = false,
+    ): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val pdfADokument = lagPdfADocument(byteArrayOutputStream)
-        lagSøknadskvittering(pdfADokument, feltMap)
+        lagSøknadskvittering(pdfADokument, feltMap,v2)
 
         return byteArrayOutputStream.toByteArray()
     }
