@@ -28,6 +28,11 @@ spec:
     requests:
       memory: 1Gi
       cpu: 100m
+  observability:
+    logging:
+      destinations:
+        - id: elastic
+        - id: loki
   ingresses: # Optional. List of ingress URLs that will route HTTP traffic to the application.
     - https://familie-pdf.intern.nav.no
   secureLogs:
