@@ -3,6 +3,7 @@ application:
 server:
   servlet:
     context-path: /
+  port: 9060
 
 spring:
   main:

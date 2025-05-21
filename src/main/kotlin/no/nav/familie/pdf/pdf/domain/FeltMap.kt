@@ -5,6 +5,7 @@ data class FeltMap(
     val verdiliste: List<VerdilisteElement>,
     val pdfConfig: PdfConfig,
     val skjemanummer: String? = null,
+    val bunntekst: EkstraBunntekst? = null,
 )
 
 data class VerdilisteElement(
@@ -16,5 +17,13 @@ data class VerdilisteElement(
 
 data class PdfConfig(
     val harInnholdsfortegnelse: Boolean,
-    val språk: String,
+    val språk: String
+)
+
+data class EkstraBunntekst(
+    val upperleft: String? = null,
+    val lowerleft: String? = null,
+    val upperMiddle: String? = null,
+    val lowerMiddle: String? = null,
+    val upperRight: String? = null,
 )

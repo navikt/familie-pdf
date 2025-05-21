@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("api/v1/pdf")
+/*
 @ProtectedWithClaims(
     issuer = "azuread",
 )
+*/
 class PdfController {
     private val pdfService = PdfService()
 

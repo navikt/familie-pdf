@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan
 @SpringBootConfiguration
 @ComponentScan("no.nav.familie.pdf")
 @ConfigurationPropertiesScan
-@EnableJwtTokenValidation(ignore = ["org.springframework", "org.springdoc"])
+//@EnableJwtTokenValidation(ignore = ["org.springframework", "org.springdoc"])
 class ApplicationConfig {
     private val logger = LoggerFactory.getLogger(ApplicationConfig::class.java)
 

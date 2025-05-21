@@ -4,4 +4,5 @@ enum class VisningsVariant {
     TABELL,
     VEDLEGG,
     PUNKTLISTE,
+    HTML
 }

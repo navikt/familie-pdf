@@ -13,18 +13,22 @@ fun håndterVisningsvariant(
     verdilisteElement: VerdilisteElement,
     seksjon: Div,
 ) {
-    if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
-        when (visningsVariant) {
-            VisningsVariant.TABELL.toString() -> {
-                håndterTabeller(verdilisteElement.verdiliste, seksjon)
-            }
+    if (visningsVariant == VisningsVariant.HTML.toString()) {
+        håndterHtml(verdilisteElement, seksjon)
+   } else {
+        if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
+            when (visningsVariant) {
+                VisningsVariant.TABELL.toString() -> {
+                    håndterTabeller(verdilisteElement.verdiliste, seksjon)
+                }
 
-            VisningsVariant.PUNKTLISTE.toString() -> {
-                håndterPunktliste(verdilisteElement, seksjon)
-            }
+                VisningsVariant.PUNKTLISTE.toString() -> {
+                    håndterPunktliste(verdilisteElement, seksjon)
+                }
 
-            VisningsVariant.VEDLEGG.toString() -> {
-                håndterVedlegg(verdilisteElement.verdiliste, seksjon)
+                VisningsVariant.VEDLEGG.toString() -> {
+                    håndterVedlegg(verdilisteElement.verdiliste, seksjon)
+                }
             }
         }
     }
@@ -46,6 +50,12 @@ private fun håndterPunktliste(
             add(lagOverskriftH4(verdi.label).apply { setMarginLeft(30f) })
             add(lagPunktliste(verdi.verdiliste).apply { setMarginLeft(30f) })
         }
+    }
+}
+
+private fun håndterHtml(verdi: VerdilisteElement, seksjon: Div) {
+    seksjon.apply {
+        add(konverterHtmlString(verdi).apply { setMarginLeft(15f) })
     }
 }
 
