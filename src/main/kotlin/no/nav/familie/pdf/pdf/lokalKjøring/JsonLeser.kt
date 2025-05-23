@@ -14,9 +14,7 @@ object JsonLeser {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .registerModule(JavaTimeModule())
 
-    fun lesSøknadJson(): FeltMap {
-        return lesSøknadJson("/søknad.json")
-    }
+    fun lesSøknadJson(): FeltMap = lesSøknadJson("/søknad.json")
 
     fun lesSøknadJson(filNavn: String): FeltMap {
         val jsonInputStream =

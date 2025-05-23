@@ -7,11 +7,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("api/soknad")
-/*
 @ProtectedWithClaims(
     issuer = "azuread",
 )
-*/
 class SøknadController {
     @GetMapping("/overgangsstonad")
     fun lagPdfForOvergangsstønad(): String = "OK - overgangsstønad"

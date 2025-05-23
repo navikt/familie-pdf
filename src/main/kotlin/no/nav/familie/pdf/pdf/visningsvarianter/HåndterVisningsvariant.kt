@@ -15,7 +15,7 @@ fun håndterVisningsvariant(
 ) {
     if (visningsVariant == VisningsVariant.HTML.toString()) {
         håndterHtml(verdilisteElement, seksjon)
-   } else {
+    } else {
         if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
             when (visningsVariant) {
                 VisningsVariant.TABELL.toString() -> {
@@ -53,7 +53,10 @@ private fun håndterPunktliste(
     }
 }
 
-private fun håndterHtml(verdi: VerdilisteElement, seksjon: Div) {
+private fun håndterHtml(
+    verdi: VerdilisteElement,
+    seksjon: Div,
+) {
     seksjon.apply {
         add(konverterHtmlString(verdi).apply { setMarginLeft(15f) })
     }

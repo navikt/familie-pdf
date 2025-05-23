@@ -48,11 +48,14 @@ fun bestemFont(stil: FontStil): PdfFont {
     )
 }
 
-fun Document.leggTilBunntekst(pdfADokument: PdfADocument, feltMap: FeltMap) {
+fun Document.leggTilBunntekst(
+    pdfADokument: PdfADocument,
+    feltMap: FeltMap,
+) {
     val tekstStørrelse = 11f
     for (sidetall in 1..pdfADokument.numberOfPages) {
         val sidevisningsTekst =
-            Paragraph().apply{setFontSize(tekstStørrelse)}.add(
+            Paragraph().apply { setFontSize(tekstStørrelse) }.add(
                 hentOversettelse(
                     bokmål = "Side $sidetall av ${pdfADokument.numberOfPages}",
                     nynorsk = "Side $sidetall av ${pdfADokument.numberOfPages}",
@@ -61,23 +64,22 @@ fun Document.leggTilBunntekst(pdfADokument: PdfADocument, feltMap: FeltMap) {
             )
         if (feltMap.bunntekst != null) {
             if (feltMap.bunntekst.upperleft != null) {
-                showTextAligned(Paragraph().apply{setFontSize(tekstStørrelse)}.add(feltMap.bunntekst.upperleft), 38f, 48f, sidetall, TextAlignment.LEFT, VerticalAlignment.BOTTOM, 0f)
+                showTextAligned(Paragraph().apply { setFontSize(tekstStørrelse) }.add(feltMap.bunntekst.upperleft), 38f, 48f, sidetall, TextAlignment.LEFT, VerticalAlignment.BOTTOM, 0f)
             }
             if (feltMap.bunntekst.upperMiddle != null) {
-                showTextAligned(Paragraph().apply{setFontSize(tekstStørrelse)}.add(feltMap.bunntekst.upperMiddle), 330f, 48f, sidetall, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0f)
+                showTextAligned(Paragraph().apply { setFontSize(tekstStørrelse) }.add(feltMap.bunntekst.upperMiddle), 330f, 48f, sidetall, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0f)
             }
             if (feltMap.bunntekst.upperRight != null) {
-                showTextAligned(Paragraph().apply{setFontSize(tekstStørrelse)}.add(feltMap.bunntekst.upperRight), 559f, 48f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
+                showTextAligned(Paragraph().apply { setFontSize(tekstStørrelse) }.add(feltMap.bunntekst.upperRight), 559f, 48f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
             }
             if (feltMap.bunntekst.lowerleft != null) {
-                showTextAligned(Paragraph().apply{setFontSize(tekstStørrelse)}.add(feltMap.bunntekst.lowerleft), 38f, 30f, sidetall, TextAlignment.LEFT, VerticalAlignment.BOTTOM, 0f)
+                showTextAligned(Paragraph().apply { setFontSize(tekstStørrelse) }.add(feltMap.bunntekst.lowerleft), 38f, 30f, sidetall, TextAlignment.LEFT, VerticalAlignment.BOTTOM, 0f)
             }
             if (feltMap.bunntekst.lowerMiddle != null) {
-                showTextAligned(Paragraph().apply{setFontSize(tekstStørrelse)}.add(feltMap.bunntekst.lowerMiddle), 330f, 30f, sidetall, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0f)
+                showTextAligned(Paragraph().apply { setFontSize(tekstStørrelse) }.add(feltMap.bunntekst.lowerMiddle), 330f, 30f, sidetall, TextAlignment.CENTER, VerticalAlignment.BOTTOM, 0f)
             }
         }
         showTextAligned(sidevisningsTekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
-
     }
 }
 

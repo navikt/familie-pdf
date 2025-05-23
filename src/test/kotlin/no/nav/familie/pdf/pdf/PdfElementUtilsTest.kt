@@ -2,11 +2,11 @@ package no.nav.familie.pdf.pdf
 
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.element.Text
-import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedUtenlandsopphold
 import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.pdfElementer.lagSpørsmålOgSvar
 import no.nav.familie.pdf.pdf.visningsvarianter.lagTabell
 import org.junit.jupiter.api.Assertions.assertTrue

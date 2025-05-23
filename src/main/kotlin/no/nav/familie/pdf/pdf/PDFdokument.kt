@@ -42,7 +42,8 @@ object PDFdokument {
         return Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
             if (feltMap.bunntekst == null ||
-                (feltMap.bunntekst.upperleft == null && feltMap.bunntekst.upperMiddle == null && feltMap.bunntekst.upperRight == null ) ) {
+                (feltMap.bunntekst.upperleft == null && feltMap.bunntekst.upperMiddle == null && feltMap.bunntekst.upperRight == null)
+            ) {
                 setMargins(36f, 36f, 44f, 36f)
             } else {
                 setMargins(36f, 36f, 58f, 36f)

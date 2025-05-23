@@ -17,7 +17,7 @@ data class VerdilisteElement(
 
 data class PdfConfig(
     val harInnholdsfortegnelse: Boolean,
-    val språk: String
+    val språk: String,
 )
 
 data class EkstraBunntekst(
