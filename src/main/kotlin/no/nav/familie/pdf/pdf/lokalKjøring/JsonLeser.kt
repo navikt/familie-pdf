@@ -14,10 +14,12 @@ object JsonLeser {
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
             .registerModule(JavaTimeModule())
 
-    fun lesSøknadJson(): FeltMap {
+    fun lesSøknadJson(): FeltMap = lesSøknadJson("/søknad.json")
+
+    fun lesSøknadJson(filNavn: String): FeltMap {
         val jsonInputStream =
-            this::class.java.getResourceAsStream("/søknad.json")
-                ?: throw FileNotFoundException("Kan ikke lese søknad.json")
+            this::class.java.getResourceAsStream(filNavn)
+                ?: throw FileNotFoundException("Kan ikke lese $filNavn")
 
         return try {
             jsonInputStream.bufferedReader().use { reader ->

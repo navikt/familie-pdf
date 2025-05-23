@@ -12,7 +12,7 @@ class PdfService {
     ): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val pdfADokument = lagPdfADocument(byteArrayOutputStream)
-        lagSøknadskvittering(pdfADokument, feltMap,v2)
+        lagSøknadskvittering(pdfADokument, feltMap, v2)
 
         return byteArrayOutputStream.toByteArray()
     }

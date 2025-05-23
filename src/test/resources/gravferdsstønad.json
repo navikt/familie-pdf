@@ -1,0 +1,465 @@
+{
+  "label": "Søknad om gravferdsstønad og båretransport",
+  "pdfConfig": {
+    "harInnholdsfortegnelse": false,
+    "språk": "nb-NO"
+  },
+  "skjemanummer": "NAV 07-02.08",
+  "verdiliste": [
+    {
+      "label": "Veiledning",
+      "verdiliste": [
+        {
+          "label": "Jeg bekrefter at jeg vil svare så riktig som jeg kan.",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Dødsfallet",
+      "verdiliste": [
+        {
+          "label": "Dato for dødsfallet (dd.mm.åååå)",
+          "verdi": "06.05.2025",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Dato for seremoni (dd.mm.åååå)",
+          "verdi": "16.05.2025",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Avdødes alder",
+          "verdi": "0-17 år",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Hvor skjedde dødsfallet?",
+          "verdi": "I Norden utenfor Norge (Danmark, Island, Finland, Sverige)",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Om dødsfallet",
+          "verdiliste": [
+            {
+              "label": "Var avdøde på ferie eller annet midlertidig opphold da dødsfallet skjedde? ",
+              "verdi": "Ja",
+              "verdiliste": null,
+              "visningsVariant": null
+            }
+          ],
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Opplysninger om avdøde",
+      "verdiliste": [
+        {
+          "label": "Fornavn",
+          "verdi": "Den",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Etternavn",
+          "verdi": "Døde",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Hadde avdøde norsk fødselsnummer eller d-nummer?",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Fødselsnummer eller d-nummer",
+          "verdi": "23867399240",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Var avdøde bosatt i Norge på dødstidspunktet?",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Kontaktadresse",
+          "verdiliste": [
+            {
+              "label": "Vegadresse",
+              "verdi": "Kongensgate 10",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Postnummer",
+              "verdi": "3701",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Poststed",
+              "verdi": "Skien",
+              "verdiliste": null,
+              "visningsVariant": null
+            }
+          ],
+          "visningsVariant": null
+        },
+        {
+          "label": "Bodde avdøde på institusjon da dødsfallet skjedde?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Hvem fyller ut søknaden",
+      "verdiliste": [
+        {
+          "label": "Kryss av for det som er aktuelt",
+          "verdi": "Jeg er ansatt i begravelsesbyrå som har fullmakt til å søke om stønad til båretransport og gravferdsstønad fra Nav",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Opplysninger om ansatt i begravelsesbyrå",
+      "verdiliste": [
+        {
+          "label": "<p>I tillegg til dette skjemaet, <b>må</b> du også fylle ut vedleggsskjema <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.nav.no/fyllut/nav951536?sub=paper\">NAV 95-15.36 Generell fullmakt (åpnes i ny fane)</a> og legge ved denne innsendingen.<br/>Her er litt ekstra tekst på ny linje</p>",
+          "verdi": "",
+          "verdiliste": null,
+          "visningsVariant": "HTML"
+        },
+        {
+          "label": "Fornavn",
+          "verdi": "Den",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Etternavn",
+          "verdi": "Ansatte",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Telefonnummer",
+          "verdi": "22229999",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Begravelsesbyråets navn",
+          "verdi": "Siste Reise",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Begravelsesbyråets organisasjonsnummer",
+          "verdi": "999 146 554",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Adressen som brev skal sendes til",
+          "verdi": "Kongensgate 10",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Postnummer",
+          "verdi": "3701",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Poststed",
+          "verdi": "Skien",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Søknaden",
+      "verdiliste": [
+        {
+          "label": "Hva gjelder søknaden?",
+          "verdi": null,
+          "verdiliste": [
+            {
+              "label": "Gravferdsstønad"
+            },
+            {
+              "label": "Stønad til båretransport"
+            }
+          ],
+          "visningsVariant": "PUNKTLISTE"
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Transport",
+      "verdiliste": [
+        {
+          "label": "Oppgi hvor dødsfallet skjedde eller eventuelt hvor avdøde ble funnet.",
+          "verdi": "Stockholm skjærgård",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Nærmere beskrivelse av stedet",
+          "verdi": "Annen stedsangivelse",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Sted",
+          "verdi": "adfasd adsfa asd a",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Hva gjaldt transporten?",
+          "verdi": null,
+          "verdiliste": [
+            {
+              "label": "Transport til obduksjon"
+            },
+            {
+              "label": "Transport til seremonisted"
+            },
+            {
+              "label": "Transport til gravplass"
+            }
+          ],
+          "visningsVariant": "PUNKTLISTE"
+        },
+        {
+          "label": "Angi samlet kjørelengde",
+          "verdi": "780",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Hvor ble avdøde fraktet?",
+          "verdiliste": [
+            {
+              "label": "Til obduksjon",
+              "verdiliste": [
+                {
+                  "label": "Var obduksjonen rekvirert av lege? ",
+                  "verdi": "Ja",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                }
+              ],
+              "visningsVariant": null
+            },
+            {
+              "label": "Til seremonisted",
+              "verdiliste": [
+                {
+                  "label": "Navn på seremonisted",
+                  "verdi": "Gjerpen Kirke",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                },
+                {
+                  "label": "Vegadresse",
+                  "verdi": "Hovindsgate 10",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                },
+                {
+                  "label": "Postnummer",
+                  "verdi": "3701",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                },
+                {
+                  "label": "Poststed",
+                  "verdi": "Skien",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                }
+              ],
+              "visningsVariant": null
+            },
+            {
+              "label": "Til gravplass",
+              "verdiliste": [
+                {
+                  "label": "Navn på gravlunden",
+                  "verdi": "Gjerpen Kirkegård",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                },
+                {
+                  "label": "Vegadresse",
+                  "verdi": "Hovindsgate 10",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                },
+                {
+                  "label": "Postnummer",
+                  "verdi": "3701",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                },
+                {
+                  "label": "Poststed",
+                  "verdi": "Skien",
+                  "verdiliste": null,
+                  "visningsVariant": null
+                }
+              ],
+              "visningsVariant": null
+            }
+          ],
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Utbetaling av stønad",
+      "verdiliste": [
+        {
+          "label": "Hvor ønsker du stønaden utbetalt?",
+          "verdi": "Jeg ønsker å få pengene utbetalt til mitt kontonummer som er registrert hos Nav.",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Andre opplysninger",
+      "verdiliste": [
+        {
+          "label": "Har du andre opplysninger som kan ha betydning for søknaden?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Erklæring",
+      "verdiliste": [
+        {
+          "label": "Jeg bekrefter at jeg har gjort meg kjent med det som står beskrevet på siden Gravferdsstønad på nav.no",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Jeg bekrefter at jeg har gjort meg kjent med det som står beskrevet på siden Stønad om båretransport på nav.no",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Vedlegg",
+      "verdiliste": [
+        {
+          "label": "Generell fullmakt, NAV 95-15.36",
+          "verdi": "Jeg ettersender dokumentasjonen senere",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Kopi av spesifisert dokumentasjon for nødvendige utgifter til båretransporten",
+          "verdi": "Jeg legger det ved dette skjemaet",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Kopi av dødsattest",
+          "verdi": "Jeg ettersender dokumentasjonen senere",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Dokumentasjon fra obduksjonsstedet på at obduksjonen er rekvirert av lege",
+          "verdi": "Jeg legger det ved dette skjemaet",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Kopi av spesifisert dokumentasjon for nødvendige utgifter til gravferden",
+          "verdi": "Jeg legger det ved dette skjemaet",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Annen dokumentasjon",
+          "verdi": "Nei, jeg har ingen ekstra dokumentasjon jeg vil legge ved",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Underskrift",
+      "verdiliste": [
+        {
+          "label": "",
+          "verdi": ""
+        },
+        {
+          "label": "Søker",
+          "verdiliste": [
+            {
+              "label": ""
+            },
+            {
+              "label": "Sted og dato",
+              "verdi": " "
+            },
+            {
+              "label": "Underskrift",
+              "verdi": " "
+            },
+            {
+              "label": "Navn med blokkbokstaver",
+              "verdi": " "
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "bunntekst": {
+    "upperleft": "F.nr.: 23867399240",
+    "lowerleft": "Skjemanummer: NAV 07-02.08",
+    "upperRight": null,
+    "upperMiddle": "Opprettet: 21 mai 2025, kl 13.45",
+    "lowerMiddle": "Versjon: 4fb9adfbb616664efefc5d7a27e6f6e394ce0acf"
+  }
+}
