@@ -27,6 +27,7 @@
         <token-validation.version>5.0.14</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
         <itext.version>9.1.0</itext.version>
+        <html2pdf.version>6.1.0</html2pdf.version>
         <jackson.version>2.19.0</jackson.version>
         <swagger.version>2.2.28</swagger.version>
         <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
@@ -173,6 +174,11 @@
             <groupId>com.itextpdf</groupId>
             <artifactId>pdfa</artifactId>
             <version>${itext.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>${html2pdf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.verapdf</groupId>
