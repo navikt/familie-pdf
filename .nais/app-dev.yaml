@@ -28,6 +28,11 @@ spec:
     requests:
       memory: 512Mi
       cpu: 20m
+  observability:
+    logging:
+      destinations:
+        - id: elastic
+        - id: loki
   ingresses: # Optional. List of ingress URLs that will route HTTP traffic to the application.
     - https://familie-pdf.intern.dev.nav.no
   secureLogs:
@@ -51,6 +56,18 @@ spec:
           cluster: dev-gcp
         - application: familie-baks-mottak
           namespace: teamfamilie
+          cluster: dev-gcp
+        - application: skjemautfylling
+          namespace: skjemadigitalisering
+          cluster: dev-gcp
+        - application: skjemautfylling-delingslenke
+          namespace: skjemadigitalisering
+          cluster: dev-gcp
+        - application: skjemautfylling-preprod
+          namespace: skjemadigitalisering
+          cluster: dev-gcp
+        - application: skjemautfylling-preprod-alt
+          namespace: skjemadigitalisering
           cluster: dev-gcp
   env:
     - name: SPRING_PROFILES_ACTIVE

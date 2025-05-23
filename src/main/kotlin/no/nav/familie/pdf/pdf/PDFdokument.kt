@@ -36,6 +36,7 @@ object PDFdokument {
     fun lagSøknadskvittering(
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
+        v2: Boolean,
     ): Document {
         leggtilMetaData(pdfADokument, feltMap)
 
@@ -50,13 +51,13 @@ object PDFdokument {
             }
 
             if (feltMap.pdfConfig.harInnholdsfortegnelse) {
-                leggTilInnholdsfortegnelse(feltMap, genererInnholdsfortegnelseOppføringer(feltMap))
+                leggTilInnholdsfortegnelse(feltMap, genererInnholdsfortegnelseOppføringer(feltMap, v2))
             } else {
                 leggTilForside(feltMap.label, feltMap.skjemanummer)
             }
 
-            leggTilSeksjoner(feltMap)
-            leggTilBunntekst(pdfADokument, feltMap)
+            leggTilSeksjoner(feltMap, v2)
+            leggTilSidevisning(pdfADokument, feltMap)
 
             close()
         }

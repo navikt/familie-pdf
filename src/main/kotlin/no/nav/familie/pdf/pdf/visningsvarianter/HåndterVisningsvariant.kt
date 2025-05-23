@@ -11,6 +11,7 @@ import no.nav.familie.pdf.pdf.pdfElementer.lagTekstElement
 fun håndterVisningsvariant(
     visningsVariant: String,
     verdilisteElement: VerdilisteElement,
+    v2: Boolean,
     seksjon: Div,
 ) {
     if (visningsVariant == VisningsVariant.HTML.toString()) {
@@ -19,7 +20,11 @@ fun håndterVisningsvariant(
         if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
             when (visningsVariant) {
                 VisningsVariant.TABELL.toString() -> {
-                    håndterTabeller(verdilisteElement.verdiliste, seksjon)
+                    if (v2) {
+                        håndterTabell(verdilisteElement, seksjon)
+                    } else {
+                        håndterTabeller(verdilisteElement.verdiliste, seksjon)
+                    }
                 }
 
                 VisningsVariant.PUNKTLISTE.toString() -> {
@@ -27,7 +32,7 @@ fun håndterVisningsvariant(
                 }
 
                 VisningsVariant.VEDLEGG.toString() -> {
-                    håndterVedlegg(verdilisteElement.verdiliste, seksjon)
+                    håndterVedlegg(verdilisteElement.verdiliste, seksjon, v2)
                 }
             }
         }
@@ -40,6 +45,11 @@ private fun håndterTabeller(
 ) = verdiliste.forEach { verdilisteElement ->
     verdiliste.let { seksjon.apply { add(lagTabell(verdilisteElement)) } }
 }
+
+private fun håndterTabell(
+    verdilisteElement: VerdilisteElement,
+    seksjon: Div,
+) = seksjon.apply { add(lagTabell(verdilisteElement)) }
 
 private fun håndterPunktliste(
     verdi: VerdilisteElement,
@@ -65,6 +75,7 @@ private fun håndterHtml(
 private fun håndterVedlegg(
     verdiliste: List<VerdilisteElement>,
     seksjon: Div,
+    v2: Boolean,
 ) {
     val ingenVedlegg: String =
         hentOversettelse(
@@ -83,6 +94,6 @@ private fun håndterVedlegg(
                     },
                 )
             }
-        } ?: håndterRekursivVerdiliste(verdiliste, seksjon)
+        } ?: håndterRekursivVerdiliste(verdiliste, seksjon, v2)
     }
 }

@@ -62,33 +62,24 @@ class PdfElementUtilsTest {
     // region tabell
     @ParameterizedTest
     @MethodSource("tabell")
-    fun `Utenlandsopphold sine objekter vises som Tabeller`(feltMap: FeltMap) {
+    fun `Utenlandsopphold, arbeidsforhold og barna dine sine objekter vises som Tabell`(feltMap: FeltMap) {
         // Arrange
-        val verdilisteElement = fåFørsteElementMedTabellVariant(feltMap)
-
+        val verdilisteElement = finnFørsteElementMedTabellVariant(feltMap.verdiliste)
         // Act
         val resultat =
-            if (verdilisteElement?.verdiliste != null) verdilisteElement.verdiliste?.map { lagTabell(it) } else null
+            if (verdilisteElement?.verdiliste != null) lagTabell(verdilisteElement) else null
 
         // Assert
-        assertNotNull(resultat, "Resultatet er null")
-        resultat.forEach {
-            assertNotNull(it, "Tabell er null")
-            assertTrue(it is Table, "Elementet er ikke en tabell")
-        }
+        assertNotNull(resultat, "Tabell er null")
+        assertTrue(resultat is Table, "Elementet er ikke en tabell")
     }
 
-    fun fåFørsteElementMedTabellVariant(feltMap: FeltMap): VerdilisteElement? {
-        fun traverse(verdiliste: List<VerdilisteElement>?): VerdilisteElement? {
-            verdiliste?.forEach { element ->
-                if (element.visningsVariant == "TABELL") {
-                    return element
-                }
-                traverse(element.verdiliste)?.let { return it }
-            }
-            return null
-        }
-        return traverse(feltMap.verdiliste)
-    }
+    fun finnFørsteElementMedTabellVariant(verdiliste: List<VerdilisteElement>): VerdilisteElement? =
+        verdiliste.firstOrNull { it.visningsVariant == "TABELL" }
+            ?: verdiliste
+                .asSequence()
+                .mapNotNull { it.verdiliste?.let(::finnFørsteElementMedTabellVariant) }
+                .firstOrNull()
+
     // endregion
 }

@@ -18,7 +18,7 @@ fun lagSpørsmålOgSvar(element: VerdilisteElement): Paragraph =
 
 // Kun dersom streng ikke har tegn bakerst
 private fun leggTilKolon(tekst: String): String =
-    if (tekst.last() !in setOf('?', ':', '.', '!', ';')) {
+    if (tekst.last() !in setOf('?', ':', '.', '!', ';', ' ')) {
         "$tekst:"
     } else {
         tekst
