@@ -5,6 +5,7 @@ import com.itextpdf.kernel.pdf.canvas.draw.SolidLine
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.LineSeparator
+import com.itextpdf.layout.element.Paragraph
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.visningsvarianter.håndterVisningsvariant
@@ -27,6 +28,7 @@ fun lagSeksjon(
             }
         }
         add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
+        add(Paragraph("\n"))
     }
 
 fun håndterRekursivVerdiliste(
