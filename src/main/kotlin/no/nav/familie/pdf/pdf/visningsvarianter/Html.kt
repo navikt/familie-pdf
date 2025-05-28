@@ -7,8 +7,16 @@ import com.itextpdf.kernel.pdf.PdfName
 import com.itextpdf.kernel.pdf.action.PdfAction
 import com.itextpdf.kernel.pdf.annot.PdfLinkAnnotation
 import com.itextpdf.kernel.pdf.tagging.StandardRoles
-import com.itextpdf.layout.element.*
+import com.itextpdf.layout.element.AreaBreak
+import com.itextpdf.layout.element.Div
+import com.itextpdf.layout.element.IBlockElement
+import com.itextpdf.layout.element.ILeafElement
+import com.itextpdf.layout.element.Image
+import com.itextpdf.layout.element.Link
 import com.itextpdf.layout.element.List
+import com.itextpdf.layout.element.ListItem
+import com.itextpdf.layout.element.Paragraph
+import com.itextpdf.layout.element.Text
 import com.itextpdf.layout.properties.ListNumberingType
 import no.nav.familie.pdf.pdf.FontStil
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
