@@ -5,6 +5,7 @@ import com.itextpdf.io.font.PdfEncodings
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.kernel.font.PdfFontFactory
+import com.itextpdf.kernel.pdf.PdfName
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
@@ -56,16 +57,19 @@ fun Document.leggTilBunntekst(
 ) {
     val tekstStørrelse = 11f
     for (sidetall in 1..pdfADokument.numberOfPages) {
+        // Legg til linje over
         val page = pdfADokument.getPage(sidetall)
         val canvas = PdfCanvas(page)
-
+        canvas.beginMarkedContent(PdfName.Artifact)
         canvas
             .setLineWidth(0.5f)
             .setStrokeColor(DeviceRgb(131, 140, 154))
             .moveTo(38.0, 65.0)
             .lineTo(page.pageSize.width - 38.0, 65.0)
             .stroke()
+        canvas.endMarkedContent()
 
+        // Legg til teksten i bunnteksten
         val sidevisningsTekst =
             Paragraph().apply { setFontSize(tekstStørrelse) }.add(
                 hentOversettelse(

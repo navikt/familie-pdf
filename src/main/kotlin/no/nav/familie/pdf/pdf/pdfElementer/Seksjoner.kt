@@ -40,6 +40,7 @@ fun håndterRekursivVerdiliste(
             val marginVenstre = 15f * rekursjonsDybde
             Div().apply {
                 isKeepTogether = true
+                accessibilityProperties.role = com.itextpdf.kernel.pdf.tagging.StandardRoles.DIV
                 if (element.visningsVariant != null) {
                     håndterVisningsvariant(
                         element.visningsVariant,

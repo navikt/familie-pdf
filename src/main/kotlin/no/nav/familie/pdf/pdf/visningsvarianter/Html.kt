@@ -49,7 +49,7 @@ private fun blockElement(blockElement: IBlockElement): IBlockElement =
                         if (subChild is IBlockElement) {
                             newItem.add(blockElement(subChild))
                         } else if (subChild is ILeafElement) {
-                            newItem.add(Paragraph().apply { add(textElement(subChild as ILeafElement)) })
+                            newItem.add(Paragraph().apply { add(textElement(subChild)) })
                         }
                     }
                     newList.add(newItem)
@@ -67,8 +67,12 @@ private fun blockElement(blockElement: IBlockElement): IBlockElement =
                     if (role != null) {
                         if (role == "h3") {
                             setFontSize(14f)
+                            accessibilityProperties.role = StandardRoles.H3
                         } else if (role == "h4") {
                             setFontSize(13f)
+                            accessibilityProperties.role = StandardRoles.H4
+                        } else {
+                            accessibilityProperties.role = StandardRoles.P
                         }
                     }
 
@@ -78,6 +82,7 @@ private fun blockElement(blockElement: IBlockElement): IBlockElement =
                             is ILeafElement -> add(textElement(child))
                         }
                     }
+                    isKeepTogether = true
                 }.setMultipliedLeading(1.2f)
     }
 
@@ -104,6 +109,8 @@ private fun textElement(txt: ILeafElement): ILeafElement {
                         settFont(FontStil.REGULAR)
                         setFontColor(ColorConstants.BLUE)
                         setUnderline()
+                        accessibilityProperties.role = StandardRoles.LINK
+                        accessibilityProperties.alternateDescription = txt.text
                     }
                 }
             }
