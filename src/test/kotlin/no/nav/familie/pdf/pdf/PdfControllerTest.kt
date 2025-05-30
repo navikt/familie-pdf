@@ -44,6 +44,13 @@ internal class PdfControllerTest {
         assertTrue(textByPage[2].contains("Nei, jeg bor alene med barn eller jeg er gravid og bor alene"))
     }
 
+    @Test
+    fun `generer pdf for overgangsstønad`() {
+        val textByPage = `Test av skjema`("/overgangsstønad.json", "delme-5.pdf")
+
+        assertTrue(textByPage[2].contains("Nei, jeg bor alene med barn eller jeg er gravid og bor alene"))
+    }
+
     private fun `Test av skjema`(
         jsonFile: String,
         skrivTilFil: String?,

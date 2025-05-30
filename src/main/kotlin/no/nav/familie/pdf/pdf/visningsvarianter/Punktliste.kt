@@ -5,7 +5,7 @@ import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.ListItem
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 
-fun lagPunktliste(punkter: kotlin.collections.List<VerdilisteElement>): Div =
+fun lagPunktliste(punkter: List<VerdilisteElement>): Div =
     Div().apply {
         punkter.forEach { punkt ->
             add(punktliste().apply { add(ListItem(punkt.label)) })

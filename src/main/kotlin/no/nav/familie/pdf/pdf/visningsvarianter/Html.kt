@@ -58,26 +58,27 @@ private fun blockElement(blockElement: IBlockElement): IBlockElement =
             newList
         }
         else ->
-            Paragraph().apply {
-                if (blockElement.getProperty<String>(95) == "bold") {
-                    settFont(FontStil.SEMIBOLD)
-                }
-                val role = getRole(blockElement)
-                if (role != null) {
-                    if (role == "h3") {
-                        setFontSize(14f)
-                    } else if (role == "h4") {
-                        setFontSize(13f)
+            Paragraph()
+                .apply {
+                    if (blockElement.getProperty<String>(95) == "bold") {
+                        settFont(FontStil.SEMIBOLD)
                     }
-                }
+                    val role = getRole(blockElement)
+                    if (role != null) {
+                        if (role == "h3") {
+                            setFontSize(14f)
+                        } else if (role == "h4") {
+                            setFontSize(13f)
+                        }
+                    }
 
-                blockElement.children.forEach { child ->
-                    when (child) {
-                        is IBlockElement -> add(blockElement(child))
-                        is ILeafElement -> add(textElement(child))
+                    blockElement.children.forEach { child ->
+                        when (child) {
+                            is IBlockElement -> add(blockElement(child))
+                            is ILeafElement -> add(textElement(child))
+                        }
                     }
-                }
-            }
+                }.setMultipliedLeading(1.2f)
     }
 
 private fun getRole(blockElement: IBlockElement): String? {

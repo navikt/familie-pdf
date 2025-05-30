@@ -1,11 +1,10 @@
 package no.nav.familie.pdf.pdf.pdfElementer
 
 import com.itextpdf.kernel.colors.DeviceRgb
-import com.itextpdf.kernel.pdf.canvas.draw.SolidLine
+import com.itextpdf.kernel.pdf.canvas.draw.DashedLine
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.LineSeparator
-import com.itextpdf.layout.element.Paragraph
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.visningsvarianter.håndterVisningsvariant
@@ -27,8 +26,7 @@ fun lagSeksjon(
                 håndterRekursivVerdiliste(element.verdiliste, this, v2)
             }
         }
-        add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
-        add(Paragraph("\n"))
+        add(LineSeparator(DashedLine().apply { color = DeviceRgb(131, 140, 154) }))
     }
 
 fun håndterRekursivVerdiliste(
@@ -53,7 +51,12 @@ fun håndterRekursivVerdiliste(
                     seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
                     håndterRekursivVerdiliste(element.verdiliste, seksjon, v2, rekursjonsDybde + 1)
                 } else if (element.verdi != null) {
-                    seksjon.add(lagSpørsmålOgSvar(element).apply { setMarginLeft(marginVenstre) })
+                    val spmOgSvar = lagSpørsmålOgSvar(element)
+                    val spørsmål = spmOgSvar[0].apply { setMarginLeft(marginVenstre) }
+                    seksjon.add(spørsmål)
+                    if (spmOgSvar.size > 1) {
+                        seksjon.add(spmOgSvar[1].apply { setMarginLeft(marginVenstre) })
+                    }
                 }
             }
         }
