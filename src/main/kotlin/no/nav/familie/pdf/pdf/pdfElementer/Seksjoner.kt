@@ -36,7 +36,7 @@ fun håndterRekursivVerdiliste(
     rekursjonsDybde: Int = 1,
 ) {
     verdiliste.forEach { element ->
-        if (element.label.isNotEmpty()) {
+        if (!element.label.isNullOrBlank()) {
             val marginVenstre = 15f * rekursjonsDybde
             Div().apply {
                 isKeepTogether = true
