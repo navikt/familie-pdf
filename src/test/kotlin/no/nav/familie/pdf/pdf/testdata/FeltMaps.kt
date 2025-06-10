@@ -1,6 +1,10 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils
 
-import no.nav.familie.pdf.pdf.domain.*
+import no.nav.familie.pdf.pdf.domain.EkstraBunntekst
+import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.domain.PdfConfig
+import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.domain.VisningsVariant
 
 private val søknadsTittel = "Søknad om overgangsstønad (NAV 15-00.01)"
 
