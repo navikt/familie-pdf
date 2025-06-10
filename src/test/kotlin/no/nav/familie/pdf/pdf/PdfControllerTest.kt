@@ -50,6 +50,19 @@ internal class PdfControllerTest {
 
         assertTrue(textByPage[2].contains("Nei, jeg bor alene med barn eller jeg er gravid og bor alene"))
     }
+// avklaringspenger-under-opphold-utland.json
+
+    @Test
+    fun `generer pdf for avklaringspenger utland`() {
+        val textByPage = `Test av skjema`("/avklaringspenger-under-opphold-utland.json", "delme-6.pdf")
+
+        assertTrue(
+            textByPage[0].contains(
+                "Jeg bekrefter med dette at utenlandsoppholdet ikke er til hinder for avtalt aktivitet som \n" +
+                    "behandling, arbeidsrettede tiltak eller oppfølging fra NAV.",
+            ),
+        )
+    }
 
     private fun `Test av skjema`(
         jsonFile: String,

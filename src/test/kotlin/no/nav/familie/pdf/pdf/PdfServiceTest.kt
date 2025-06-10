@@ -5,19 +5,7 @@ import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedInnholdsfortegnelse
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedPunktliste
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomPunktliste
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomVerdiliste
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedTomtSkjemanummer
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedUtenlandsopphold
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagToSiderInnholdsfortegnelse
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUtenSkjemanummer
-import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagUteninnholdsfortegnelse
+import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.*
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import org.junit.jupiter.api.Assertions.assertFalse
@@ -27,10 +15,13 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.io.ByteArrayInputStream
+import java.io.FileOutputStream
 import java.util.stream.Stream
 
 class PdfServiceTest {
     private val pdfOppretterService = PdfService()
+
+    private val skrivTilFile = false
 
     companion object {
         @JvmStatic
@@ -115,6 +106,42 @@ class PdfServiceTest {
             assertTrue(pageText.contains("Side $pageNumber av ${pdfDoc.numberOfPages}"))
         }
     }
+
+    @Test
+    fun `Pdf har med ekstraBunntekst hvis spesifisert`() {
+        // Arrange
+        val feltMap = lagMedekstraBunntekst()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+
+        // Assert
+        for (pageNumber in 1..pdfDoc.numberOfPages) {
+            val pageText = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(pageNumber))
+            assertTrue(pageText.contains("Side $pageNumber av ${pdfDoc.numberOfPages}"))
+            assertTrue(pageText.contains("Øvre venstre tekst"))
+            assertTrue(pageText.contains("Øvre midtre tekst"))
+            assertTrue(pageText.contains("Øvre høyre tekst"))
+            assertTrue(pageText.contains("Nedre venstre tekst"))
+            assertTrue(pageText.contains("Nedre midtre tekst"))
+        }
+    }
+
+    @Test
+    fun `Pdf har med Html label`() {
+        // Arrange
+        val feltMap = lagMedHtmlVerditype()
+
+        // Act
+        val pdfDoc = opprettPdf(feltMap)
+        val førsteSidePdf = PdfTextExtractor.getTextFromPage(pdfDoc.getPage(1))
+
+        // Assert
+        assertTrue(førsteSidePdf.contains("Brukerinformasjon"))
+        assertTrue(førsteSidePdf.contains("Med Ytterligere informasjon"))
+        assertTrue(førsteSidePdf.contains("Informasjon kan bli funnet i NAV 95-15.36 Generell fullmakt (åpnes i ny fane). Merk dette"))
+    }
+
     //endregion
 
     //region Innholdsfortegnelse
@@ -269,9 +296,23 @@ class PdfServiceTest {
 
     private fun opprettPdf(feltMap: FeltMap): PdfADocument {
         val result = pdfOppretterService.opprettPdf(feltMap)
+
+        writeBytesToFile(result, "delme.pdf")
+
         val pdfReader = PdfReader(ByteArrayInputStream(result))
         val pdfWriter = PdfWriter(ByteArrayOutputStream())
         val pdfDoc = PdfADocument(pdfReader, pdfWriter)
         return pdfDoc
+    }
+
+    fun writeBytesToFile(
+        byteArray: ByteArray,
+        filePath: String,
+    ) {
+        if (skrivTilFile) {
+            val outputStream = FileOutputStream(filePath)
+            outputStream.write(byteArray)
+            outputStream.close()
+        }
     }
 }
