@@ -219,7 +219,7 @@ fun lagMedHtmlVerditype(): FeltMap =
                     verdiliste =
                         listOf(
                             VerdilisteElement(
-                                label = "<div><h3>Brukerinformasjon</h3><br/><h4>Med Ytterligere informasjon</h4><p>Informasjon kan bli funnet i <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.nav.no/fyllut/nav951536?sub=paper\">NAV 95-15.36 Generell fullmakt (åpnes i ny fane)</a>. <strong>Merk</strong> dette </p></div>",
+                                label = "<div><h3>Brukerinformasjon</h3><br/><h4>Med Ytterligere informasjon</h4><p>Informasjon kan bli funnet i <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.nav.no/fyllut/nav951536?sub=paper\">NAV 95-15.36 Generell fullmakt (åpnes i ny fane)</a>. <strong><br/>Merk</strong> dette </p></div>",
                                 visningsVariant = VisningsVariant.HTML.toString(),
                             ),
                             VerdilisteElement(

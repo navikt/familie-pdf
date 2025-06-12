@@ -153,7 +153,8 @@ class PdfServiceTest {
         // Assert
         assertTrue(førsteSidePdf.contains("Brukerinformasjon"))
         assertTrue(førsteSidePdf.contains("Med Ytterligere informasjon"))
-        assertTrue(førsteSidePdf.contains("Informasjon kan bli funnet i NAV 95-15.36 Generell fullmakt (åpnes i ny fane). Merk dette"))
+        assertTrue(førsteSidePdf.contains("Informasjon kan bli funnet i NAV 95-15.36 Generell fullmakt (åpnes i ny fane)."))
+        assertTrue(førsteSidePdf.contains("Merk dette"))
     }
 
     //endregion

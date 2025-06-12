@@ -65,10 +65,10 @@ private fun blockElement(blockElement: IBlockElement): IBlockElement =
                     }
                     val role = getRole(blockElement)
                     if (role != null) {
-                        if (role == "h3") {
+                        if (role == "h3" || role == "H3") {
                             setFontSize(14f)
                             accessibilityProperties.role = StandardRoles.H3
-                        } else if (role == "h4") {
+                        } else if (role == "h4" || role == "H4") {
                             setFontSize(13f)
                             accessibilityProperties.role = StandardRoles.H4
                         } else {
