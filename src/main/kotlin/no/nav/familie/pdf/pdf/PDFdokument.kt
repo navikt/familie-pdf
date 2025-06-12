@@ -57,7 +57,7 @@ object PDFdokument {
             }
 
             leggTilSeksjoner(feltMap, v2)
-            leggTilSidevisning(pdfADokument)
+            leggTilBunntekst(pdfADokument, feltMap)
 
             close()
         }
