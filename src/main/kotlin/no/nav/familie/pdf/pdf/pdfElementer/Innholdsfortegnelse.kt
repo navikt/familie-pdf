@@ -65,8 +65,9 @@ object Innholdsfortegnelse {
         feltMap: FeltMap,
         innholdsfortegnelseOppføringer: List<InnholdsfortegnelseOppføringer>,
     ) {
-        add(lagOverskriftH1(feltMap.label))
         add(NavLogo.navLogoBilde())
+        add(Paragraph("\n\n"))
+        add(lagOverskriftH1(feltMap.label))
         setSkjemanummer(this, feltMap.skjemanummer)
         val innholdsfortegnelse: String =
             hentOversettelse(

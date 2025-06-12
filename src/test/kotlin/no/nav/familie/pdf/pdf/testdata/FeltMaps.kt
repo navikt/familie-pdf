@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils
 
+import no.nav.familie.pdf.pdf.domain.EkstraBunntekst
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.PdfConfig
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
@@ -176,6 +177,64 @@ fun lagMedUtenlandsopphold(): FeltMap =
             ),
         pdfConfig = PdfConfig(true, "nb"),
     )
+
+// Region Ekstra bunntekst
+fun lagMedekstraBunntekst(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        bunntekst =
+            EkstraBunntekst(
+                upperleft = "Øvre venstre tekst",
+                lowerleft = "Nedre venstre tekst",
+                upperMiddle = "Øvre midtre tekst",
+                lowerMiddle = "Nedre midtre tekst",
+                upperRight = "Øvre høyre tekst",
+            ),
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Barna dine",
+                    verdiliste = emptyList(),
+                ),
+                VerdilisteElement(
+                    label = "Innsendingsdetaljer",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(label = "Navn", verdi = "Bjarne"),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, "nb"),
+    )
+//endregion ekstre bunntekst
+
+// Region Html visningsVariant
+fun lagMedHtmlVerditype(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Barna dine",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(
+                                label = "<div><h3>Brukerinformasjon</h3><br/><h4>Med Ytterligere informasjon</h4><p>Informasjon kan bli funnet i <a target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.nav.no/fyllut/nav951536?sub=paper\">NAV 95-15.36 Generell fullmakt (åpnes i ny fane)</a>. <strong><br/>Merk</strong> dette </p></div>",
+                                visningsVariant = VisningsVariant.HTML.toString(),
+                            ),
+                            VerdilisteElement(
+                                label = "Innsendingsdetaljer",
+                                verdiliste =
+                                    listOf(
+                                        VerdilisteElement(label = "Navn", verdi = "Bjarne"),
+                                    ),
+                            ),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(false, "nb"),
+    )
+//endregion Html visningsVariant
 
 fun lagUteninnholdsfortegnelse(): FeltMap =
     FeltMap(

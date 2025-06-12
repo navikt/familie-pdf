@@ -15,6 +15,6 @@ class InnholdsfortegnelseTest {
         // Act
         håndterRekursivVerdiliste(verdilisteElement, seksjon, true)
         // Assert
-        assertTrue(seksjon.children.size == 1)
+        assertTrue(seksjon.children.size == 2)
     }
 }

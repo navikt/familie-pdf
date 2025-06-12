@@ -44,6 +44,10 @@
 
     <repositories>
         <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
             <id>confluent</id>
             <url>https://packages.confluent.io/maven/</url>
         </repository>
@@ -168,6 +172,11 @@
             <groupId>com.itextpdf</groupId>
             <artifactId>pdfa</artifactId>
             <version>${itext.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>html2pdf</artifactId>
+            <version>${html2pdf.version}</version>
         </dependency>
         <dependency>
             <groupId>org.verapdf</groupId>

@@ -46,7 +46,8 @@ class PdfElementUtilsTest {
             val verdilisteElement = VerdilisteElement(label = inputVerdi, verdi = "Ja")
             val verdiElement = lagSpørsmålOgSvar(verdilisteElement)
             val tekstInnhold =
-                verdiElement.children
+                verdiElement[0]
+                    .children
                     .filterIsInstance<Text>()
                     .joinToString("") { it.text }
 
