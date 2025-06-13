@@ -1,0 +1,89 @@
+{
+  "label": "Søknad om å beholde arbeidsavklaringspenger under opphold i utlandet ",
+  "pdfConfig": {
+    "harInnholdsfortegnelse": false,
+    "språk": "nb"
+  },
+  "skjemanummer": "NAV 11-03.07",
+  "verdiliste": [
+    {
+      "label": "Personinformasjon",
+      "verdiliste": [
+        {
+          "label": "Fødselsnummer / D-nummer",
+          "verdi": "238673 99240",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Fornavn",
+          "verdi": "Treg",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Etternavn",
+          "verdi": "Toppvinkel",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Utenlandsopphold",
+      "verdiliste": [
+        {
+          "label": "Skal du oppholde deg i flere land?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Hvilket land skal du oppholde deg i?",
+          "verdiliste": [
+            {
+              "label": "Land",
+              "verdi": "Kanada",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Fra og med dato (dd.mm.åååå)",
+              "verdi": "02.06.2025",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Til og med dato (dd.mm.åååå)",
+              "verdi": "31.12.2026",
+              "verdiliste": null,
+              "visningsVariant": null
+            }
+          ],
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Erklæring",
+      "verdiliste": [
+        {
+          "label": "Jeg bekrefter med dette at utenlandsoppholdet ikke er til hinder for avtalt aktivitet som behandling, arbeidsrettede tiltak eller oppfølging fra NAV. ",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    }
+  ],
+  "bunntekst": {
+    "upperleft": "F.nr: 23867399240",
+    "lowerleft": "Skjemanummer: NAV 11-03.07",
+    "upperRight": null,
+    "upperMiddle": "Opprettet: 3 juni 2025, kl 13.01",
+    "lowerMiddle": "Versjon: e3c35857d2c7a20157bf6a4f6055b1c21c4bc230"
+  }
+}

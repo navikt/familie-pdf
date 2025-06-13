@@ -1,0 +1,314 @@
+{
+  "label": "Søknad om stønad til arbeids- og utdanningsreiser",
+  "pdfConfig": {
+    "harInnholdsfortegnelse": false,
+    "språk": "nb-NO"
+  },
+  "skjemanummer": "NAV 76-13.00",
+  "verdiliste": [
+    {
+      "label": "Veiledning",
+      "verdiliste": [
+        {
+          "label": "Jeg bekrefter at jeg vil svare så riktig som jeg kan.",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Dine opplysninger",
+      "verdiliste": [
+        {
+          "label": "Fornavn",
+          "verdi": "Mitt",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Etternavn",
+          "verdi": "Navn",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Har du norsk fødselsnummer eller d-nummer?",
+          "verdi": "Ja",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Fødselsnummer eller d-nummer",
+          "verdi": "23867399240",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Hva du søker om",
+      "verdiliste": [
+        {
+          "label": "Gjelder søknaden reise til arbeid eller reise til utdanning?",
+          "verdi": null,
+          "verdiliste": [
+            {
+              "label": "Reise til utdanning"
+            },
+            {
+              "label": "Reise til arbeid"
+            }
+          ],
+          "visningsVariant": "PUNKTLISTE"
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Om arbeids- eller utdanningsstedet",
+      "verdiliste": [
+        {
+          "label": "Reise til arbeid",
+          "verdiliste": [
+            {
+              "label": "Arbeidsgiver",
+              "verdi": "Min arbeidsgiver",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Oppgi din stillingsprosent",
+              "verdi": "100",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Adresse til arbeidsgiver",
+              "verdi": "Kongensgate 10",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Postnummer",
+              "verdi": "3701",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Poststed",
+              "verdi": "Skien",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Har du flere oppmøtesteder for denne arbeidsgiveren?",
+              "verdi": "Nei",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Hvor mange dager per uke reiser du til arbeid?",
+              "verdi": "5",
+              "verdiliste": null,
+              "visningsVariant": null
+            }
+          ],
+          "visningsVariant": null
+        },
+        {
+          "label": "Reise til utdanning",
+          "verdiliste": [
+            {
+              "label": "Utdanningssted",
+              "verdi": "Monarkiskolen",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Adresse til utdanningsstedet",
+              "verdi": "Kongensgate 10",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Postnummer",
+              "verdi": "3701",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Poststed",
+              "verdi": "Skien",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Har du flere oppmøtesteder ved dette utdanningsstedet?",
+              "verdi": "Nei",
+              "verdiliste": null,
+              "visningsVariant": null
+            },
+            {
+              "label": "Oppgi maks antall dager per uke du reiser til utdanning",
+              "verdi": "5",
+              "verdiliste": null,
+              "visningsVariant": null
+            }
+          ],
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Varighet",
+      "verdiliste": [
+        {
+          "label": "Er arbeidsforholdet fast eller midlertidig?",
+          "verdi": "Fast",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Fra og med (dd.mm.åååå)",
+          "verdi": "05.05.2025",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Når startet utdanningen? (dd.mm.åååå)",
+          "verdi": "04.08.2025",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Når skal utdanningen være avsluttet? (dd.mm.åååå)",
+          "verdi": "26.06.2026",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Alternative stønadsordninger",
+      "verdiliste": [
+        {
+          "label": "Mottar du grunnstønad til transport til arbeid eller utdanning fra folketrygden?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Mottar du stønad til bil fra folketrygden?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Har du tilrettelagt transport (TT-kort) til arbeidsreiser fra kommunen/fylkeskommunen?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Har du tilrettelagt transport (TT-kort) til utdanningsreiser fra kommunen/fylkeskommunen?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Mottar du stønad til daglige reiseutgifter fra NAV eller andre?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Honnørkort",
+      "verdiliste": [
+        {
+          "label": "Har du honnørkort?",
+          "verdi": "Nei",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Tilleggsopplysninger",
+      "verdiliste": [
+        {
+          "label": "Eventuelle tilleggsopplysninger",
+          "verdi": "dfasdfa asdf adg adgfdf",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "<p><strong>Legeerklæringen må inneholde:</strong></p><ol><li>En funksjonsvurdering av søker; Det vil si en beskrivelse av hvilke praktiske problemer søker har ved forflytning mellom bosted og arbeidssted / utdanningssted.<ul><li>En liten Sidenote</li><li>En liten Sidenote</li><li>En liten Sidenote</li></ul></li><li>Har søker forflytningsvansker som er til hinder for at vedkommende kan bruke offentlig transport til og fra arbeids- eller utdanningsstedet?</li><li>Vil en reise med alle typer kollektiv transport medføre vesentlige belastninger for søker? Gi eventuelt en nærmere redegjørelse for ulike muligheter eller begrensninger.</li><li>Er funksjonsnedsettelsen knyttet til forflyttingsvansker varig? (Varighetskravet er ett år. Dersom forflytningsvanskene antas å ha tidsbegrenset varighet skal dette beskrives.)</li></ol></p>",
+          "verdi": null,
+          "verdiliste": null,
+          "visningsVariant": "HTML"
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Vedlegg",
+      "verdiliste": [
+        {
+          "label": "Legeerklæring ved søknad om arbeids- og utdanningsreiser, NAV 76-13.91",
+          "verdi": "Jeg ettersender dokumentasjonen senere",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Dokumentasjon av arbeid eller utdanning",
+          "verdi": "Jeg legger det ved dette skjemaet",
+          "verdiliste": null,
+          "visningsVariant": null
+        },
+        {
+          "label": "Annen dokumentasjon",
+          "verdi": "Nei, jeg har ingen ekstra dokumentasjon jeg vil legge ved",
+          "verdiliste": null,
+          "visningsVariant": null
+        }
+      ],
+      "visningsVariant": null
+    },
+    {
+      "label": "Underskrift",
+      "verdiliste": [
+        {
+          "label": ""
+        },
+        {
+          "label": "Sted og dato",
+          "verdi": " "
+        },
+        {
+          "label": "Underskrift",
+          "verdi": " "
+        },
+        {
+          "label": "Navn med blokkbokstaver",
+          "verdi": " "
+        }
+      ]
+    }
+  ],
+  "bunntekst": {
+    "upperleft": "Id: 23867399240",
+    "lowerleft": "Skjema: NAV 76-13.00",
+    "upperRight": null,
+    "upperMiddle": "15 mai 2025, kl 15.56",
+    "lowerMiddle": "Versjon: local"
+  }
+}

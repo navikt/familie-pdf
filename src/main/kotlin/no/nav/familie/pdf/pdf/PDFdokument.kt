@@ -42,7 +42,13 @@ object PDFdokument {
 
         return Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
-            setMargins(36f, 36f, 44f, 36f)
+            if (feltMap.bunntekst == null ||
+                (feltMap.bunntekst.upperleft == null && feltMap.bunntekst.upperMiddle == null && feltMap.bunntekst.upperRight == null)
+            ) {
+                setMargins(36f, 36f, 44f, 36f)
+            } else {
+                setMargins(36f, 36f, 58f, 36f)
+            }
 
             if (feltMap.pdfConfig.harInnholdsfortegnelse) {
                 leggTilInnholdsfortegnelse(feltMap, genererInnholdsfortegnelseOppføringer(feltMap, v2))
@@ -51,7 +57,7 @@ object PDFdokument {
             }
 
             leggTilSeksjoner(feltMap, v2)
-            leggTilSidevisning(pdfADokument)
+            leggTilBunntekst(pdfADokument, feltMap)
 
             close()
         }

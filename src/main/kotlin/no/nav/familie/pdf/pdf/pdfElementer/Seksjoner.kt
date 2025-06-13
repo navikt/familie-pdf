@@ -1,7 +1,7 @@
 package no.nav.familie.pdf.pdf.pdfElementer
 
 import com.itextpdf.kernel.colors.DeviceRgb
-import com.itextpdf.kernel.pdf.canvas.draw.SolidLine
+import com.itextpdf.kernel.pdf.canvas.draw.DashedLine
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.LineSeparator
@@ -26,7 +26,7 @@ fun lagSeksjon(
                 håndterRekursivVerdiliste(element.verdiliste, this, v2)
             }
         }
-        add(LineSeparator(SolidLine().apply { color = DeviceRgb(131, 140, 154) }))
+        add(LineSeparator(DashedLine().apply { color = DeviceRgb(131, 140, 154) }))
     }
 
 fun håndterRekursivVerdiliste(
@@ -36,10 +36,11 @@ fun håndterRekursivVerdiliste(
     rekursjonsDybde: Int = 1,
 ) {
     verdiliste.forEach { element ->
-        if (element.label.isNotEmpty()) {
+        if (!element.label.isNullOrBlank()) {
             val marginVenstre = 15f * rekursjonsDybde
             Div().apply {
                 isKeepTogether = true
+                accessibilityProperties.role = com.itextpdf.kernel.pdf.tagging.StandardRoles.DIV
                 if (element.visningsVariant != null) {
                     håndterVisningsvariant(
                         element.visningsVariant,
@@ -51,7 +52,12 @@ fun håndterRekursivVerdiliste(
                     seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
                     håndterRekursivVerdiliste(element.verdiliste, seksjon, v2, rekursjonsDybde + 1)
                 } else if (element.verdi != null) {
-                    seksjon.add(lagSpørsmålOgSvar(element).apply { setMarginLeft(marginVenstre) })
+                    val spmOgSvar = lagSpørsmålOgSvar(element)
+                    val spørsmål = spmOgSvar[0].apply { setMarginLeft(marginVenstre) }
+                    seksjon.add(spørsmål)
+                    if (spmOgSvar.size > 1) {
+                        seksjon.add(spmOgSvar[1].apply { setMarginLeft(marginVenstre) })
+                    }
                 }
             }
         }

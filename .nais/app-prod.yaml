@@ -59,6 +59,10 @@ spec:
         - application: familie-baks-mottak
           namespace: teamfamilie
           cluster: prod-gcp
+        - application: skjemautfylling
+          namespace: skjemadigitalisering
+          cluster: prod-gcp
+
     outbound:
       rules:
         - application: familie-ef-mottak
