@@ -7,7 +7,7 @@ metadata:
     team: teamfamilie
 
 spec:
-  image: {{ image }}
+  image: { { image } }
   liveness:
     path: /internal/status/isAlive
     initialDelay: 30
@@ -62,10 +62,11 @@ spec:
         - application: skjemautfylling
           namespace: skjemadigitalisering
           cluster: prod-gcp
-
     outbound:
       rules:
         - application: familie-ef-mottak
+      external:
+        - host: teamfamilie-unleash-api.nav.cloud.nais.io
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: prod

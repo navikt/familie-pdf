@@ -6,6 +6,9 @@ server:
 logging:
   config: "classpath:logback-test.xml"
 
+unleash:
+  enabled: false
+
 TOKEN_X_WELL_KNOWN_URL: http://localhost
 TOKEN_X_PRIVATE_JWK: '{
     "kty" : "RSA",

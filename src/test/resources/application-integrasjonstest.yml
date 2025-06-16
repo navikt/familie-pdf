@@ -7,6 +7,9 @@ no.nav.security.jwt:
       discoveryurl: http://localhost:${mock-oauth2-server.port}/azuread/.well-known/openid-configuration
       accepted_audience: aud-localhost
 
+unleash:
+  enabled: false
+
 NAIS_APP_NAME: familie-pdf
 UNLEASH_SERVER_API_URL: http://localhost:4242/api
 UNLEASH_SERVER_API_TOKEN: token
