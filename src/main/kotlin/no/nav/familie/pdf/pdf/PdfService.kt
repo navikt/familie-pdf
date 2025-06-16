@@ -7,12 +7,11 @@ import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.PDFdokument.lagPdfADocument
 import no.nav.familie.pdf.pdf.PDFdokument.lagSøknadskvittering
 import no.nav.familie.pdf.pdf.domain.FeltMap
-import no.nav.familie.unleash.UnleashService
 import org.springframework.stereotype.Service
 
 @Service
 class PdfService(
-    private val unleashNextService: UnleashNextService
+    private val unleashNextService: UnleashNextService,
 ) {
     fun opprettPdf(
         feltMap: FeltMap,
@@ -24,8 +23,8 @@ class PdfService(
         /**
          * Dato: 16.06.2025 / Kristian Kofoed
          * Vi jobber med å utbedre felt og validering i søknadsdialogen. Dette er en større jobb, der det dessverre -
-        er mulig å sende inn søknader med tabs, som brekker prossessering. Vi feature toggler muligheten for å fjerne -
-        tabs siden dette har skjedd før og vi ikke ønsker å reverte implementasjonen hver gang det skjer. Denne kodens skal fjernes herifra. */
+         er mulig å sende inn søknader med tabs, som brekker prossessering. Vi feature toggler muligheten for å fjerne -
+         tabs siden dette har skjedd før og vi ikke ønsker å reverte implementasjonen hver gang det skjer. Denne kodens skal fjernes herifra. */
 
         val featureToggle = Toggle.FJERN_TABS_FRA_SØKNAD
         val lagSøknadUtenTabs = unleashNextService.isEnabled(featureToggle)

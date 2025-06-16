@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.pdf
 
+import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 import no.nav.security.token.support.core.api.ProtectedWithClaims
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController
 @ProtectedWithClaims(
     issuer = "azuread",
 )
-class PdfController {
-    private val pdfService = PdfService()
+class PdfController(
+    unleashNextService: UnleashNextService,
+) {
+    private val pdfService = PdfService(unleashNextService)
 
     data class PdfResponse(
         val pdf: ByteArray,

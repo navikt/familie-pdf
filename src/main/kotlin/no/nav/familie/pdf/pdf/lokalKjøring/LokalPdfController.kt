@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.pdf.lokalKjøring
 
+import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.PdfMedStandarder
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("api/test-pdf")
 @Unprotected
-class LokalPdfController {
-    private val pdfService = PdfService()
+class LokalPdfController(
+    unleashNextService: UnleashNextService,
+) {
+    private val pdfService = PdfService(unleashNextService)
     private val lokalPdfService = LokalPdfService(pdfService)
 
     @CrossOrigin(origins = ["http://localhost:5173"])
