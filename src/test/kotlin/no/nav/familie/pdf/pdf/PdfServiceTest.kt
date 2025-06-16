@@ -5,6 +5,8 @@ import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.pdfa.PdfADocument
+import io.mockk.mockk
+import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBarneTabell
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedFlereArbeidsforhold
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedForskjelligLabelIVerdiliste
@@ -33,7 +35,8 @@ import java.io.FileOutputStream
 import java.util.stream.Stream
 
 class PdfServiceTest {
-    private val pdfOppretterService = PdfService()
+    private val unleashNextService: UnleashNextService = mockk(relaxed = true)
+    private val pdfOppretterService = PdfService(unleashNextService)
 
     private val skrivTilFile = false
 

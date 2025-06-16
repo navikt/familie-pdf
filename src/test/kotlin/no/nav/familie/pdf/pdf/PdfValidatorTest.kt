@@ -1,5 +1,7 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 
+import io.mockk.mockk
+import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.PdfService
 import no.nav.familie.pdf.pdf.domain.PdfStandard
 import no.nav.familie.pdf.pdf.lokalKjøring.JsonLeser
@@ -13,7 +15,8 @@ import org.junit.jupiter.params.provider.EnumSource
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PdfValidatorTest {
     private lateinit var pdfBytes: ByteArray
-    private val pdfService = PdfService()
+    private val unleashNextService: UnleashNextService = mockk(relaxed = true)
+    private val pdfService = PdfService(unleashNextService)
 
     @BeforeAll
     fun setup() {
