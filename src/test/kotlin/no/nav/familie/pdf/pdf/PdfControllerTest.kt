@@ -3,8 +3,6 @@ package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
-import io.mockk.mockk
-import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.domain.PdfStandard
 import no.nav.familie.pdf.pdf.lokalKjøring.LokalPdfController
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -15,8 +13,7 @@ import java.io.FileOutputStream
 import kotlin.test.assertEquals
 
 internal class PdfControllerTest {
-    private val unleashNextService: UnleashNextService = mockk(relaxed = true)
-    private val pdfController = LokalPdfController(unleashNextService)
+    private val pdfController = LokalPdfController()
     private val skrivTilFile = false
 
     @Test

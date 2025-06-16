@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
 
 @SpringBootConfiguration
-@ComponentScan("no.nav.familie.pdf", "no.nav.familie.unleash")
+@ComponentScan("no.nav.familie.pdf")
 @ConfigurationPropertiesScan
 @EnableJwtTokenValidation(ignore = ["org.springframework", "org.springdoc"])
 class ApplicationConfig {
