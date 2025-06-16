@@ -1,4 +1,4 @@
-name: deploy-unleash-api-token.yml
+name: deploy-unleash-api-token.yaml
 
 on:
   workflow_dispatch:
