@@ -18,5 +18,5 @@ enum class Toggle(
     val beskrivelse: String? = null,
 ) {
     // Operational
-    FJERN_TABS_FRA_SØKNAD(toggleId = "familie-pdf.fjern-tabs-fra-soknad", beskrivelse = "Operarional"),
+    FJERN_TABS_FRA_SØKNAD(toggleId = "familie-pdf.fjern-tabs-fra-soknad", beskrivelse = "Operational"),
 }
