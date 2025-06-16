@@ -28,3 +28,6 @@ management:
   health:
     db:
       enabled: true
+
+unleash:
+  enabled: true

@@ -6,6 +6,9 @@ server:
 logging:
   config: "classpath:logback-test.xml"
 
+unleash:
+  enabled: false
+
 TOKEN_X_WELL_KNOWN_URL: http://localhost
 TOKEN_X_PRIVATE_JWK: '{
     "kty" : "RSA",
@@ -16,3 +19,5 @@ TOKEN_X_PRIVATE_JWK: '{
   }'
 
 NAIS_APP_NAME: familie-pdf
+UNLEASH_SERVER_API_URL: http://localhost:4242/api
+UNLEASH_SERVER_API_TOKEN: token

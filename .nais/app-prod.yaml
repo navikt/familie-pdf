@@ -62,14 +62,16 @@ spec:
         - application: skjemautfylling
           namespace: skjemadigitalisering
           cluster: prod-gcp
-
     outbound:
       rules:
         - application: familie-ef-mottak
+      external:
+        - host: teamfamilie-unleash-api.nav.cloud.nais.io
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: prod
   envFrom:
     - secret: familie
+    - secret: familie-pdf-unleash-api-token
   leaderElection: true
 

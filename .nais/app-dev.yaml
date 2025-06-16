@@ -66,9 +66,14 @@ spec:
         - application: skjemautfylling-preprod-alt
           namespace: skjemadigitalisering
           cluster: dev-gcp
+    outbound:
+      external:
+        - host: teamfamilie-unleash-api.nav.cloud.nais.io
+
   env:
     - name: SPRING_PROFILES_ACTIVE
       value: dev
   envFrom:
     - secret: familie
+    - secret: familie-pdf-unleash-api-token
   leaderElection: true
