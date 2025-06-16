@@ -75,5 +75,5 @@ spec:
       value: dev
   envFrom:
     - secret: familie
-    - secret: familie-klage-unleash-api-token
+    - secret: familie-pdf-unleash-api-token
   leaderElection: true

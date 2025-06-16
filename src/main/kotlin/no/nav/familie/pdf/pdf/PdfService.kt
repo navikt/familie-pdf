@@ -7,12 +7,15 @@ import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.PDFdokument.lagPdfADocument
 import no.nav.familie.pdf.pdf.PDFdokument.lagSøknadskvittering
 import no.nav.familie.pdf.pdf.domain.FeltMap
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class PdfService(
     private val unleashNextService: UnleashNextService,
 ) {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     fun opprettPdf(
         feltMap: FeltMap,
         v2: Boolean = false,
@@ -30,6 +33,7 @@ class PdfService(
         val lagSøknadUtenTabs = unleashNextService.isEnabled(featureToggle)
 
         if (lagSøknadUtenTabs) {
+            logger.info("Fant feature toggle for fjerning av tabs. Lager søknad uten tabs.")
             val feltMapJson = jacksonObjectMapper().writeValueAsString(feltMap)
             val feltMapJsonUtenTabs = feltMapJson.replace("\\t", "")
             val feltMapUtenTabs = jacksonObjectMapper().readValue(feltMapJsonUtenTabs, FeltMap::class.java)
