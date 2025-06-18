@@ -45,9 +45,9 @@ object PDFdokument {
             if (feltMap.bunntekst == null ||
                 (feltMap.bunntekst.upperleft == null && feltMap.bunntekst.upperMiddle == null && feltMap.bunntekst.upperRight == null)
             ) {
-                setMargins(36f, 36f, 44f, 36f)
+                setMargins(36f, 36f, 46f, 36f)
             } else {
-                setMargins(36f, 36f, 58f, 36f)
+                setMargins(36f, 36f, 60f, 36f)
             }
 
             if (feltMap.pdfConfig.harInnholdsfortegnelse) {
