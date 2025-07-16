@@ -96,6 +96,7 @@ fun Document.leggTilBunntekst(
             }
         }
         showTextAligned(sidevisningsTekst, 559f, 30f, sidetall, TextAlignment.RIGHT, VerticalAlignment.BOTTOM, 0f)
+        page.flush(true)
     }
 }
 
