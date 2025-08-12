@@ -5,6 +5,7 @@ import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 import no.nav.familie.pdf.pdf.visningsvarianter.addWatermarkToPdf
 import no.nav.security.token.support.core.api.ProtectedWithClaims
+import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,6 +21,7 @@ class PdfController(
     unleashNextService: UnleashNextService,
 ) {
     private val pdfService = PdfService(unleashNextService)
+    private val logger = LoggerFactory.getLogger(javaClass)
 
     data class PdfResponse(
         val pdf: ByteArray,
@@ -68,11 +70,13 @@ class PdfController(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
         try {
+            logger.info("Opprett PDF V3")
             SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
             val returverdi = pdfService.opprettPdf(søknad)
             if (søknad.vannmerke.isNullOrBlank()) {
                 return returverdi
             }
+            logger.info("Legger til vannmerke i PDF")
             return addWatermarkToPdf(returverdi, søknad.vannmerke)
         } finally {
             SpråkKontekst.tilbakestillSpråk()
