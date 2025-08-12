@@ -70,7 +70,6 @@ class PdfController(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
         try {
-            logger.info("Opprett PDF V3")
             SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
             val returverdi = pdfService.opprettPdf(søknad)
             if (søknad.vannmerke.isNullOrBlank()) {
