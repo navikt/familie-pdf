@@ -206,6 +206,36 @@ fun lagMedekstraBunntekst(): FeltMap =
             ),
         pdfConfig = PdfConfig(true, "nb"),
     )
+
+fun lagMedBunntekstOgVannmerkeTekst(): FeltMap =
+    FeltMap(
+        label = søknadsTittel,
+        bunntekst =
+            EkstraBunntekst(
+                upperleft = "Øvre venstre tekst",
+                lowerleft = "Nedre venstre tekst",
+                upperMiddle = "Øvre midtre tekst",
+                lowerMiddle = "Nedre midtre tekst",
+                upperRight = "Øvre høyre tekst",
+            ),
+        verdiliste =
+            listOf(
+                VerdilisteElement(
+                    label = "Barna dine",
+                    verdiliste = emptyList(),
+                ),
+                VerdilisteElement(
+                    label = "Innsendingsdetaljer",
+                    verdiliste =
+                        listOf(
+                            VerdilisteElement(label = "Navn", verdi = "Bjarne"),
+                        ),
+                ),
+            ),
+        pdfConfig = PdfConfig(true, "nb"),
+        vannmerke = "Vannmerke tekst",
+    )
+
 //endregion ekstre bunntekst
 
 // Region Html visningsVariant
