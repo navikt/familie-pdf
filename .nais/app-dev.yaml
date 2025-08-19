@@ -66,6 +66,9 @@ spec:
         - application: skjemautfylling-preprod-alt
           namespace: skjemadigitalisering
           cluster: dev-gcp
+        - application: azure-token-generator
+          namespace: nais
+          cluster: dev-gcp
     outbound:
       external:
         - host: teamfamilie-unleash-api.nav.cloud.nais.io
