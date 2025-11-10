@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.7</version>
+        <version>3.4.2</version>
     </parent>
 
     <properties>
@@ -30,7 +30,7 @@
         <html2pdf.version>6.2.1</html2pdf.version>
         <jackson.version>2.20.1</jackson.version>
         <swagger.version>2.2.40</swagger.version>
-        <validation-model-jakarta.version>1.28.2</validation-model-jakarta.version>
+        <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
 
         <!-- Setter disse til token-support sine versjoner, versjoner(9.x) i spring er ikke kompatibel med oauth2-oidc-sdk -->
         <nimbus-jose-jwt.version>8.20.2</nimbus-jose-jwt.version>
