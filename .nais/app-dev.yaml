@@ -33,6 +33,9 @@ spec:
       destinations:
         - id: elastic
         - id: loki
+    autoInstrumentation:
+      enabled: true
+      runtime: java
   ingresses: # Optional. List of ingress URLs that will route HTTP traffic to the application.
     - https://familie-pdf.intern.dev.nav.no
   secureLogs:
