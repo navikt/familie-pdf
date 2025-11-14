@@ -18,8 +18,6 @@ enum class PdfStandard(
 ) {
     UA1("ua1"),
     UA2("ua2"),
-    ONE_A("1a"),
-    ONE_B("1b"),
     TWO_A("2a"),
     TWO_B("2b"),
     TWO_U("2u"),

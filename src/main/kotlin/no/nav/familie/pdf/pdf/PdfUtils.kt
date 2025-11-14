@@ -46,7 +46,7 @@ fun bestemFont(stil: FontStil): PdfFont {
     val skriftProgram = FontProgramFactory.createFont(skriftSti)
     return PdfFontFactory.createFont(
         skriftProgram,
-        PdfEncodings.MACROMAN,
+        PdfEncodings.IDENTITY_H,
         PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED,
     )
 }
