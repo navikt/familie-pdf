@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.2</version>
+        <version>3.5.7</version>
     </parent>
 
     <properties>
@@ -26,11 +26,11 @@
         <felles.version>3.20251105152539_b03ed80</felles.version>
         <token-validation.version>5.0.39</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
-        <itext.version>9.3.0</itext.version>
-        <html2pdf.version>6.2.1</html2pdf.version>
+        <itext.version>9.4.0</itext.version>
+        <html2pdf.version>6.3.0</html2pdf.version>
         <jackson.version>2.20.1</jackson.version>
         <swagger.version>2.2.40</swagger.version>
-        <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
+        <validation-model-jakarta.version>1.28.2</validation-model-jakarta.version>
 
         <!-- Setter disse til token-support sine versjoner, versjoner(9.x) i spring er ikke kompatibel med oauth2-oidc-sdk -->
         <nimbus-jose-jwt.version>8.20.2</nimbus-jose-jwt.version>
@@ -278,7 +278,7 @@
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>
                     <artifactId>sonar-maven-plugin</artifactId>
-                    <version>5.0.0.4389</version>
+                    <version>5.3.0.6276</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
@@ -345,7 +345,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <id>ktlint</id>
@@ -385,7 +385,7 @@
                     <dependency>
                         <groupId>com.pinterest.ktlint</groupId>
                         <artifactId>ktlint-cli</artifactId>
-                        <version>1.7.1</version>
+                        <version>1.8.0</version>
                     </dependency>
                     <!-- additional 3rd party ruleset(s) can be specified here -->
                 </dependencies>
