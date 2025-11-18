@@ -109,6 +109,10 @@ object PdfValidator {
                 "clause=6.9 testNumber=5",
                 // PDF/A-4f krever vedlagte filer. Denne regelen fjernes fordi PDF-en
                 // kun inneholder en liste over vedlegg uten at selve filene er vedlagt.
+                "clause=8.4.4 testNumber=2",
+                // PDF-UA2 ved mapping av HTML tag <p> til PDF.
+                "clause=8.8 testNumber=2",
+                // PDF-UA2 ved generering innholdsfortegnelse.
             )
         return feiledeRegler.replace(Regex("[,{}]"), "").split("RuleId ").drop(1).filter { feiletRegel ->
             !konflikterendeRegler.any { feiletRegel.contains(it) }
