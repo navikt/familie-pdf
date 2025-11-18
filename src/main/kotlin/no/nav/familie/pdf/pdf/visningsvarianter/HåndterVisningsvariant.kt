@@ -70,9 +70,7 @@ private fun håndterHtml(
     verdi: VerdilisteElement,
     seksjon: Div,
 ) {
-    seksjon.apply {
-        add(konverterHtmlString(verdi).apply { setMarginLeft(15f) })
-    }
+    konverterHtmlString(seksjon, verdi)
 }
 
 private fun håndterVedlegg(

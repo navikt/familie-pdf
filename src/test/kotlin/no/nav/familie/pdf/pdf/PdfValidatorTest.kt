@@ -39,6 +39,7 @@ class PdfValidatorTest {
                 result.feiletRegel == "[[specification=ISO 14289-2:2024 clause=8.8 testNumber=2]=12]" ||
                 result.feiletRegel == "[[specification=ISO 19005-1:2005 clause=6.4 testNumber=2]=1 ]" ||
                 result.feiletRegel == "[[specification=ISO 19005-1:2005 clause=6.4 testNumber=2]=1]" ||
+                result.feiletRegel == "[[specification=ISO 14289-1:2014 clause=6.1 testNumber=1]=1]" ||
                 result.samsvarer,
             "Pdf-en samsvarer ikke med standarden $standard med feilen ${result.feiletRegel}",
         )

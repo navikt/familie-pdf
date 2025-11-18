@@ -31,6 +31,7 @@
         <jackson.version>2.20.1</jackson.version>
         <swagger.version>2.2.40</swagger.version>
         <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
+        <jsoup.version>1.21.2</jsoup.version>
 
         <!-- Setter disse til token-support sine versjoner, versjoner(9.x) i spring er ikke kompatibel med oauth2-oidc-sdk -->
         <nimbus-jose-jwt.version>8.20.2</nimbus-jose-jwt.version>
@@ -131,6 +132,11 @@
             <version>${swagger.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
         <!-- Nav-internt  -->
         <dependency>
             <groupId>no.nav.familie.felles</groupId>
@@ -178,6 +184,11 @@
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>pdfa</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>pdfua</artifactId>
             <version>${itext.version}</version>
         </dependency>
         <dependency>

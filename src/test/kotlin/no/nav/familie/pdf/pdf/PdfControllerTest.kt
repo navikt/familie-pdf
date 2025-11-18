@@ -30,7 +30,7 @@ internal class PdfControllerTest {
     fun `generer pdf for arbeid- og utdanningssøknad `() {
         val textByPage = `Test av skjema`("/arbeid-utdannings-søknad.json", "delme-2.pdf")
 
-        assertTrue(textByPage[3].contains("Legeerklæringen må inneholde:"))
+        assertTrue(textByPage[2].contains("Legeerklæringen må inneholde:"))
     }
 
     @Test
@@ -44,7 +44,7 @@ internal class PdfControllerTest {
     fun `generer pdf for barnetilsyn`() {
         val textByPage = `Test av skjema`("/barnetilsyn.json", "delme-4.pdf")
 
-        assertTrue(textByPage[2].contains("Nei, jeg bor alene med barn eller jeg er gravid og bor alene"))
+        assertTrue(textByPage[1].contains("Nei, jeg bor alene med barn eller jeg er gravid og bor alene"))
     }
 
     @Test
@@ -100,8 +100,8 @@ internal class PdfControllerTest {
 
         val tt = pdfResponse.standarder
 
-        // assertEquals(true, tt.get(PdfStandard.UA2)?.samsvarer, "Verifisering av UA2 støtte feilet med ${tt.values.joinToString { it.feiletRegel }}")
-        assertEquals(true, tt.get(PdfStandard.TWO_B)?.samsvarer, "Verifisering av PDF/A-2B støtte feilet")
+        assertEquals(true, tt.get(PdfStandard.FOUR)?.samsvarer, "Verifisering av PDF/A-4 støtte feilet")
+        assertEquals(true, tt.get(PdfStandard.UA2)?.samsvarer, "Verifisering av PDF-UA2 støtte feilet, pga. ${tt.get(PdfStandard.UA2)?.feiletRegel}")
 
         return textByPage
     }
