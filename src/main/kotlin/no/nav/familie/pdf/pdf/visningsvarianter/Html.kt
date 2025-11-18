@@ -57,7 +57,8 @@ private fun blockElement(blockElement: IBlockElement): IBlockElement =
             }
             newList
         }
-        else ->
+
+        else -> {
             Paragraph()
                 .apply {
                     if (blockElement.getProperty<String>(95) == "bold") {
@@ -84,6 +85,7 @@ private fun blockElement(blockElement: IBlockElement): IBlockElement =
                     }
                     isKeepTogether = true
                 }.setMultipliedLeading(1.2f)
+        }
     }
 
 private fun getRole(blockElement: IBlockElement): String? {
