@@ -2,6 +2,9 @@ package no.nav.familie.pdf.pdf.visningsvarianter
 
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
+import com.itextpdf.io.font.PdfEncodings
+import com.itextpdf.io.font.constants.StandardFonts
+import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.layout.element.AreaBreak
 import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.IBlockElement
@@ -15,6 +18,9 @@ import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.jsoup.nodes.Node
 import org.jsoup.nodes.TextNode
+import org.slf4j.LoggerFactory
+
+private val logger = LoggerFactory.getLogger("no.nav.familie.pdf.pdf.visningsvarianter.Html")
 
 fun konverterHtmlString(
     seksjon: Div,
@@ -37,20 +43,56 @@ private fun htmlElements(
 ) = HtmlConverter.convertToElements(htmlString, properties)
 
 private fun createFontProvider(): FontProvider {
-    val fontSet = FontSet()
-    val regular = "src/main/resources/fonts/$fontFamilie-Regular.ttf"
-    val semibold = "src/main/resources/fonts/$fontFamilie-SemiBold.ttf"
-    val italic = "src/main/resources/fonts/$fontFamilie-Italic.ttf"
+    val fontProvider = FontProvider()
 
-    fontSet.addFont(regular)
-    fontSet.addFont(semibold)
-    fontSet.addFont(italic)
-    return FontProvider(fontSet)
+    // Last inn fontene som bytes. Merk at stien starter med /
+    // Dette forutsetter at filene ligger i src/main/resources/fonts/
+    val regularBytes = loadFontBytes("/fonts/$fontFamilie-Regular.ttf")
+    val boldBytes = loadFontBytes("/fonts/fontFamilie-SemiBold.ttf") // Eller -Bold.ttf
+    val italicBytes = loadFontBytes("/fonts/fontFamilie-Italic.ttf")
+
+    // Legg til Regular
+    if (regularBytes != null) {
+        val font = PdfFontFactory.createFont(regularBytes, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED)
+        fontProvider.addFont(font)
+        // Sett alias slik at hvis HTML ber om "Times" eller "Helvetica", brukes vår font
+        fontProvider.addFont(font, StandardFonts.TIMES_ROMAN)
+        fontProvider.addFont(font, StandardFonts.HELVETICA)
+    } else {
+        logger.error("Fant ikke Regular font: /fonts/$fontFamilie-Regular.ttf")
+    }
+
+    // Legg til Bold / SemiBold
+    if (boldBytes != null) {
+        val font = PdfFontFactory.createFont(boldBytes, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED)
+        fontProvider.addFont(font)
+        // Viktig alias: HtmlConverter bruker ofte disse navnene for <b> eller <strong>
+        fontProvider.addFont(font, StandardFonts.TIMES_BOLD)
+        fontProvider.addFont(font, StandardFonts.HELVETICA_BOLD)
+    }
+
+    // Legg til Italic
+    if (italicBytes != null) {
+        val font = PdfFontFactory.createFont(italicBytes, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED)
+        fontProvider.addFont(font)
+        fontProvider.addFont(font, StandardFonts.TIMES_ITALIC)
+    }
+
+    return fontProvider
 }
 
 private fun createConverterProperties(): ConverterProperties =
     ConverterProperties().apply {
         fontProvider = createFontProvider()
+    }
+
+private fun loadFontBytes(path: String): ByteArray? =
+    try {
+        // getResourceAsStream leser filer pakket inni JAR-filen
+        object {}.javaClass.getResourceAsStream(path)?.readAllBytes()
+    } catch (e: Exception) {
+        logger.warn("Kunne ikke laste fontressurs: $path", e)
+        null
     }
 
 /**
