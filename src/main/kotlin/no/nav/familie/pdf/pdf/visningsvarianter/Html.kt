@@ -54,10 +54,7 @@ private fun createFontProvider(): FontProvider {
     // Legg til Regular
     if (regularBytes != null) {
         val font = PdfFontFactory.createFont(regularBytes, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED)
-        fontProvider.addFont(font)
-        // Sett alias slik at hvis HTML ber om "Times" eller "Helvetica", brukes vår font
-        fontProvider.addFont(font, StandardFonts.TIMES_ROMAN)
-        fontProvider.addFont(font, StandardFonts.HELVETICA)
+        fontProvider.addFont(regularBytes)
     } else {
         logger.error("Fant ikke Regular font: /fonts/$fontFamilie-Regular.ttf")
     }
@@ -65,17 +62,13 @@ private fun createFontProvider(): FontProvider {
     // Legg til Bold / SemiBold
     if (boldBytes != null) {
         val font = PdfFontFactory.createFont(boldBytes, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED)
-        fontProvider.addFont(font)
-        // Viktig alias: HtmlConverter bruker ofte disse navnene for <b> eller <strong>
-        fontProvider.addFont(font, StandardFonts.TIMES_BOLD)
-        fontProvider.addFont(font, StandardFonts.HELVETICA_BOLD)
+        fontProvider.addFont(boldBytes)
     }
 
     // Legg til Italic
     if (italicBytes != null) {
         val font = PdfFontFactory.createFont(italicBytes, PdfEncodings.IDENTITY_H, PdfFontFactory.EmbeddingStrategy.FORCE_EMBEDDED)
-        fontProvider.addFont(font)
-        fontProvider.addFont(font, StandardFonts.TIMES_ITALIC)
+        fontProvider.addFont(italicBytes)
     }
 
     return fontProvider
