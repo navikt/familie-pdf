@@ -25,21 +25,32 @@ fun konverterHtmlString(
     seksjon: Div,
     htmlElement: VerdilisteElement,
 ): Div {
-    val normalizedHtml = sanitizeHtmlForPdfUa(htmlElement.label)
-    htmlElements(normalizedHtml, createConverterProperties()).forEach { element ->
+    val fullHtml = wrapAsFullHtml(sanitizeHtmlForPdfUa(htmlElement.label))
+    val elements = HtmlConverter.convertToElements(fullHtml, createConverterProperties()) // MERK: convertToDocument()
+
+    for (element in elements) {
         when (element) {
             is IBlockElement -> seksjon.add(element)
             is Image -> seksjon.add(element)
             is AreaBreak -> seksjon.add(element)
         }
     }
+
     return seksjon
 }
 
-private fun htmlElements(
-    htmlString: String,
-    properties: ConverterProperties,
-) = HtmlConverter.convertToElements(htmlString, properties)
+fun wrapAsFullHtml(fragment: String) =
+    """
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+  <div>$fragment</div>
+</body>
+</html>
+    """.trimIndent()
 
 private fun createFontProvider(): FontProvider {
     val fontProvider = FontProvider()

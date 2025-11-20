@@ -24,7 +24,7 @@
         <jupiter.version>5.11.4</jupiter.version>
         <mockk.version>1.14.6</mockk.version>
         <felles.version>3.20251105152539_b03ed80</felles.version>
-        <token-validation.version>5.0.39</token-validation.version>
+        <token-validation.version>5.0.40</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
         <itext.version>9.3.0</itext.version>
         <html2pdf.version>6.2.1</html2pdf.version>

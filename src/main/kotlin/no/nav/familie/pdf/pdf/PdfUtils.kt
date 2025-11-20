@@ -20,7 +20,9 @@ import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
 import org.jsoup.Jsoup
-import org.jsoup.nodes.*
+import org.jsoup.nodes.Element
+import org.jsoup.nodes.Node
+import org.jsoup.nodes.TextNode
 
 enum class FontStil {
     REGULAR,
@@ -266,6 +268,22 @@ fun sanitizeHtmlForPdfUa(htmlFragment: String): String {
 
     sanitizeNode(body)
 
+    // Fjern <span>, <b>, <strong>, <i>, <em> som er tomme (ingen tekst eller inline children)
+    doc.select("span, b, strong, i, em").forEach { tag ->
+        // trim og sjekk tekstinnhold og inline-barn
+        val text = tag.text().trim()
+        val hasInlineChildren = tag.children().any { child -> !isBlockElement(child) && child.text().trim().isNotEmpty() }
+        if (text.isEmpty() && !hasInlineChildren) {
+            tag.unwrap() // fjern taggen men behold inner text (tom -> fjerner helt)
+        }
+    }
+
+    // Fjern whitespace-noder i P-elementer
+    doc.select("p").forEach { p ->
+        val cleaned = p.html().trim()
+        p.html(cleaned)
+    }
+
     return body.html()
 }
 
@@ -304,8 +322,6 @@ private fun normalizeElement(el: Element) {
         }
     }
 }
-
-/** --- HANDLERE --- **/
 
 /** Heading: kun inline-elementer tillatt */
 private fun normalizeHeading(h: Element) {
@@ -375,18 +391,14 @@ private fun normalizeListItem(li: Element) {
 
 /** A-tagger skal ikke inneholde block */
 private fun normalizeAnchor(a: Element) {
-    val inline = mutableListOf<Node>()
-    val toMoveOut = mutableListOf<Node>()
+    // Samle alt tekstinnhold
+    val txt = a.text()
 
-    for (c in a.childNodes().toList()) {
-        if (c is Element && isBlock(c.tagName())) toMoveOut.add(c) else inline.add(c)
-    }
-
+    // Tøm lenken helt
     a.empty()
-    inline.forEach { a.appendChild(it) }
 
-    // block etter lenken
-    toMoveOut.forEach { a.after(it) }
+    // Sett inn kun ren tekstnode
+    a.appendText(txt)
 }
 
 /** P skal kun inneholde inline */
@@ -477,3 +489,30 @@ private fun isBlock(tag: String): Boolean =
             "pre",
             "hr",
         )
+
+/** Heuristikk for block elements (we treat common ones) */
+private fun isBlockElement(el: Element): Boolean {
+    val blockTags =
+        setOf(
+            "div",
+            "p",
+            "ul",
+            "ol",
+            "li",
+            "table",
+            "thead",
+            "tbody",
+            "tr",
+            "td",
+            "section",
+            "article",
+            "header",
+            "footer",
+            "figure",
+            "figcaption",
+            "blockquote",
+            "pre",
+            "hr",
+        )
+    return el.tagName().lowercase() in blockTags
+}
