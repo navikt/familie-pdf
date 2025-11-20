@@ -19,6 +19,8 @@ import com.itextpdf.layout.properties.VerticalAlignment
 import com.itextpdf.pdfa.PdfADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
+import org.jsoup.Jsoup
+import org.jsoup.nodes.*
 
 enum class FontStil {
     REGULAR,
@@ -253,3 +255,225 @@ private fun fixHeading(heading: PdfStructElem) {
     // Legg inn nye barn (inline)
     newKids.forEach { if (it is PdfStructElem) heading.addKid(it) }
 }
+
+/**
+ * Generisk HTML-sanitizer for PDF/UA-2 kompatibilitet i iText 9.3.0.
+ * Normaliserer alle uforutsette strukturer til en UA-2-kompatibel HTML-form.
+ */
+fun sanitizeHtmlForPdfUa(htmlFragment: String): String {
+    val doc = Jsoup.parseBodyFragment(htmlFragment)
+    val body = doc.body()
+
+    sanitizeNode(body)
+
+    return body.html()
+}
+
+/**
+ * Rekursiv tre-sanitizer.
+ */
+private fun sanitizeNode(node: Node) {
+    if (node is Element) {
+        normalizeElement(node)
+        // Rekursiv traversering ETTER normalisering
+        node.childNodes().toList().forEach { sanitizeNode(it) }
+    }
+}
+
+/**
+ * Normaliserer et HTML-element:
+ * - heading: kun inline → SPAN
+ * - li: kun inline → block flyttes ut
+ * - block children sorteres fra inline
+ * - inline nodes pakkes i P eller SPAN
+ */
+private fun normalizeElement(el: Element) {
+    val tag = el.tagName().lowercase()
+
+    when (tag) {
+        in headingTags -> normalizeHeading(el)
+        "li" -> normalizeListItem(el)
+        "a" -> normalizeAnchor(el)
+        "p" -> normalizeParagraph(el)
+        else -> {
+            if (isBlock(tag)) {
+                normalizeBlockElement(el)
+            } else {
+                normalizeInlineElement(el)
+            }
+        }
+    }
+}
+
+/** --- HANDLERE --- **/
+
+/** Heading: kun inline-elementer tillatt */
+private fun normalizeHeading(h: Element) {
+    val newInline = mutableListOf<Node>()
+    val toMoveOut = mutableListOf<Node>()
+
+    for (c in h.childNodes().toList()) {
+        when (c) {
+            is TextNode -> if (c.text().isNotBlank()) newInline.add(c)
+            is Element -> {
+                if (!isBlock(c.tagName())) {
+                    newInline.add(c)
+                } else {
+                    toMoveOut.add(c)
+                }
+            }
+            else -> newInline.add(c)
+        }
+    }
+
+    h.empty()
+
+    // pakk inline inn i SPAN
+    if (newInline.isNotEmpty()) {
+        val span = Element("span")
+        newInline.forEach { span.appendChild(it) }
+        h.appendChild(span)
+    } else {
+        h.appendElement("span")
+    }
+
+    // flytt block etter heading
+    toMoveOut.forEach { h.after(it) }
+}
+
+/** LI: kun inline → block flyttes ut */
+private fun normalizeListItem(li: Element) {
+    val inline = mutableListOf<Node>()
+    val toMove = mutableListOf<Node>()
+
+    for (c in li.childNodes().toList()) {
+        if (c is Element && isBlock(c.tagName())) {
+            toMove.add(c)
+        } else {
+            inline.add(c)
+        }
+    }
+
+    li.empty()
+
+    val span = Element("span")
+    inline.filter { !(it is TextNode && it.text().isBlank()) }.forEach { span.appendChild(it) }
+
+    if (span.childNodeSize() == 0) {
+        span.appendText("")
+    }
+
+    li.appendChild(span)
+
+    // flytt block etter LI som <p>
+    toMove.forEach { b ->
+        val p = Element("p")
+        p.appendChild(b)
+        li.after(p)
+    }
+}
+
+/** A-tagger skal ikke inneholde block */
+private fun normalizeAnchor(a: Element) {
+    val inline = mutableListOf<Node>()
+    val toMoveOut = mutableListOf<Node>()
+
+    for (c in a.childNodes().toList()) {
+        if (c is Element && isBlock(c.tagName())) toMoveOut.add(c) else inline.add(c)
+    }
+
+    a.empty()
+    inline.forEach { a.appendChild(it) }
+
+    // block etter lenken
+    toMoveOut.forEach { a.after(it) }
+}
+
+/** P skal kun inneholde inline */
+private fun normalizeParagraph(p: Element) {
+    val inline = mutableListOf<Node>()
+    val toMoveOut = mutableListOf<Node>()
+
+    for (c in p.childNodes().toList()) {
+        if (c is Element && isBlock(c.tagName())) {
+            toMoveOut.add(c)
+        } else {
+            inline.add(c)
+        }
+    }
+
+    p.empty()
+
+    if (inline.isNotEmpty()) {
+        inline.forEach { p.appendChild(it) }
+    } else {
+        p.appendText("")
+    }
+
+    // block flyttes etter P
+    toMoveOut.forEach { p.after(it) }
+}
+
+/** Generelle block-elementer: inline pakkes automatisk i P */
+private fun normalizeBlockElement(el: Element) {
+    val inlineBuffer = mutableListOf<Node>()
+
+    val newChildren = mutableListOf<Node>()
+
+    fun flush() {
+        if (inlineBuffer.isEmpty()) return
+        val p = Element("p")
+        inlineBuffer.forEach { p.appendChild(it) }
+        newChildren.add(p)
+        inlineBuffer.clear()
+    }
+
+    for (c in el.childNodes().toList()) {
+        if (c is Element && isBlock(c.tagName())) {
+            flush()
+            newChildren.add(c)
+        } else if (c is TextNode && c.text().isBlank()) {
+            // ignorer whitespace
+        } else {
+            inlineBuffer.add(c)
+        }
+    }
+
+    flush()
+
+    el.empty()
+    newChildren.forEach { el.appendChild(it) }
+}
+
+/** Inline elementer blir liggende som inline */
+private fun normalizeInlineElement(el: Element) {
+    // normalt ikke nødvendig å gjøre noe
+}
+
+/** --- HJELPEFUNKSJONER --- **/
+
+private val headingTags = setOf("h1", "h2", "h3", "h4", "h5", "h6")
+
+private fun isBlock(tag: String): Boolean =
+    tag.lowercase() in
+        setOf(
+            "p",
+            "div",
+            "ul",
+            "ol",
+            "li",
+            "table",
+            "thead",
+            "tbody",
+            "tr",
+            "td",
+            "section",
+            "article",
+            "header",
+            "footer",
+            "figure",
+            "figcaption",
+            "blockquote",
+            "pre",
+            "hr",
+        )

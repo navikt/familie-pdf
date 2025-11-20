@@ -3,16 +3,15 @@ package no.nav.familie.pdf.pdf.visningsvarianter
 import com.itextpdf.html2pdf.ConverterProperties
 import com.itextpdf.html2pdf.HtmlConverter
 import com.itextpdf.io.font.PdfEncodings
-import com.itextpdf.io.font.constants.StandardFonts
 import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.layout.element.AreaBreak
 import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.IBlockElement
 import com.itextpdf.layout.element.Image
 import com.itextpdf.layout.font.FontProvider
-import com.itextpdf.layout.font.FontSet
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
 import no.nav.familie.pdf.pdf.fontFamilie
+import no.nav.familie.pdf.pdf.sanitizeHtmlForPdfUa
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -26,7 +25,7 @@ fun konverterHtmlString(
     seksjon: Div,
     htmlElement: VerdilisteElement,
 ): Div {
-    val normalizedHtml = normalizeHtmlForPdfUa(htmlElement.label)
+    val normalizedHtml = sanitizeHtmlForPdfUa(htmlElement.label)
     htmlElements(normalizedHtml, createConverterProperties()).forEach { element ->
         when (element) {
             is IBlockElement -> seksjon.add(element)
