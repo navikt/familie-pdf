@@ -68,6 +68,8 @@ spec:
     outbound:
       rules:
         - application: familie-ef-mottak
+        - application: logging
+          namespace: nais-system
       external:
         - host: teamfamilie-unleash-api.nav.cloud.nais.io
   env:
