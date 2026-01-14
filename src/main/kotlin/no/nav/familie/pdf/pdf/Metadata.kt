@@ -84,30 +84,3 @@ private fun getCurrentYear(): String =
     java.time.Year
         .now()
         .toString()
-
-fun leggtilMetaData(
-    pdfADokument: PdfUADocument,
-    feltMap: FeltMap,
-) {
-    val skaperAvPdf = "navikt/familie-pdf"
-    val tittel = feltMap.label
-    val språk =
-        feltMap.pdfConfig
-            .språk
-            .lowercase()
-
-    pdfADokument.documentInfo.apply {
-        this.title = tittel
-        this.creator = skaperAvPdf
-        this.setCreator("Created with iText 9 under AGPL license")
-        this.setProducer("iText 9 (AGPL licensed)")
-        this.setMoreInfo("License", "GNU Affero General Public License v3.0")
-        this.setMoreInfo("iText Notice", "This document was generated using iText, licensed under AGPL v3.0. See https://www.gnu.org/licenses/agpl-3.0.html")
-    }
-    // pdfADokument.xmpMetadata = lagMinimumXmpMeta(skaperAvPdf, tittel, språk)
-
-    pdfADokument.catalog.apply {
-        put(PdfName.Lang, PdfString(språk))
-        viewerPreferences = PdfViewerPreferences().setDisplayDocTitle(true)
-    }
-}

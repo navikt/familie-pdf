@@ -309,10 +309,22 @@ private fun normalizeElement(el: Element) {
     val tag = el.tagName().lowercase()
 
     when (tag) {
-        in headingTags -> normalizeHeading(el)
-        "li" -> normalizeListItem(el)
-        "a" -> normalizeAnchor(el)
-        "p" -> normalizeParagraph(el)
+        in headingTags -> {
+            normalizeHeading(el)
+        }
+
+        "li" -> {
+            normalizeListItem(el)
+        }
+
+        "a" -> {
+            normalizeAnchor(el)
+        }
+
+        "p" -> {
+            normalizeParagraph(el)
+        }
+
         else -> {
             if (isBlock(tag)) {
                 normalizeBlockElement(el)
@@ -330,7 +342,10 @@ private fun normalizeHeading(h: Element) {
 
     for (c in h.childNodes().toList()) {
         when (c) {
-            is TextNode -> if (c.text().isNotBlank()) newInline.add(c)
+            is TextNode -> {
+                if (c.text().isNotBlank()) newInline.add(c)
+            }
+
             is Element -> {
                 if (!isBlock(c.tagName())) {
                     newInline.add(c)
@@ -338,7 +353,10 @@ private fun normalizeHeading(h: Element) {
                     toMoveOut.add(c)
                 }
             }
-            else -> newInline.add(c)
+
+            else -> {
+                newInline.add(c)
+            }
         }
     }
 

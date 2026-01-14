@@ -250,7 +250,10 @@ internal class PdfControllerTest {
         visited: MutableSet<Int>,
     ) {
         when (kid) {
-            is IStructureNode -> dumpNode(kid, indent, visited)
+            is IStructureNode -> {
+                dumpNode(kid, indent, visited)
+            }
+
             is PdfMcr -> {
                 val pad = " ".repeat(indent)
                 println("${pad}MCR (mcid=${safeGetMcrMcid(kid)})")
@@ -355,8 +358,11 @@ internal class PdfControllerTest {
             val role = elem.role
             // role may be PdfName or String
             when (role) {
-                is PdfName -> role.toString().removePrefix("/") // /P etc
+                is PdfName -> role.toString().removePrefix("/")
+
+                // /P etc
                 is String -> role
+
                 else -> role?.toString() ?: "?"
             }
         } catch (_: Throwable) {

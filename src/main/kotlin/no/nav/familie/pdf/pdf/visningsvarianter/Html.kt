@@ -237,6 +237,7 @@ private fun normalizeListItem(li: Element) {
                     hadInline = true
                 }
             }
+
             is Element -> {
                 if (isBlockElement(kid)) {
                     // block child inside LI: move it outside as a paragraph after this LI
@@ -247,6 +248,7 @@ private fun normalizeListItem(li: Element) {
                     hadInline = true
                 }
             }
+
             else -> {
                 inlineSpan.appendChild(kid)
                 hadInline = true
