@@ -15,7 +15,10 @@ import no.nav.familie.pdf.pdf.pdfElementer.leggTilForside
 import no.nav.familie.pdf.pdf.pdfElementer.leggTilSeksjoner
 
 object PDFdokument {
-    fun lagPdfADocument(byteArrayOutputStream: ByteArrayOutputStream): PdfADocument {
+    fun lagPdfADocument(
+        feltMap: FeltMap,
+        byteArrayOutputStream: ByteArrayOutputStream,
+    ): PdfADocument {
         val pdfWriter =
             PdfWriter(
                 byteArrayOutputStream,
@@ -29,6 +32,7 @@ object PDFdokument {
                 PdfOutputIntent("Custom", "", null, "sRGB IEC61966-2.1", inputStream),
             )
         pdfADokument.setTagged()
+        leggtilMetaData(pdfADokument, feltMap)
 
         return pdfADokument
     }
@@ -37,10 +41,8 @@ object PDFdokument {
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
         v2: Boolean,
-    ): Document {
-        leggtilMetaData(pdfADokument, feltMap)
-
-        return Document(pdfADokument).apply {
+    ): Document =
+        Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
             if (feltMap.bunntekst == null ||
                 (feltMap.bunntekst.upperleft == null && feltMap.bunntekst.upperMiddle == null && feltMap.bunntekst.upperRight == null)
@@ -57,9 +59,9 @@ object PDFdokument {
             }
 
             leggTilSeksjoner(feltMap, v2)
+            fixHeadingParagraphStructure(pdfADokument)
             leggTilBunntekst(pdfADokument, feltMap)
 
             close()
         }
-    }
 }

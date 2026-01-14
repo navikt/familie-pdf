@@ -2,6 +2,7 @@ package no.nav.familie.pdf.pdf.pdfElementer
 
 import com.itextpdf.kernel.colors.DeviceRgb
 import com.itextpdf.kernel.pdf.canvas.draw.DashedLine
+import com.itextpdf.kernel.pdf.tagging.StandardRoles
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Div
 import com.itextpdf.layout.element.LineSeparator
@@ -14,6 +15,7 @@ fun lagSeksjon(
     v2: Boolean,
 ): Div =
     Div().apply {
+        StandardRoles.DIV
         add(
             lagOverskriftH2(element.label).apply {
                 setDestination(element.label)
@@ -40,7 +42,7 @@ fun håndterRekursivVerdiliste(
             val marginVenstre = 15f * rekursjonsDybde
             Div().apply {
                 isKeepTogether = true
-                accessibilityProperties.role = com.itextpdf.kernel.pdf.tagging.StandardRoles.DIV
+                accessibilityProperties.role = StandardRoles.DIV
                 if (element.visningsVariant != null) {
                     håndterVisningsvariant(
                         element.visningsVariant,

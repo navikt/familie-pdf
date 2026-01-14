@@ -21,7 +21,7 @@ class PdfService(
         v2: Boolean = false,
     ): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        val pdfADokument = lagPdfADocument(byteArrayOutputStream)
+        val pdfADokument = lagPdfADocument(feltMap = feltMap, byteArrayOutputStream = byteArrayOutputStream)
 
         /**
          * Dato: 16.06.2025 / Kristian Kofoed

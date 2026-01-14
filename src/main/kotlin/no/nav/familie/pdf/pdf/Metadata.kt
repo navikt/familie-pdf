@@ -6,6 +6,7 @@ import com.itextpdf.kernel.pdf.PdfViewerPreferences
 import com.itextpdf.kernel.xmp.XMPMeta
 import com.itextpdf.kernel.xmp.XMPMetaFactory
 import com.itextpdf.pdfa.PdfADocument
+import com.itextpdf.pdfua.PdfUADocument
 import no.nav.familie.pdf.pdf.domain.FeltMap
 
 /**
@@ -28,6 +29,7 @@ fun leggtilMetaData(
     pdfADokument.documentInfo.apply {
         this.title = tittel
         this.creator = skaperAvPdf
+        this.setSubject(feltMap.skjemanummer ?: "")
         this.setCreator("Created with iText 9 under AGPL license")
         this.setProducer("iText 9 (AGPL licensed)")
         this.setMoreInfo("License", "GNU Affero General Public License v3.0")

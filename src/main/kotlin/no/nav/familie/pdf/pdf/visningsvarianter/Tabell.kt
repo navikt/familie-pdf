@@ -34,6 +34,7 @@ fun lagTabell(
                     setFontColor(DeviceRgb(0, 52, 125))
                     setFontSize(14f)
                     settFont(FontStil.SEMIBOLD)
+                    StandardRoles.P
                 },
             )
         }
@@ -67,6 +68,7 @@ private fun lagTabellOverskriftscelle(
                 setFontColor(DeviceRgb(0, 86, 180))
                 setFontSize(14f)
                 settFont(FontStil.SEMIBOLD)
+                StandardRoles.P
             },
         )
         setBorder(Border.NO_BORDER)
