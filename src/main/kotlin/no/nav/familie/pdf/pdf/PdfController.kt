@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.pdf
 
+import jakarta.enterprise.inject.Produces
 import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
@@ -53,7 +54,7 @@ class PdfController(
         }
     }
 
-    @PostMapping("/v2/opprett-pdf")
+    @PostMapping("/v2/opprett-pdf", produces = [MediaType.APPLICATION_PDF_VALUE])
     fun opprettPdfV2(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
