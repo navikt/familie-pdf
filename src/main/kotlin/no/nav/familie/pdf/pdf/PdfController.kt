@@ -28,7 +28,7 @@ class PdfController(
         val pdf: ByteArray,
     )
 
-    @PostMapping("/v1/opprett-pdf")
+    @PostMapping("/v1/opprett-pdf", produces = [MediaType.APPLICATION_PDF_VALUE])
     fun opprettPdf(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
@@ -66,7 +66,7 @@ class PdfController(
         }
     }
 
-    @PostMapping("/v3/opprett-pdf")
+    @PostMapping("/v3/opprett-pdf", produces = [MediaType.APPLICATION_PDF_VALUE])
     fun opprettPdfV3(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
