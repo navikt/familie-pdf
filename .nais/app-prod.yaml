@@ -38,8 +38,6 @@ spec:
       runtime: java
   ingresses: # Optional. List of ingress URLs that will route HTTP traffic to the application.
     - https://familie-pdf.intern.nav.no
-  secureLogs:
-    enabled: true
   azure:
     application:
       enabled: true
