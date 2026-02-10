@@ -4,7 +4,7 @@ import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedBunntekstOgVannmerk
 import no.nav.familie.pdf.no.nav.familie.pdf.pdf.utils.lagMedVerdiliste
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.web.client.exchange
+import org.springframework.boot.resttestclient.exchange
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -51,10 +51,10 @@ class PdfControllerTest : IntegrasjonSpringRunnerTest() {
     }
 
     fun writeBytesToFile(
-        byteArray: ByteArray,
+        byteArray: ByteArray?,
         filePath: String,
     ) {
-        if (skrivTilFil) {
+        if (skrivTilFil && byteArray != null) {
             val outputStream = FileOutputStream(filePath)
             outputStream.write(byteArray)
             outputStream.close()

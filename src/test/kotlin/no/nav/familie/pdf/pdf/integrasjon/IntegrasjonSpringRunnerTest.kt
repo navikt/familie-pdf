@@ -5,8 +5,9 @@ import no.nav.security.mock.oauth2.MockOAuth2Server
 import no.nav.security.token.support.spring.test.EnableMockOAuth2Server
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.resttestclient.TestRestTemplate
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.http.HttpHeaders
 import org.springframework.test.context.ActiveProfiles
@@ -15,6 +16,7 @@ import java.util.UUID
 
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [ApplicationLocalConfig::class], webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestRestTemplate
 @ActiveProfiles("integrasjonstest")
 @EnableMockOAuth2Server
 abstract class IntegrasjonSpringRunnerTest {
