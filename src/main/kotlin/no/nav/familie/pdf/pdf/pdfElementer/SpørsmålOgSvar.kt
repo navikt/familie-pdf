@@ -19,28 +19,30 @@ private fun leggTilKolon(tekst: String): String =
 
 // Kun dersom streng ikke har tegn bakerst
 private fun leggTilLabel(tekst: String): Paragraph =
-    Paragraph().apply {
-        setMarginBottom(13 * 0.1f)
-        isKeepTogether = true
-        accessibilityProperties.role = StandardRoles.P
-        add(
-            Text(leggTilKolon(tekst)).apply {
-                settFont(FontStil.SEMIBOLD)
-            },
-        )
-    }
+    Paragraph()
+        .apply {
+            setMarginBottom(13 * 0.1f)
+            isKeepTogether = true
+            accessibilityProperties.role = StandardRoles.P
+            add(
+                Text(leggTilKolon(tekst)).apply {
+                    settFont(FontStil.SEMIBOLD)
+                },
+            )
+        }.setMultipliedLeading(1.0f)
 
 private fun leggTilVerdi(tekst: String?): Paragraph =
-    Paragraph().apply {
-        setMarginTop(13 * 0.1f)
-        isKeepTogether = true
-        accessibilityProperties.role = StandardRoles.P
-        add(
-            Text(tekst).apply {
-                settFont(FontStil.REGULAR)
-            },
-        )
-    }
+    Paragraph()
+        .apply {
+            setMarginTop(13 * 0.1f)
+            isKeepTogether = true
+            accessibilityProperties.role = StandardRoles.P
+            add(
+                Text(tekst).apply {
+                    settFont(FontStil.REGULAR)
+                },
+            )
+        }.setMultipliedLeading(1.0f)
 
 /*
 fun lagSpørsmålOgSvar(element: VerdilisteElement): List<Paragraph> =

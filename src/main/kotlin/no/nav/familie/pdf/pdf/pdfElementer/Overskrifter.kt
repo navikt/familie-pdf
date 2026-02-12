@@ -20,9 +20,10 @@ private fun lagOverskrift(
     rolle: String,
     erFarget: Boolean = true,
 ): Paragraph =
-    Paragraph(tekst).apply {
-        if (erFarget) setFontColor(DeviceRgb(0, 52, 125))
-        setFontSize(tekstStørrelse)
-        settFont(FontStil.SEMIBOLD)
-        accessibilityProperties.role = rolle
-    }
+    Paragraph(tekst)
+        .apply {
+            if (erFarget) setFontColor(DeviceRgb(0, 52, 125))
+            setFontSize(tekstStørrelse)
+            settFont(FontStil.SEMIBOLD)
+            accessibilityProperties.role = rolle
+        }.setMultipliedLeading(1.2f)
