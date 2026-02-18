@@ -49,7 +49,7 @@ object PDFdokument {
             ) {
                 setMargins(36f, 36f, 46f, 36f)
             } else {
-                setMargins(36f, 36f, 60f, 36f)
+                setMargins(36f, 36f, 64f, 36f)
             }
 
             if (feltMap.pdfConfig.harInnholdsfortegnelse) {

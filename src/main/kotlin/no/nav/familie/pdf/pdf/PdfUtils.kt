@@ -77,13 +77,17 @@ fun Document.bunntekstForPage(
     numberOfPages: Int,
     tekstStørrelse: Float,
 ) {
+    val flereLinjer =
+        feltMap.bunntekst != null &&
+            (feltMap.bunntekst.upperleft != null || feltMap.bunntekst.upperMiddle != null || feltMap.bunntekst.upperRight != null)
+    val margin = if (flereLinjer) 65.0 else 48.0
     val canvas = PdfCanvas(page)
     canvas.beginMarkedContent(PdfName.Artifact)
     canvas
         .setLineWidth(0.5f)
         .setStrokeColor(DeviceRgb(131, 140, 154))
-        .moveTo(38.0, 65.0)
-        .lineTo(page.pageSize.width - 38.0, 65.0)
+        .moveTo(38.0, margin)
+        .lineTo(page.pageSize.width - 38.0, margin)
         .stroke()
     canvas.endMarkedContent()
 

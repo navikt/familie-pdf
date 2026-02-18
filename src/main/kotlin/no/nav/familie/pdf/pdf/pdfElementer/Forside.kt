@@ -13,5 +13,5 @@ fun Document.leggTilForside(
     add(Paragraph("\n\n").apply { StandardRoles.P })
     add(lagOverskriftH1(overskrift))
     setSkjemanummer(this, skjemanummer)
-    add(Paragraph("\n").apply { StandardRoles.P })
+    add(Paragraph("").apply { StandardRoles.P }.setMultipliedLeading(0.5f))
 }
