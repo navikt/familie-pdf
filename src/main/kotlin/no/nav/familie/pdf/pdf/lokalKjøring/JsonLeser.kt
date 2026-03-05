@@ -1,18 +1,17 @@
 package no.nav.familie.pdf.pdf.lokalKjøring
 
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import no.nav.familie.pdf.pdf.domain.FeltMap
+import tools.jackson.databind.DeserializationFeature
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jacksonMapperBuilder
 import java.io.FileNotFoundException
 import java.io.IOException
 
 object JsonLeser {
-    private val objectMapper: ObjectMapper =
-        jacksonObjectMapper()
+    private val jsonMapper: JsonMapper =
+        jacksonMapperBuilder()
             .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-            .registerModule(JavaTimeModule())
+            .build()
 
     fun lesSøknadJson(): FeltMap = lesSøknadJson("/søknad.json")
 
@@ -23,7 +22,7 @@ object JsonLeser {
 
         return try {
             jsonInputStream.bufferedReader().use { reader ->
-                val result = objectMapper.readValue(reader, FeltMap::class.java)
+                val result = jsonMapper.readValue(reader, FeltMap::class.java)
                 result ?: throw ClassCastException("Uventet Json-format")
             }
         } catch (e: IOException) {

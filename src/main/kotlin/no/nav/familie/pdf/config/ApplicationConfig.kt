@@ -1,6 +1,5 @@
 package no.nav.familie.pdf.config
 
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import no.nav.familie.log.NavSystemtype
 import no.nav.familie.log.filter.LogFilter
 import no.nav.familie.log.filter.RequestTimeFilter
@@ -11,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import tools.jackson.module.kotlin.KotlinModule
 
 @SpringBootConfiguration
 @ComponentScan("no.nav.familie.pdf", "no.nav.familie.unleash")

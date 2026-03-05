@@ -28,7 +28,7 @@
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
         <itext.version>9.4.0</itext.version>
         <html2pdf.version>6.3.0</html2pdf.version>
-        <jackson.version>2.20.1</jackson.version>
+        <jackson.version>3.0.0</jackson.version>
         <swagger.version>2.2.40</swagger.version>
         <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
         <jsoup.version>1.21.2</jsoup.version>
@@ -92,7 +92,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
+            <groupId>tools.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
             <version>${jackson.version}</version>
         </dependency>
@@ -110,12 +110,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-core</artifactId>
