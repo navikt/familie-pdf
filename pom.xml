@@ -19,19 +19,19 @@
         <revision>1.0</revision>
         <sha1/>
         <changelist>-SNAPSHOT</changelist>
-        <kotlin.version>2.2.21</kotlin.version>
+        <kotlin.version>2.3.10</kotlin.version>
         <springdoc.version>2.8.14</springdoc.version>
         <jupiter.version>6.0.1</jupiter.version>
         <mockk.version>1.14.6</mockk.version>
-        <felles.version>4.20260128165036_0708695</felles.version>
+        <felles.version>4.20260301040348_4280733</felles.version>
         <token-validation.version>6.0.1</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
-        <itext.version>9.4.0</itext.version>
+        <itext.version>9.5.0</itext.version>
         <html2pdf.version>6.3.0</html2pdf.version>
-        <jackson.version>3.0.0</jackson.version>
+        <jackson.version>3.1.0</jackson.version>
         <swagger.version>2.2.40</swagger.version>
-        <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
-        <jsoup.version>1.21.2</jsoup.version>
+        <validation-model-jakarta.version>1.28.2</validation-model-jakarta.version>
+        <jsoup.version>1.22.1</jsoup.version>
 
     </properties>
 
@@ -297,7 +297,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.7.1</version>
+                <version>3.8.0</version>
                 <executions>
                     <execution>
                         <id>make-assembly</id>
