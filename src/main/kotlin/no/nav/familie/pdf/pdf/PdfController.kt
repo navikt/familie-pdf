@@ -1,5 +1,6 @@
 package no.nav.familie.pdf.pdf
 
+import jakarta.enterprise.inject.Produces
 import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.språkKonfigurasjon.SpråkKontekst
@@ -27,7 +28,7 @@ class PdfController(
         val pdf: ByteArray,
     )
 
-    @PostMapping("/v1/opprett-pdf")
+    @PostMapping("/v1/opprett-pdf", produces = [MediaType.APPLICATION_PDF_VALUE])
     fun opprettPdf(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
@@ -53,7 +54,7 @@ class PdfController(
         }
     }
 
-    @PostMapping("/v2/opprett-pdf")
+    @PostMapping("/v2/opprett-pdf", produces = [MediaType.APPLICATION_PDF_VALUE])
     fun opprettPdfV2(
         @RequestBody søknad: FeltMap,
     ): ByteArray {
@@ -65,7 +66,7 @@ class PdfController(
         }
     }
 
-    @PostMapping("/v3/opprett-pdf")
+    @PostMapping("/v3/opprett-pdf", produces = [MediaType.APPLICATION_PDF_VALUE])
     fun opprettPdfV3(
         @RequestBody søknad: FeltMap,
     ): ByteArray {

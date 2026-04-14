@@ -11,7 +11,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.7</version>
+        <version>4.0.1</version>
     </parent>
 
     <properties>
@@ -23,17 +23,15 @@
         <springdoc.version>3.0.0</springdoc.version>
         <jupiter.version>6.0.1</jupiter.version>
         <mockk.version>1.14.6</mockk.version>
-        <felles.version>3.20251105152539_b03ed80</felles.version>
-        <token-validation.version>5.0.39</token-validation.version>
+        <felles.version>4.20260128165036_0708695</felles.version>
+        <token-validation.version>6.0.1</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
         <itext.version>9.4.0</itext.version>
         <html2pdf.version>6.3.0</html2pdf.version>
-        <jackson.version>2.20.1</jackson.version>
+        <jackson.version>3.0.0</jackson.version>
         <swagger.version>2.2.40</swagger.version>
         <validation-model-jakarta.version>1.26.5</validation-model-jakarta.version>
-
-        <!-- Setter disse til token-support sine versjoner, versjoner(9.x) i spring er ikke kompatibel med oauth2-oidc-sdk -->
-        <nimbus-jose-jwt.version>8.20.2</nimbus-jose-jwt.version>
+        <jsoup.version>1.21.2</jsoup.version>
 
     </properties>
 
@@ -94,7 +92,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
+            <groupId>tools.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
             <version>${jackson.version}</version>
         </dependency>
@@ -113,17 +111,16 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-core</artifactId>
             <version>${swagger.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
         <!-- Nav-internt  -->
         <dependency>
             <groupId>no.nav.familie.felles</groupId>
@@ -175,6 +172,11 @@
         </dependency>
         <dependency>
             <groupId>com.itextpdf</groupId>
+            <artifactId>pdfua</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
             <artifactId>html2pdf</artifactId>
             <version>${html2pdf.version}</version>
         </dependency>
@@ -204,6 +206,11 @@
             <groupId>io.mockk</groupId>
             <artifactId>mockk-jvm</artifactId>
             <version>${mockk.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-resttestclient</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

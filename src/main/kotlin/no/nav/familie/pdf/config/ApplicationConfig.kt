@@ -1,6 +1,5 @@
 package no.nav.familie.pdf.config
 
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import no.nav.familie.log.NavSystemtype
 import no.nav.familie.log.filter.LogFilter
 import no.nav.familie.log.filter.RequestTimeFilter
@@ -11,6 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan
 import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
+import tools.jackson.module.kotlin.KotlinModule
 
 @SpringBootConfiguration
 @ComponentScan("no.nav.familie.pdf", "no.nav.familie.unleash")
@@ -25,8 +25,7 @@ class ApplicationConfig {
     @Bean
     fun logFilter(): FilterRegistrationBean<LogFilter> {
         logger.info("Registering LogFilter filter")
-        val filterRegistration = FilterRegistrationBean<LogFilter>()
-        filterRegistration.filter = LogFilter(systemtype = NavSystemtype.NAV_INTEGRASJON)
+        val filterRegistration = FilterRegistrationBean(LogFilter(systemtype = NavSystemtype.NAV_INTEGRASJON))
         filterRegistration.order = 1
         return filterRegistration
     }
@@ -34,8 +33,7 @@ class ApplicationConfig {
     @Bean
     fun requestTimeFilter(): FilterRegistrationBean<RequestTimeFilter> {
         logger.info("Registering RequestTimeFilter filter")
-        val filterRegistration = FilterRegistrationBean<RequestTimeFilter>()
-        filterRegistration.filter = RequestTimeFilter()
+        val filterRegistration = FilterRegistrationBean(RequestTimeFilter())
         filterRegistration.order = 2
         return filterRegistration
     }

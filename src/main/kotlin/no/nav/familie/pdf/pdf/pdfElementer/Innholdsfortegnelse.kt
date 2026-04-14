@@ -30,7 +30,7 @@ object Innholdsfortegnelse {
         v2: Boolean,
         harInnholdsfortegnelse: Boolean? = null,
     ): Int {
-        val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
+        val midlertidigPdfADokument = PDFdokument.lagPdfADocument(feltMap, ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
             settFont(FontStil.REGULAR)
             leggTilSeksjoner(feltMap, v2)
@@ -52,7 +52,7 @@ object Innholdsfortegnelse {
         v2: Boolean,
     ): List<InnholdsfortegnelseOppføringer> {
         val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap, v2)
-        val midlertidigPdfADokument = PDFdokument.lagPdfADocument(ByteArrayOutputStream())
+        val midlertidigPdfADokument = PDFdokument.lagPdfADocument(feltMap, ByteArrayOutputStream())
         val document = Document(midlertidigPdfADokument).apply { settFont(FontStil.REGULAR) }
 
         return feltMap.verdiliste.map { seksjon ->

@@ -1,6 +1,5 @@
 package no.nav.familie.pdf.pdf
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.itextpdf.io.source.ByteArrayOutputStream
 import no.nav.familie.pdf.infrastruktur.Toggle
 import no.nav.familie.pdf.infrastruktur.UnleashNextService
@@ -9,6 +8,7 @@ import no.nav.familie.pdf.pdf.PDFdokument.lagSøknadskvittering
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import tools.jackson.module.kotlin.jacksonMapperBuilder
 
 @Service
 class PdfService(
@@ -21,7 +21,7 @@ class PdfService(
         v2: Boolean = false,
     ): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        val pdfADokument = lagPdfADocument(byteArrayOutputStream)
+        val pdfADokument = lagPdfADocument(feltMap = feltMap, byteArrayOutputStream = byteArrayOutputStream)
 
         /**
          * Dato: 16.06.2025 / Kristian Kofoed
@@ -34,9 +34,10 @@ class PdfService(
 
         if (lagSøknadUtenTabs) {
             logger.info("Fant feature toggle for fjerning av tabs. Lager søknad uten tabs.")
-            val feltMapJson = jacksonObjectMapper().writeValueAsString(feltMap)
+            val mapper = jacksonMapperBuilder().build()
+            val feltMapJson = mapper.writeValueAsString(feltMap)
             val feltMapJsonUtenTabs = feltMapJson.replace("\\t", "")
-            val feltMapUtenTabs = jacksonObjectMapper().readValue(feltMapJsonUtenTabs, FeltMap::class.java)
+            val feltMapUtenTabs = mapper.readValue(feltMapJsonUtenTabs, FeltMap::class.java)
 
             lagSøknadskvittering(pdfADokument = pdfADokument, feltMap = feltMapUtenTabs, v2 = v2)
         } else {
