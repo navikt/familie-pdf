@@ -32,6 +32,12 @@
           "verdi": "50",
           "verdiliste": null,
           "visningsVariant": null
+        },
+        {
+          "label": "<h4>Forskriften §14-8. 2. ledd</h4><p>Tillegg for testing av at underskriftene ikke brytes over flere sider</p>",
+          "verdi": null,
+          "verdiliste": null,
+          "visningsVariant": "HTML"
         }
       ],
       "visningsVariant": null
@@ -134,7 +140,8 @@
             }
           ]
         }
-      ]
+      ],
+      "visningsVariant": "UNDERSKRIFT"
     }
   ],
   "bunntekst": {

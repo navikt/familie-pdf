@@ -34,6 +34,10 @@ fun håndterVisningsvariant(
                 VisningsVariant.VEDLEGG.toString() -> {
                     håndterVedlegg(verdilisteElement.verdiliste, seksjon, v2)
                 }
+
+                VisningsVariant.UNDERSKRIFT.toString() -> {
+                    håndterUnderskriftListe(verdilisteElement, seksjon)
+                }
             }
         }
     }
@@ -50,6 +54,21 @@ private fun håndterTabell(
     verdilisteElement: VerdilisteElement,
     seksjon: Div,
 ) = seksjon.apply { add(lagTabell(verdilisteElement)) }
+
+private fun håndterUnderskriftListe(
+    verdi: VerdilisteElement,
+    seksjon: Div,
+) {
+    if (verdi.verdiliste?.isNotEmpty() == true) {
+        val liste = verdi.verdiliste
+        val container = Div().apply { setKeepTogether(true) }
+
+        verdi.verdi?.let { container.add(lagTekstElement(it)) }
+
+        håndterRekursivVerdiliste(liste, container, false, 1)
+        seksjon.add(container)
+    }
+}
 
 private fun håndterPunktliste(
     verdi: VerdilisteElement,

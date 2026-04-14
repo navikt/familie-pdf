@@ -53,7 +53,7 @@
       "verdiliste": [
         {
           "label": "Gjelder søknaden reise til arbeid eller reise til utdanning?",
-          "verdi": null,
+          "verdi": "Undertekst eksempel.",
           "verdiliste": [
             {
               "label": "Reise til utdanning"
@@ -301,7 +301,8 @@
           "label": "Navn med blokkbokstaver",
           "verdi": " "
         }
-      ]
+      ],
+      "visningsVariant": "UNDERSKRIFT"
     }
   ],
   "bunntekst": {
