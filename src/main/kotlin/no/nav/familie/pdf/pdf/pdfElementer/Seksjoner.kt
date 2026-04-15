@@ -17,7 +17,7 @@ fun lagSeksjon(
     v2: Boolean,
 ): Div =
     Div().apply {
-        StandardRoles.DIV.apply { setKeepTogether(element.visningsVariant == VisningsVariant.UNDERSKRIFT.toString()) }
+        StandardRoles.DIV.apply { setKeepTogether(element.visningsVariant == VisningsVariant.HOLDSAMMEN.toString()) }
         add(
             lagOverskriftH2(element.label).apply {
                 setDestination(element.label)

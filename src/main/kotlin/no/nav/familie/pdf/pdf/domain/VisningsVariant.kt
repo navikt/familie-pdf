@@ -5,5 +5,5 @@ enum class VisningsVariant {
     VEDLEGG,
     PUNKTLISTE,
     HTML,
-    UNDERSKRIFT,
+    HOLDSAMMEN,
 }
