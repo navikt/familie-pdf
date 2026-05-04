@@ -90,16 +90,6 @@ private fun håndterPunktliste(
         if (liste.size > 1) {
             seksjon.add(lagPunktliste(liste.drop(1)))
         }
-
-/*
-        seksjon.apply {
-            add(lagOverskriftH4(verdi.label).apply { setMarginLeft(30f) })
-            if (verdi.verdi != null) {
-                add(lagTekstElement(verdi.verdi).apply { setMarginLeft(30f) })
-            }
-            add(lagPunktliste(verdi.verdiliste).apply { setMarginLeft(30f) })
-        }
-*/
     }
 }
 

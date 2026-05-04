@@ -12,7 +12,6 @@ fun lagPunktliste(verdiListe: List<VerdilisteElement>): com.itextpdf.layout.elem
                 StandardRoles.L
                 setListSymbol("\u2022 ")
                 symbolIndent = 8f
-                // isKeepTogether = true
             }
     verdiListe.forEach {
         list.add(ListItem(it.label)).apply {
