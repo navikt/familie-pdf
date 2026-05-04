@@ -269,6 +269,43 @@
       ]
     },
     {
+      "label": "Arbeid, utdanning og andre aktiviteter2",
+      "verdiliste": [
+        {
+          "label": "Hva er din arbeidssituasjon?",
+          "verdiliste": [
+            {
+              "label": "Svaralternativ",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": [
+                {
+                  "label": "Jeg er arbeidstaker (og/eller lønnsmottaker som frilanser)"
+                },
+                {
+                  "label": "Jeg er selvstendig næringsdrivende eller frilanser med enkeltpersonforetak"
+                },
+                {
+                  "label": "Jeg er selvstendig næringsdrivende og ansatt i mitt eget aksjeselskap (AS)"
+                },
+                {
+                  "label": "Jeg etablerer egen virksomhet"
+                }
+              ]
+            },
+            {
+              "label": "Svar",
+              "visningsVariant": "PUNKTLISTE",
+              "verdiliste": []
+            }
+          ]
+        },
+        {
+          "label": "Er du i arbeid?",
+          "verdi": "Nei, jeg er ikke i arbeid fordi jeg er syk"
+        }
+      ]
+    },
+    {
       "label": "Når søker du stønad fra?",
       "verdiliste": [
         {

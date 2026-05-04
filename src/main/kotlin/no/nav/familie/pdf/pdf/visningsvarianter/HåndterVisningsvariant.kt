@@ -34,6 +34,10 @@ fun håndterVisningsvariant(
                 VisningsVariant.VEDLEGG.toString() -> {
                     håndterVedlegg(verdilisteElement.verdiliste, seksjon, v2)
                 }
+
+                VisningsVariant.HOLDSAMMEN.toString() -> {
+                    håndterHoldsammen(verdilisteElement, seksjon, v2)
+                }
             }
         }
     }
@@ -51,17 +55,40 @@ private fun håndterTabell(
     seksjon: Div,
 ) = seksjon.apply { add(lagTabell(verdilisteElement)) }
 
+private fun håndterHoldsammen(
+    verdi: VerdilisteElement,
+    seksjon: Div,
+    v2: Boolean,
+) {
+    if (verdi.verdiliste?.isNotEmpty() == true) {
+        val liste = verdi.verdiliste
+        val container = Div().apply { setKeepTogether(true) }
+
+        verdi.verdi?.let { container.add(lagTekstElement(it)) }
+
+        håndterRekursivVerdiliste(liste, container, v2)
+        seksjon.add(container)
+    }
+}
+
 private fun håndterPunktliste(
     verdi: VerdilisteElement,
     seksjon: Div,
 ) {
     if (verdi.verdiliste?.isNotEmpty() == true) {
-        seksjon.apply {
-            add(lagOverskriftH4(verdi.label).apply { setMarginLeft(30f) })
-            if (verdi.verdi != null) {
-                add(lagTekstElement(verdi.verdi).apply { setMarginLeft(30f) })
-            }
-            add(lagPunktliste(verdi.verdiliste).apply { setMarginLeft(30f) })
+        val container = Div().apply { setKeepTogether(true) }
+        val liste = verdi.verdiliste
+        container.add(lagOverskriftH4(verdi.label))
+        verdi.verdi?.let { container.add(lagTekstElement(it)) }
+
+        // legg inn første element eksplisitt
+        container.add(lagPunktliste(listOf(liste.first())))
+
+        seksjon.add(container)
+
+        // resten av lista uten keepTogether
+        if (liste.size > 1) {
+            seksjon.add(lagPunktliste(liste.drop(1)))
         }
     }
 }
