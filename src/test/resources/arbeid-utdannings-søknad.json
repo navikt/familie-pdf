@@ -53,13 +53,61 @@
       "verdiliste": [
         {
           "label": "Gjelder søknaden reise til arbeid eller reise til utdanning?",
-          "verdi": null,
+          "verdi": "Undertekst eksempel.",
           "verdiliste": [
             {
               "label": "Reise til utdanning"
             },
             {
               "label": "Reise til arbeid"
+            },
+            {
+              "label": "Reise fra utdanning"
+            },
+            {
+              "label": "Reise fra arbeid"
+            },
+            {
+              "label": "Reise til ferie"
+            },
+            {
+              "label": "Reise fra ferie"
+            },
+            {
+              "label": "Reise til utdanning2"
+            },
+            {
+              "label": "Reise til arbeid2"
+            },
+            {
+              "label": "Reise fra utdanning2"
+            },
+            {
+              "label": "Reise fra arbeid2"
+            },
+            {
+              "label": "Reise til ferie2"
+            },
+            {
+              "label": "Reise fra ferie2"
+            },
+            {
+              "label": "Reise til utdanning32"
+            },
+            {
+              "label": "Reise til arbeid3"
+            },
+            {
+              "label": "Reise fra utdanning3"
+            },
+            {
+              "label": "Reise fra arbeid3"
+            },
+            {
+              "label": "Reise til ferie3"
+            },
+            {
+              "label": "Reise fra ferie3"
             }
           ],
           "visningsVariant": "PUNKTLISTE"
@@ -301,7 +349,8 @@
           "label": "Navn med blokkbokstaver",
           "verdi": " "
         }
-      ]
+      ],
+      "visningsVariant": "HOLDSAMMEN"
     }
   ],
   "bunntekst": {

@@ -9,6 +9,7 @@ import com.itextpdf.layout.element.LineSeparator
 import com.itextpdf.layout.element.Paragraph
 import no.nav.familie.pdf.pdf.domain.FeltMap
 import no.nav.familie.pdf.pdf.domain.VerdilisteElement
+import no.nav.familie.pdf.pdf.domain.VisningsVariant
 import no.nav.familie.pdf.pdf.visningsvarianter.håndterVisningsvariant
 
 fun lagSeksjon(
@@ -16,7 +17,8 @@ fun lagSeksjon(
     v2: Boolean,
 ): Div =
     Div().apply {
-        StandardRoles.DIV
+        isKeepTogether = element.visningsVariant == VisningsVariant.HOLDSAMMEN.toString()
+        accessibilityProperties.role = StandardRoles.DIV
         add(
             lagOverskriftH2(element.label).apply {
                 setDestination(element.label)
