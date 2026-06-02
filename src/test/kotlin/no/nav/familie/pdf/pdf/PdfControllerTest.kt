@@ -32,6 +32,15 @@ internal class PdfControllerTest {
         val textByPage = `Test av skjema`("/gravferdsstønad.json", "delme-1.pdf")
 
         assertTrue(textByPage[1].contains("I tillegg til dette skjemaet"))
+
+        // Verifiser at underskriftseksjonen er samlet på en side
+        val page5 = textByPage[4]
+        assertTrue(
+            page5.contains("Søker\n") &&
+                page5.contains("Sted og dato:") &&
+                page5.contains("Navn med blokkbokstaver:"),
+        )
+        assertEquals(1, page5.split("Navn med blokkbokstaver:").size - 1)
     }
 
     @Test
@@ -46,6 +55,16 @@ internal class PdfControllerTest {
         val textByPage = `Test av skjema`("/avtale-om-medfinansiering.json", "delme-3.pdf")
 
         assertTrue(textByPage[0].contains("Forskriften §14-1"))
+
+        // Verifiser at underskriftseksjonen er samlet på en side
+        val page3 = textByPage[2]
+        assertTrue(
+            page3.contains("Underskrift\n") &&
+                page3.contains("Ordfører/rådmann") &&
+                page3.contains("Daglig leder i tiltaksbedriften") &&
+                page3.contains("Leder Nav-kontor"),
+        )
+        assertEquals(3, page3.split("Navn med blokkbokstaver:").size - 1)
     }
 
     @Test
