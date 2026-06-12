@@ -10,7 +10,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # ratchet:actions/checkout@v4
       - name: deploy unleash api-token to dev
-        uses: nais/deploy/actions/deploy@33c53f5b87d0746093a7a7ab4b9fa853e0e53bdc # ratchet:nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@437e4adfe270e3f1c98fd0eed7f86ecf0e0873db # ratchet:nais/deploy/actions/deploy@v2
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
@@ -21,7 +21,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # ratchet:actions/checkout@v4
       - name: deploy unleash api-token to prod
-        uses: nais/deploy/actions/deploy@33c53f5b87d0746093a7a7ab4b9fa853e0e53bdc # ratchet:nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@437e4adfe270e3f1c98fd0eed7f86ecf0e0873db # ratchet:nais/deploy/actions/deploy@v2
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
