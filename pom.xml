@@ -23,12 +23,12 @@
         <springdoc.version>3.0.3</springdoc.version>
         <jupiter.version>6.0.1</jupiter.version>
         <mockk.version>1.14.11</mockk.version>
-        <felles.version>4.20260529121328_2754f7c</felles.version>
+        <felles.version>4.20260714100416_2aeb670</felles.version>
         <token-validation.version>6.0.11</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
-        <itext.version>9.6.0</itext.version>
-        <html2pdf.version>6.3.2</html2pdf.version>
-        <jackson.version>3.2.0</jackson.version>
+        <itext.version>9.7.0</itext.version>
+        <html2pdf.version>6.3.3</html2pdf.version>
+        <jackson.version>3.2.1</jackson.version>
         <swagger.version>2.2.52</swagger.version>
         <validation-model-jakarta.version>1.30.2</validation-model-jakarta.version>
         <jsoup.version>1.22.2</jsoup.version>
@@ -53,6 +53,19 @@
             <url>https://maven.pkg.github.com/navikt/familie-felles</url>
         </repository>
     </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- unleash-client-java (via okhttp-eventsource) og mock-oauth2-server (via mockwebserver)
+                 drar inn ulike major-versjoner av okhttp3, som ikke er binærkompatible.
+                 Tvinger samme versjon for å unngå NoSuchMethodError i klassestien. -->
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>5.2.1</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
