@@ -65,8 +65,9 @@ private fun lagXmpMeta(
                 "pdfuaid:part",
                 "1",
             )
-            // Sett revisjonsåret for samsvarsstandarden til det nåværende året
-            setProperty("http://www.aiim.org/pdfua/ns/id/", "pdfuaid:rev", getCurrentYear())
+            // "pdfuaid:rev" skal være revisjonsåret til selve ISO 14289-2-spesifikasjonen (2024),
+            // ikke dagens dato, jf. ISO_14289_2 clause=5 testNumber=5
+            setProperty("http://www.aiim.org/pdfua/ns/id/", "pdfuaid:rev", "2024")
 
             // Registrer namespaces
             XMPMetaFactory.getSchemaRegistry().registerNamespace("http://purl.org/dc/terms/", "dc")
@@ -79,8 +80,3 @@ private fun lagXmpMeta(
         }
     return xmpMeta
 }
-
-private fun getCurrentYear(): String =
-    java.time.Year
-        .now()
-        .toString()
