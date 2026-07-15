@@ -1,7 +1,6 @@
 package no.nav.familie.pdf.no.nav.familie.pdf.pdf
 
 import com.itextpdf.kernel.pdf.PdfDocument
-import com.itextpdf.kernel.pdf.PdfName
 import com.itextpdf.kernel.pdf.PdfReader
 import com.itextpdf.kernel.pdf.canvas.parser.PdfTextExtractor
 import com.itextpdf.kernel.pdf.tagging.IStructureNode
@@ -374,16 +373,7 @@ internal class PdfControllerTest {
     /** Safe role string getter (handles different API shapes) */
     private fun safeRoleString(elem: PdfStructElem): String =
         try {
-            val role = elem.role
-            // role may be PdfName or String
-            when (role) {
-                is PdfName -> role.toString().removePrefix("/")
-
-                // /P etc
-                is String -> role
-
-                else -> role?.toString() ?: "?"
-            }
+            elem.role?.toString()?.removePrefix("/") ?: "?"
         } catch (_: Throwable) {
             "?"
         }
