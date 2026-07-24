@@ -24,10 +24,10 @@ spec:
     max: 2
   resources:
     limits:
-      memory: 2Gi
+      memory: 1Gi
     requests:
-      memory: 2Gi
-      cpu: 20m
+      memory: 1Gi
+      cpu: 75m
   observability:
     logging:
       destinations:
