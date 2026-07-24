@@ -26,7 +26,7 @@ spec:
     limits:
       memory: 4Gi
     requests:
-      memory: 1Gi
+      memory: 4Gi
       cpu: 100m
   observability:
     logging:
