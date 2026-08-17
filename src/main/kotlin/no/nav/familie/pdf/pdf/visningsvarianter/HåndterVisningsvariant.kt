@@ -76,13 +76,17 @@ private fun håndterPunktliste(
     seksjon: Div,
 ) {
     if (verdi.verdiliste?.isNotEmpty() == true) {
-        val container = Div().apply { setKeepTogether(true) }
+        val container =
+            Div().apply {
+                setMarginLeft(15f)
+                setKeepTogether(true)
+            }
         val liste = verdi.verdiliste
         container.add(lagOverskriftH4(verdi.label))
         verdi.verdi?.let { container.add(lagTekstElement(it)) }
 
         // legg inn første element eksplisitt
-        container.add(lagPunktliste(listOf(liste.first())))
+        container.add(lagPunktliste(listOf(liste.first()), isFirst = true))
 
         seksjon.add(container)
 
