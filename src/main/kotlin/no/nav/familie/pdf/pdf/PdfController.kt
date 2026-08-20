@@ -60,7 +60,7 @@ class PdfController(
     ): ByteArray {
         try {
             SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
-            return pdfService.opprettPdf(søknad, true)
+            return pdfService.opprettPdf(søknad, 2)
         } finally {
             SpråkKontekst.tilbakestillSpråk()
         }
@@ -72,12 +72,7 @@ class PdfController(
     ): ByteArray {
         try {
             SpråkKontekst.settSpråk(søknad.pdfConfig.språk)
-            val returverdi = pdfService.opprettPdf(søknad)
-            if (søknad.vannmerke.isNullOrBlank()) {
-                return returverdi
-            }
-            logger.info("Legger til vannmerke i PDF")
-            return addWatermarkToPdf(returverdi, søknad.vannmerke)
+            return pdfService.opprettPdf(søknad, 3)
         } finally {
             SpråkKontekst.tilbakestillSpråk()
         }

@@ -12,7 +12,8 @@ import org.springframework.http.ResponseEntity
 import java.io.FileOutputStream
 import kotlin.test.assertEquals
 
-class PdfControllerTest : IntegrasjonSpringRunnerTest() {
+class
+PdfControllerTest : IntegrasjonSpringRunnerTest() {
     private val skrivTilFil = false
 
     @BeforeEach

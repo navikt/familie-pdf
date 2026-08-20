@@ -27,13 +27,13 @@ data class InnholdsfortegnelseOppføringer(
 object Innholdsfortegnelse {
     private fun beregnAntallSider(
         feltMap: FeltMap,
-        v2: Boolean,
+        version: Int = 1,
         harInnholdsfortegnelse: Boolean? = null,
     ): Int {
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(feltMap, ByteArrayOutputStream())
         Document(midlertidigPdfADokument).apply {
             settFont(FontStil.REGULAR)
-            leggTilSeksjoner(feltMap, v2)
+            leggTilSeksjoner(feltMap, version)
             harInnholdsfortegnelse?.let {
                 val innholdsfortegnelseTitler = feltMap.verdiliste.map { InnholdsfortegnelseOppføringer(it.label, 1) }
                 leggTilInnholdsfortegnelse(feltMap, innholdsfortegnelseTitler)
@@ -44,19 +44,19 @@ object Innholdsfortegnelse {
 
     private fun beregnAntallSiderInnholdsfortegnelse(
         feltMap: FeltMap,
-        v2: Boolean,
-    ): Int = beregnAntallSider(feltMap, v2, harInnholdsfortegnelse = true) - beregnAntallSider(feltMap, v2)
+        version: Int = 1,
+    ): Int = beregnAntallSider(feltMap, version, harInnholdsfortegnelse = true) - beregnAntallSider(feltMap, version)
 
     fun genererInnholdsfortegnelseOppføringer(
         feltMap: FeltMap,
-        v2: Boolean,
+        version: Int = 1,
     ): List<InnholdsfortegnelseOppføringer> {
-        val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap, v2)
+        val sidetallInnholdsfortegnelse = beregnAntallSiderInnholdsfortegnelse(feltMap, version)
         val midlertidigPdfADokument = PDFdokument.lagPdfADocument(feltMap, ByteArrayOutputStream())
         val document = Document(midlertidigPdfADokument).apply { settFont(FontStil.REGULAR) }
 
         return feltMap.verdiliste.map { seksjon ->
-            document.add(lagSeksjon(seksjon, v2))
+            document.add(lagSeksjon(seksjon, version))
             InnholdsfortegnelseOppføringer(seksjon.label, midlertidigPdfADokument.numberOfPages + sidetallInnholdsfortegnelse)
         }
     }

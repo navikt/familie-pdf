@@ -15,8 +15,11 @@ class LokalPdfService(
         return opprettPdfMedStandarder(feltMap)
     }
 
-    fun opprettPdfMedStandarder(feltMap: FeltMap): PdfMedStandarder {
-        val pdf = pdfService.opprettPdf(feltMap, true)
+    fun opprettPdfMedStandarder(
+        feltMap: FeltMap,
+        version: Int = 2,
+    ): PdfMedStandarder {
+        val pdf = pdfService.opprettPdf(feltMap, version)
         val pdfMedStandarder =
             PdfMedStandarder(
                 pdf,
