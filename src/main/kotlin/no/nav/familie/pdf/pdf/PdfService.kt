@@ -44,6 +44,7 @@ class PdfService(
         } else {
             lagSøknadskvittering(pdfADokument = pdfADokument, feltMap = feltMap, version = version)
         }
+        logger.info("Version: $version, vannemerke: ${feltMap.vannmerke}")
         if (version < 3 || feltMap.vannmerke.isNullOrBlank()) {
             return byteArrayOutputStream.toByteArray()
         }
