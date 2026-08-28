@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 internal class PdfControllerTest {
     private val unleashNextService: UnleashNextService = mockk(relaxed = true)
     private val pdfController = LokalPdfController(unleashNextService)
-    private val skrivTilFile = false
+    private val skrivTilFile = true
 
     @Test
     fun `generer pdf for gravferdsstønad`() {
@@ -92,15 +92,34 @@ internal class PdfControllerTest {
         )
     }
 
+    @Test
+    fun `generer pdf med vannmerke`() {
+        val textByPage = `Test av skjema`("/søknad-med-vannmerke.json", "delme-7.pdf", skipUAAndPDFACompatibilityTest = true)
+
+        assertTrue(textByPage[0].contains("Forskriften §14-1"))
+
+        // Verifiser at underskriftseksjonen er samlet på en side
+        val page3 = textByPage[2]
+        assertTrue(
+            page3.contains("Underskrift\n") &&
+                page3.contains("Ordfører/rådmann") &&
+                page3.contains("Daglig leder i tiltaksbedriften") &&
+                page3.contains("Leder Nav-kontor"),
+        )
+        assertEquals(3, page3.split("Navn med blokkbokstaver:").size - 1)
+        textByPage.forEach { assertTrue(it.contains("Vannmerketest")) }
+    }
+
     private fun `Test av skjema`(
         jsonFile: String,
         skrivTilFil: String?,
+        skipUAAndPDFACompatibilityTest: Boolean = false,
     ): List<String> {
         val søknad =
             no.nav.familie.pdf.pdf.lokalKjøring.JsonLeser
                 .lesSøknadJson(jsonFile)
 
-        val pdfResponse = pdfController.opprettPdfMedValidering(søknad)
+        val pdfResponse = pdfController.opprettPdfMedValideringV3(søknad)
 
         assertNotNull(pdfResponse)
 
@@ -121,6 +140,10 @@ internal class PdfControllerTest {
 
         if (skrivTilFil != null) {
             writeBytesToFile(pdfResponse.pdf, skrivTilFil)
+        }
+
+        if (skipUAAndPDFACompatibilityTest) {
+            return textByPage
         }
 
         val tt = pdfResponse.standarder

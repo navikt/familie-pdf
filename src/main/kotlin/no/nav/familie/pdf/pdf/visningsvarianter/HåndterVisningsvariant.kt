@@ -11,7 +11,7 @@ import no.nav.familie.pdf.pdf.pdfElementer.lagTekstElement
 fun håndterVisningsvariant(
     visningsVariant: String,
     verdilisteElement: VerdilisteElement,
-    v2: Boolean,
+    version: Int = 1,
     seksjon: Div,
 ) {
     if (visningsVariant == VisningsVariant.HTML.toString()) {
@@ -20,7 +20,7 @@ fun håndterVisningsvariant(
         if (verdilisteElement.verdiliste?.isNotEmpty() == true) {
             when (visningsVariant) {
                 VisningsVariant.TABELL.toString() -> {
-                    if (v2) {
+                    if (version > 1) {
                         håndterTabell(verdilisteElement, seksjon)
                     } else {
                         håndterTabeller(verdilisteElement.verdiliste, seksjon)
@@ -32,11 +32,11 @@ fun håndterVisningsvariant(
                 }
 
                 VisningsVariant.VEDLEGG.toString() -> {
-                    håndterVedlegg(verdilisteElement.verdiliste, seksjon, v2)
+                    håndterVedlegg(verdilisteElement.verdiliste, seksjon, version)
                 }
 
                 VisningsVariant.HOLDSAMMEN.toString() -> {
-                    håndterHoldsammen(verdilisteElement, seksjon, v2)
+                    håndterHoldsammen(verdilisteElement, seksjon, version)
                 }
             }
         }
@@ -58,7 +58,7 @@ private fun håndterTabell(
 private fun håndterHoldsammen(
     verdi: VerdilisteElement,
     seksjon: Div,
-    v2: Boolean,
+    version: Int = 1,
 ) {
     if (verdi.verdiliste?.isNotEmpty() == true) {
         val liste = verdi.verdiliste
@@ -66,7 +66,7 @@ private fun håndterHoldsammen(
 
         verdi.verdi?.let { container.add(lagTekstElement(it)) }
 
-        håndterRekursivVerdiliste(liste, container, v2)
+        håndterRekursivVerdiliste(liste, container, version)
         seksjon.add(container)
     }
 }
@@ -107,7 +107,7 @@ private fun håndterHtml(
 private fun håndterVedlegg(
     verdiliste: List<VerdilisteElement>,
     seksjon: Div,
-    v2: Boolean,
+    version: Int = 1,
 ) {
     val ingenVedlegg: String =
         hentOversettelse(
@@ -126,6 +126,6 @@ private fun håndterVedlegg(
                     },
                 )
             }
-        } ?: håndterRekursivVerdiliste(verdiliste, seksjon, v2)
+        } ?: håndterRekursivVerdiliste(verdiliste, seksjon, version)
     }
 }

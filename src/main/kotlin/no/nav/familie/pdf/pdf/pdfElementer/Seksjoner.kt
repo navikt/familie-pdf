@@ -14,7 +14,7 @@ import no.nav.familie.pdf.pdf.visningsvarianter.håndterVisningsvariant
 
 fun lagSeksjon(
     element: VerdilisteElement,
-    v2: Boolean,
+    version: Int = 1,
 ): Div =
     Div().apply {
         isKeepTogether = element.visningsVariant == VisningsVariant.HOLDSAMMEN.toString()
@@ -26,9 +26,9 @@ fun lagSeksjon(
         )
         if (element.verdiliste != null) {
             if (element.visningsVariant != null) {
-                håndterVisningsvariant(element.visningsVariant, element, v2, this)
+                håndterVisningsvariant(element.visningsVariant, element, version, this)
             } else {
-                håndterRekursivVerdiliste(element.verdiliste, this, v2)
+                håndterRekursivVerdiliste(element.verdiliste, this, version)
             }
         }
         add(LineSeparator(DashedLine().apply { color = DeviceRgb(131, 140, 154) }))
@@ -38,7 +38,7 @@ fun lagSeksjon(
 fun håndterRekursivVerdiliste(
     verdiliste: List<VerdilisteElement>,
     seksjon: Div,
-    v2: Boolean,
+    version: Int = 1,
     rekursjonsDybde: Int = 1,
 ) {
     verdiliste.forEach { element ->
@@ -51,12 +51,12 @@ fun håndterRekursivVerdiliste(
                     håndterVisningsvariant(
                         element.visningsVariant,
                         element,
-                        v2,
+                        version,
                         seksjon,
                     )
                 } else if (element.verdiliste != null && element.verdiliste.isNotEmpty()) {
                     seksjon.add(lagOverskriftH3(element.label).apply { setMarginLeft(marginVenstre) })
-                    håndterRekursivVerdiliste(element.verdiliste, seksjon, v2, rekursjonsDybde + 1)
+                    håndterRekursivVerdiliste(element.verdiliste, seksjon, version, rekursjonsDybde + 1)
                 } else if (element.verdi != null) {
                     val spmOgSvar = lagSpørsmålOgSvar(element)
                     val spørsmål = spmOgSvar[0].apply { setMarginLeft(marginVenstre) }
@@ -72,9 +72,9 @@ fun håndterRekursivVerdiliste(
 
 fun Document.leggTilSeksjoner(
     feltMap: FeltMap,
-    v2: Boolean,
+    version: Int = 1,
 ) {
     feltMap.verdiliste.forEach {
-        add(lagSeksjon(it, v2))
+        add(lagSeksjon(it, version))
     }
 }

@@ -40,7 +40,7 @@ object PDFdokument {
     fun lagSøknadskvittering(
         pdfADokument: PdfADocument,
         feltMap: FeltMap,
-        v2: Boolean,
+        version: Int = 1,
     ): Document =
         Document(pdfADokument).apply {
             settFont(FontStil.REGULAR)
@@ -53,12 +53,12 @@ object PDFdokument {
             }
 
             if (feltMap.pdfConfig.harInnholdsfortegnelse) {
-                leggTilInnholdsfortegnelse(feltMap, genererInnholdsfortegnelseOppføringer(feltMap, v2))
+                leggTilInnholdsfortegnelse(feltMap, genererInnholdsfortegnelseOppføringer(feltMap, version))
             } else {
                 leggTilForside(feltMap.label, feltMap.skjemanummer)
             }
 
-            leggTilSeksjoner(feltMap, v2)
+            leggTilSeksjoner(feltMap, version)
             fixHeadingParagraphStructure(pdfADokument)
             leggTilBunntekst(pdfADokument, feltMap)
 

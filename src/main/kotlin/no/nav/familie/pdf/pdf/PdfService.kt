@@ -6,6 +6,7 @@ import no.nav.familie.pdf.infrastruktur.UnleashNextService
 import no.nav.familie.pdf.pdf.PDFdokument.lagPdfADocument
 import no.nav.familie.pdf.pdf.PDFdokument.lagSøknadskvittering
 import no.nav.familie.pdf.pdf.domain.FeltMap
+import no.nav.familie.pdf.pdf.visningsvarianter.addWatermarkToPdf
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import tools.jackson.module.kotlin.jacksonMapperBuilder
@@ -18,7 +19,7 @@ class PdfService(
 
     fun opprettPdf(
         feltMap: FeltMap,
-        v2: Boolean = false,
+        version: Int = 1,
     ): ByteArray {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val pdfADokument = lagPdfADocument(feltMap = feltMap, byteArrayOutputStream = byteArrayOutputStream)
@@ -39,11 +40,15 @@ class PdfService(
             val feltMapJsonUtenTabs = feltMapJson.replace("\\t", "")
             val feltMapUtenTabs = mapper.readValue(feltMapJsonUtenTabs, FeltMap::class.java)
 
-            lagSøknadskvittering(pdfADokument = pdfADokument, feltMap = feltMapUtenTabs, v2 = v2)
+            lagSøknadskvittering(pdfADokument = pdfADokument, feltMap = feltMapUtenTabs, version = version)
         } else {
-            lagSøknadskvittering(pdfADokument = pdfADokument, feltMap = feltMap, v2 = v2)
+            lagSøknadskvittering(pdfADokument = pdfADokument, feltMap = feltMap, version = version)
         }
-
-        return byteArrayOutputStream.toByteArray()
+        logger.info("Version: $version, vannemerke: ${feltMap.vannmerke}")
+        if (version < 3 || feltMap.vannmerke.isNullOrBlank()) {
+            return byteArrayOutputStream.toByteArray()
+        }
+        logger.info("Legger til vannmerke i PDF")
+        return addWatermarkToPdf(byteArrayOutputStream.toByteArray(), feltMap.vannmerke)
     }
 }

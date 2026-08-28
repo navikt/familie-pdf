@@ -31,5 +31,11 @@ class LokalPdfController(
     @PostMapping("/pdf-med-standarder")
     fun opprettPdfMedValidering(
         @RequestBody søknad: FeltMap,
-    ): PdfMedStandarder = lokalPdfService.opprettPdfMedStandarder(søknad)
+    ): PdfMedStandarder = lokalPdfService.opprettPdfMedStandarder(søknad, version = 2)
+
+    @CrossOrigin(origins = ["http://localhost:5173"])
+    @PostMapping("v3/pdf-med-standarder")
+    fun opprettPdfMedValideringV3(
+        @RequestBody søknad: FeltMap,
+    ): PdfMedStandarder = lokalPdfService.opprettPdfMedStandarder(søknad, version = 3)
 }

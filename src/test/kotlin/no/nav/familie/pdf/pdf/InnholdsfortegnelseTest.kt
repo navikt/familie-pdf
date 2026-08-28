@@ -13,7 +13,7 @@ class InnholdsfortegnelseTest {
         val verdilisteElement = listOf(VerdilisteElement("", "Ja"), VerdilisteElement("Hei på deg", "Heihei!"))
         val seksjon = Div()
         // Act
-        håndterRekursivVerdiliste(verdilisteElement, seksjon, true)
+        håndterRekursivVerdiliste(verdilisteElement, seksjon, 2)
         // Assert
         assertTrue(seksjon.children.size == 2)
     }
