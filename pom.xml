@@ -20,6 +20,7 @@
         <sha1/>
         <changelist>-SNAPSHOT</changelist>
         <kotlin.version>2.4.0</kotlin.version>
+        <spring-framework.version>7.0.9</spring-framework.version>
         <springdoc.version>3.1.0</springdoc.version>
         <jupiter.version>6.0.1</jupiter.version>
         <mockk.version>1.14.11</mockk.version>
