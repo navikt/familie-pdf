@@ -27,7 +27,7 @@
         <felles.version>4.20260818093920_16ad74a</felles.version>
         <token-validation.version>6.0.14</token-validation.version>
         <start-class>no.nav.familie.pdf.ApplicationKt</start-class>
-        <itext.version>9.7.0</itext.version>
+        <itext.version>9.8.0</itext.version>
         <html2pdf.version>6.3.4</html2pdf.version>
         <jackson.version>3.2.3</jackson.version>
         <swagger.version>2.2.55</swagger.version>
@@ -57,13 +57,14 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- unleash-client-java (via okhttp-eventsource) og mock-oauth2-server (via mockwebserver)
-                 drar inn ulike major-versjoner av okhttp3, som ikke er binærkompatible.
-                 Tvinger samme versjon for å unngå NoSuchMethodError i klassestien. -->
+            <!-- unleash og mock-oauth2-server drar inn ulike versjoner av OkHttp.
+                 BOM-en samordner også okhttp-jvm og mockwebserver for å unngå NoSuchMethodError. -->
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
+                <artifactId>okhttp-bom</artifactId>
                 <version>5.5.0</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
