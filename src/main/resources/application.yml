@@ -18,12 +18,16 @@ springdoc:
     disable-swagger-default-url: true
 
 management:
-  endpoint.health.show-details: always
+  endpoint.info.access: none
+  endpoint.health:
+    show-details: always
+    probes.enabled: true
+  info:
+    defaults:
+      enabled: false
   endpoints.web:
-    exposure.include: info, health, metrics, prometheus
+    exposure.include: health, metrics, prometheus
     base-path: "/internal"
-    path-mapping:
-      health: "status/isAlive"
   prometheus.metrics.export.enabled: true
   health:
     db:
